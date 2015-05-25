@@ -2,8 +2,7 @@
 var stormpath = require('stormpath'),
     client = null,
     bentoApp = null,
-    homedir = process.env.HOME,
-    keyfile = homedir + '/.stormpath/apiKey.properties';
+    keyfile = require('path').resolve(__dirname, '.stormpath/apiKey.properties');
 
 
 function init (app) {
