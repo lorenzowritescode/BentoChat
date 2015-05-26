@@ -1,15 +1,8 @@
 'use strict';
 
 var React = require('react/addons');
-var Alert = require('react-bootstrap/lib/Alert');
 
 var ReactTransitionGroup = React.addons.TransitionGroup;
-
-// CSS
-require('normalize.css');
-require('../styles/main.css');
-
-var imageURL = require('../images/yeoman.png');
 
 var chat_messages = [
     {
@@ -35,17 +28,33 @@ var ChatMessage = React.createClass({
     }
 });
 
+var ChatList = React.createClass({
+    render: function () {
+        return (
+            <div>
+                {chat_messages.map(function (message) {
+                    return <ChatMessage data={message} />;
+                })}
+            </div>
+        );
+    }
+});
+
+var NewMessageBox = React.createClass({
+    render: function () {
+        return (
+            <textarea />
+        );
+    }
+});
+
 var Chat = React.createClass({
   render: function() {
     return (
       <div className='main'>
         <ReactTransitionGroup transitionName="fade">
-          <img src={imageURL} />
-            <div>Hello World</div>
-        {chat_messages.map(function (message) {
-            return <ChatMessage data={message} />;
-        })}
-
+            <ChatList />
+            <NewMessageBox />
         </ReactTransitionGroup>
       </div>
     );
