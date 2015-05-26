@@ -9,7 +9,7 @@ describe('WebappApp', function () {
     container.id = 'content';
     document.body.appendChild(container);
 
-    WebappApp = require('components/WebappApp.js');
+    WebappApp = require('components/Chat.js');
     component = React.createElement(WebappApp);
   });
 
