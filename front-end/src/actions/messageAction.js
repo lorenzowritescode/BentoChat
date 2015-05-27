@@ -17,7 +17,7 @@ function createMessage (text) {
         text: text
     });
     var message = ChatUtils.getCreatedMessageData(text);
-    ChatStore.addMessage(message);
+    //ChatStore.addMessage(message);
 }
 
 module.exports = {

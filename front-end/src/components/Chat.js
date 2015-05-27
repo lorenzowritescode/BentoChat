@@ -1,8 +1,10 @@
 'use strict';
 
-var React = require('react/addons');
-var MessageActions = require('../actions/messageAction');
+var React = require('react/addons'),
+    MessageActions = require('../actions/messageAction'),
+    MessageStore = require('../stores/ChatMessageStore');
 
+//Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
 
 var chat_messages = [
@@ -22,24 +24,60 @@ var chat_messages = [
 
 require('styles/Chat.sass');
 
+//Get the messages from the store
+function getStateFromStores() {
+    return {
+        messages: MessageStore.getAll()
+    };
+}
+
+//The visual representation of a message
 var ChatMessage = React.createClass({
     render: function () {
         return <div>
-            <b>{this.props.data.author}</b>
-            : {this.props.data.body}
+            <b>{this.props.author}</b>
+            : {this.props.body}
         </div>;
     }
 });
 
+//Creates a message list item of the given message
+function GetMessageList(message) {
+    return (
+        <ChatMessage
+            key={message.id}
+            author={message.authorName}
+            body={message.text}
+            />
+    );
+}
+
 var ChatList = React.createClass({
+
+
+    getInitialState: function() {
+        return getStateFromStores();
+    },
+
+    componentDidMount: function() {
+        MessageStore.addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function() {
+        MessageStore.removeChangeListener(this._onChange);
+    },
+
     render: function () {
+        var MessageListItem = this.state.messages.map(GetMessageList);
         return (
             <div className="chatlist"   >
-                {chat_messages.map(function (message) {
-                    return <ChatMessage data={message} />;
-                })}
+                {MessageListItem}
             </div>
         );
+    },
+
+    _onChange: function() {
+        this.setState(getStateFromStores());
     }
 });
 

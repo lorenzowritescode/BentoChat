@@ -15,6 +15,7 @@ module.exports = {
 
     convertRawMessage: function(rawMessage) {
         return {
+            id: 'm_' + Date.now(),
             authorName: 'Dumbledor',
             text: rawMessage.text
         };

@@ -4,22 +4,32 @@
 'use strict';
 
 
-var AppDispatcher = require('../dispatcher/WebappAppDispatcher');
-var merge = require('react/lib/merge');
+var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
+    ChatConstants = require('../constants/ChatActionConstants'),
+    ChatUtils = require('../utils/ChatUtils'),
+    merge = require('react/lib/merge'),
+    EventEmitter = require('events').EventEmitter,
+    assign = require('object-assign');
 
+
+
+var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var messages = [
-    {id:1,
+var messages = {};
+var exampleMessage = {id:1,
     authorName: "Professer Mgonigololol",
-    text: "Five points to my ASS!!!"}
-];
+    text: "Five points to my ASS!!!"};
+messages[0] = exampleMessage;
 
-function addMessage(message) {
+
+    function addMessage(message) {
+    console.log("Message added to store with text");
     messages[message.id] = message;
+    console.log(messages.length+ "messages now in store");
 }
 
-var MessageStore = React.createClass({
+var MessageStore = assign({}, EventEmitter.prototype, {
 
     emitChange: function () {
         this.emit(CHANGE_EVENT);
@@ -29,17 +39,38 @@ var MessageStore = React.createClass({
         this.on(CHANGE_EVENT, callback);
     },
 
+    removeChangeListener: function(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    },
+
     get: function(id) {
         return messages[id];
     },
 
     getAll: function() {
-        return messages;
+        console.log( messages.length + " Messages returned from store!");
+        var retArray = [];
+        for (var id in messages) {
+            retArray.push(messages[id]);
+        }
+        return retArray;
     }
 });
 
+MessageStore.dispatchToken = AppDispatcher.register(function(action) {
 
-module.exports = {
-    MessageStore,
-    addMessage: addMessage
-};
+    switch(action.type) {
+
+        case ActionTypes.CREATE_MESSAGE:
+            var message = ChatUtils.getCreatedMessageData(
+                action.text
+            );
+            addMessage(message);
+            MessageStore.emitChange();
+            break;
+    }
+
+});
+
+module.exports = MessageStore;
+
