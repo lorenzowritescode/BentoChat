@@ -5,7 +5,9 @@
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     ChatConstants = require('../constants/ChatActionConstants'),
+    ChatStore = require('../stores/ChatMessageStore'),
     ChatUtils = require('../utils/ChatUtils');
+
 
 var ActionTypes = ChatConstants.ActionTypes;
 
@@ -15,6 +17,7 @@ function createMessage (text) {
         text: text
     });
     var message = ChatUtils.getCreatedMessageData(text);
+    ChatStore.addMessage(message);
 }
 
 module.exports = {

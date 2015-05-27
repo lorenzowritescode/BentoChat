@@ -1,13 +1,19 @@
 /**
  * Created by evenoli on 27/05/2015.
  */
+'use strict';
+
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher');
 var merge = require('react/lib/merge');
 
 var CHANGE_EVENT = 'change';
 
-var messages = {};
+var messages = [
+    {id:1,
+    authorName: "Professer Mgonigololol",
+    text: "Five points to my ASS!!!"}
+];
 
 function addMessage(message) {
     messages[message.id] = message;
@@ -32,4 +38,8 @@ var MessageStore = React.createClass({
     }
 });
 
-module.exports = MessageStore;
+
+module.exports = {
+    MessageStore,
+    addMessage: addMessage
+};

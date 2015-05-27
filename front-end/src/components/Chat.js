@@ -59,18 +59,8 @@ var NewMessageBox = React.createClass({
                 name="message"
                 value={this.state.text}
                 onChange={this._onChange}
-                onKeyDown={this._onKeyDown}/>
+                onKeyDown={this._onKeyDown} />
             <button>Send</button>
-            </div>
-        );
-    }
-});
-
-var ChatBar = React.createClass({
-    render: function () {
-        return (
-            <div>
-                Yoooooo
             </div>
         );
     },
@@ -90,7 +80,16 @@ var ChatBar = React.createClass({
             this.setState({text: ''});
         }
     }
+});
 
+var ChatBar = React.createClass({
+    render: function () {
+        return (
+            <div>
+                Yoooooo
+            </div>
+        );
+    }
 });
 
 var Chat = React.createClass({
