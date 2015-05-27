@@ -2,8 +2,6 @@
 
 var React = require('react/addons');
 
-var ReactTransitionGroup = React.addons.TransitionGroup;
-
 var chat_messages = [
     {
         author: "Lorenzo",
@@ -19,6 +17,8 @@ var chat_messages = [
     }
 ];
 
+require('styles/Chat.sass');
+
 var ChatMessage = React.createClass({
     render: function () {
         return <div>
@@ -31,7 +31,7 @@ var ChatMessage = React.createClass({
 var ChatList = React.createClass({
     render: function () {
         return (
-            <div>
+            <div className="chatlist"   >
                 {chat_messages.map(function (message) {
                     return <ChatMessage data={message} />;
                 })}
@@ -43,22 +43,40 @@ var ChatList = React.createClass({
 var NewMessageBox = React.createClass({
     render: function () {
         return (
-            <textarea />
+            <div className="messagebox">
+                <textarea />
+            </div>
+        );
+    }
+});
+
+var ChatBar = React.createClass({
+    render: function () {
+        return (
+            <div>
+                Yoooooo
+            </div>
         );
     }
 });
 
 var Chat = React.createClass({
-  render: function() {
-    return (
-      <div className='main'>
-        <ReactTransitionGroup transitionName="fade">
-            <ChatList />
-            <NewMessageBox />
-        </ReactTransitionGroup>
-      </div>
-    );
-  }
+    render: function() {
+        return (
+            <div className="chat-body">
+                <div className="chat-content">
+                    <ChatList />
+                    <NewMessageBox />
+                </div>
+                <div className="chat-nav">
+                    <ChatBar />
+                </div>
+                <div className="chat-side">
+                    People's online/offline info
+                </div>
+            </div>
+        );
+    }
 });
 
 module.exports = Chat;

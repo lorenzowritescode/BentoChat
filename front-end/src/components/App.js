@@ -12,7 +12,7 @@ var App = React.createClass({
         return (
             <div>
                 <BentoNav />
-                <div className="container">
+                <div>
                     <RouteHandler />
                 </div>
             </div>
