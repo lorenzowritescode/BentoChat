@@ -54,11 +54,14 @@ function GetMessageList(message) {
 
 var ChatList = React.createClass({
 
-
     getInitialState: function() {
         return getStateFromStores();
     },
 
+    // "componentDidMount: Invoked once, both on the client and server,
+    // immediately before the initial rendering occurs. " - Thanks internet.
+    // This ensures that whenever the store changes, we call -onChange, which
+    // resets the state from the store.
     componentDidMount: function() {
         MessageStore.addChangeListener(this._onChange);
     },
@@ -107,14 +110,16 @@ var NewMessageBox = React.createClass({
         this.setState({text: event.target.value});
     },
 
+    //Send via enter key
     _onKeyDown: function(event) {
         if (event.keyCode === ENTER_KEY_CODE){
             event.preventDefault();
             var text = this.state.text.trim();
             if (text) {
-                console.log(text);
+                //Here is where we create the action and send it to the dispatcher
                 MessageActions.createMessage(text);
             }
+            //Reset text box
             this.setState({text: ''});
         }
     }

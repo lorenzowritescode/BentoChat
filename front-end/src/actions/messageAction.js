@@ -11,13 +11,15 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
 
 var ActionTypes = ChatConstants.ActionTypes;
 
+//Action for creating a new message
 function createMessage (text) {
     Dispatcher.dispatch({
+        //Type describes the kind of job the dispatcher should do
         type: ActionTypes.CREATE_MESSAGE,
         text: text
     });
     var message = ChatUtils.getCreatedMessageData(text);
-    //ChatStore.addMessage(message);
+    //Send message to db here maybe?
 }
 
 module.exports = {

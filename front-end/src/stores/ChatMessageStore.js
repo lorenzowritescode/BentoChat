@@ -16,19 +16,23 @@ var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
 var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
+//Collection of messages (effectively, the actual store)
 var messages = {};
+
+
 var exampleMessage = {id:1,
     authorName: "Professer Mgonigololol",
     text: "Five points to my ASS!!!"};
 messages[0] = exampleMessage;
 
-
-    function addMessage(message) {
-    console.log("Message added to store with text");
+//Adds a message to the store
+function addMessage(message) {
     messages[message.id] = message;
-    console.log(messages.length+ "messages now in store");
 }
 
+// Not entirely sure what's up with the assign, apparently it's a ponyfill. (ponies yay)
+// Ponyfill: A polyfill that doesn't overwrite the native method. Need to look at this more.
+// EventEmitter is to do with listeners and callbacks. Recommend looking up.
 var MessageStore = assign({}, EventEmitter.prototype, {
 
     emitChange: function () {
@@ -47,8 +51,8 @@ var MessageStore = assign({}, EventEmitter.prototype, {
         return messages[id];
     },
 
+    //Put messages into array so map function in 'Chat.js' works
     getAll: function() {
-        console.log( messages.length + " Messages returned from store!");
         var retArray = [];
         for (var id in messages) {
             retArray.push(messages[id]);
