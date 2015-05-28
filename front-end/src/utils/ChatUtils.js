@@ -3,21 +3,18 @@
  */
 'use strict';
 
+function Message(text) {
+    return {
+        text: text,
+        authorName: "Dumbledore",
+        id: "m_" + Date.now()
+    };
+}
+
+Message.prototype.getText = function () {
+    return this.text;
+};
+
 module.exports = {
-
-    getCreatedMessageData: function(text) {
-        return {
-            id: 'm_' + Date.now(),
-            authorName: 'Dumbledor', //Placeholder. replace this with username
-            text: text
-        };
-    },
-
-    convertRawMessage: function(rawMessage) {
-        return {
-            id: 'm_' + Date.now(),
-            authorName: 'Dumbledor',
-            text: rawMessage.text
-        };
-    }
+    Message: Message
 };

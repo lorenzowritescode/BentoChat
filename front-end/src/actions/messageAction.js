@@ -18,7 +18,7 @@ function createMessage (text) {
         type: ActionTypes.CREATE_MESSAGE,
         text: text
     });
-    var message = ChatUtils.getCreatedMessageData(text);
+    var message = new ChatUtils.Message (text);
     //Send message to db here maybe?
 }
 

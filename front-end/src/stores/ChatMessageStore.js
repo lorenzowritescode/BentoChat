@@ -17,17 +17,20 @@ var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 //Collection of messages (effectively, the actual store)
-var messages = {};
+var messages = [];
 
 
-var exampleMessage = {id:1,
+var exampleMessage = {
+    id:1,
     authorName: "Professer Mgonigololol",
-    text: "Five points to my ASS!!!"};
-messages[0] = exampleMessage;
+    text: "Five points to my ASS!!!"
+};
+
+messages.push(exampleMessage);
 
 //Adds a message to the store
 function addMessage(message) {
-    messages[message.id] = message;
+    messages.push(message);
 }
 
 // Not entirely sure what's up with the assign, apparently it's a ponyfill. (ponies yay)
@@ -48,16 +51,18 @@ var MessageStore = assign({}, EventEmitter.prototype, {
     },
 
     get: function(id) {
-        return messages[id];
+        for (var msg in messages) {
+            if (msg.id === id) {
+                return msg;
+            }
+        }
+
+        return null;
     },
 
     //Put messages into array so map function in 'Chat.js' works
     getAll: function() {
-        var retArray = [];
-        for (var id in messages) {
-            retArray.push(messages[id]);
-        }
-        return retArray;
+        return messages;
     }
 });
 
@@ -66,9 +71,7 @@ MessageStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {
 
         case ActionTypes.CREATE_MESSAGE:
-            var message = ChatUtils.getCreatedMessageData(
-                action.text
-            );
+            var message = new ChatUtils.Message(action.text);
             addMessage(message);
             MessageStore.emitChange();
             break;
