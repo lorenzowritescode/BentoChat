@@ -16,7 +16,6 @@ var CHANGE_EVENT = 'change';
 var posts = [];
 
 function addPost (post) {
-    console.log("adding post to store");
     posts.push(post);
 }
 

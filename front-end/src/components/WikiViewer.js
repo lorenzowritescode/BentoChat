@@ -25,7 +25,6 @@ var Post = React.createClass({
 });
 
 function getPost(post) {
-    console.log("getting post: " + post.body);
     return (
         <Post
             key={post.id}
