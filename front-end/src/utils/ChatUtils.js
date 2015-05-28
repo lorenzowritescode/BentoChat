@@ -5,9 +5,9 @@
 
 function Message(text) {
     return {
-        text: text,
-        authorName: "Dumbledore",
-        id: "m_" + Date.now()
+        body: text,
+        author: "Dumbledore",
+        timestamp: new Date()
     };
 }
 

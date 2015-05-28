@@ -21,9 +21,9 @@ var messages = [];
 
 
 var exampleMessage = {
-    id:1,
-    authorName: "Professer Mgonigololol",
-    text: "Five points to my ASS!!!"
+    id: 1,
+    author: "Professer Mgonigololol",
+    body: "Five points to my ASS!!!"
 };
 
 messages.push(exampleMessage);

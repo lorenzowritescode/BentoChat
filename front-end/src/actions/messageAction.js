@@ -6,7 +6,9 @@
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     ChatConstants = require('../constants/ChatActionConstants'),
     ChatStore = require('../stores/ChatMessageStore'),
-    ChatUtils = require('../utils/ChatUtils');
+    ChatUtils = require('../utils/ChatUtils'),
+    APIUtils = require('../utils/APIUtils'),
+    chatUrl = require('../constants/APIConstants').chatUrl;
 
 
 var ActionTypes = ChatConstants.ActionTypes;
@@ -19,7 +21,10 @@ function createMessage (text) {
         text: text
     });
     var message = new ChatUtils.Message (text);
-    //Send message to db here maybe?
+
+    APIUtils.post(chatUrl, message, function (success) {
+        console.log(success);
+    });
 }
 
 module.exports = {
