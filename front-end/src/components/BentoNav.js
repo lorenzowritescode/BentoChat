@@ -20,6 +20,7 @@ var BentoNav = React.createClass({
                 <ul className="nav navbar-nav">
                     <li><Link to="chat">Chat</Link></li>
                     <li><Link to="wiki">Wiki</Link></li>
+                    <li><a href="#/todo">Todo</a></li>
                 </ul>
             </div>
         </div>

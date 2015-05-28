@@ -51,7 +51,7 @@ app.post('/chat', function (req, res) {
             if (!err && success)
                 res.status(201).end('Created')
             else
-                res.status(500).end('Internal Error')
+                res.status(500).end('Internal Error' + err.message)
         })
     }
 })

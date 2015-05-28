@@ -10,6 +10,7 @@ var App = require('./App');
 var Chat = require('./Chat');
 var Wiki = require('./Wiki');
 var WikiEditor = require('./WikiEditor');
+var Todos = require('./Todos');
 var WikiViewer = require('./WikiViewer');
 
 var Routes = (
@@ -20,6 +21,7 @@ var Routes = (
             <Route path="view/:wiki-id" name="wiki-view" handler={WikiViewer} />
             <DefaultRoute handler={WikiViewer} />
         </Route>
+        <Route path="/todo" name="todo" handler={Todos} />
         <DefaultRoute handler={Chat} />
         <NotFoundRoute handler={App} />
     </Route>
