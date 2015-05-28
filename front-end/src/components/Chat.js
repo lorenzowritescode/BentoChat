@@ -101,7 +101,8 @@ var NewMessageBox = React.createClass({
                 value={this.state.text}
                 onChange={this._onChange}
                 onKeyDown={this._onKeyDown} />
-            <button>Send</button>
+            <button
+                onClick={this.send}>Send</button>
             </div>
         );
     },
@@ -114,14 +115,18 @@ var NewMessageBox = React.createClass({
     _onKeyDown: function(event) {
         if (event.keyCode === ENTER_KEY_CODE){
             event.preventDefault();
-            var text = this.state.text.trim();
-            if (text) {
-                //Here is where we create the action and send it to the dispatcher
-                MessageActions.createMessage(text);
-            }
-            //Reset text box
-            this.setState({text: ''});
+            this.send();
         }
+    },
+
+    send: function() {
+        var text = this.state.text.trim();
+        if (text) {
+            //Here is where we create the action and send it to the dispatcher
+            MessageActions.createMessage(text);
+        }
+        //Reset text box
+        this.setState({text: ''});
     }
 });
 
