@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var Link = require('react-router').Link;
 
 
 require('styles/BentoNav.sass');
@@ -17,8 +18,8 @@ var BentoNav = React.createClass({
                     </a>
                 </div>
                 <ul className="nav navbar-nav">
-                    <li><a href="#/chat">Chat</a></li>
-                    <li><a href="#/wiki">Wiki</a></li>
+                    <li><Link to="chat">Chat</Link></li>
+                    <li><Link to="wiki">Wiki</Link></li>
                 </ul>
             </div>
         </div>
