@@ -8,13 +8,14 @@ module.exports = {
     getCreatedMessageData: function(text) {
         return {
             id: 'm_' + Date.now(),
-            authorName: 'Dumbledor',
+            authorName: 'Dumbledor', //Placeholder. replace this with username
             text: text
         };
     },
 
     convertRawMessage: function(rawMessage) {
         return {
+            id: 'm_' + Date.now(),
             authorName: 'Dumbledor',
             text: rawMessage.text
         };
