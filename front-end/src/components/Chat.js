@@ -84,6 +84,20 @@ var ChatList = React.createClass({
     }
 });
 
+var promptArray = [
+    "What you gonna say bitch?",
+    "Spit it out motherfucker",
+    "What is love? What is life?",
+    "Take a hold on your life",
+    "If you try to fail, and succeed, which have you done?",
+    "People Say nothing is impossible, but you do nothing everyday."
+];
+
+function randomPrompt() {
+    var rand = Math.floor(Math.random()*promptArray.length);
+    return promptArray[rand];
+}
+
 var NewMessageBox = React.createClass({
 
     getInitialState: function () {
@@ -100,14 +114,26 @@ var NewMessageBox = React.createClass({
                 name="message"
                 value={this.state.text}
                 onChange={this._onChange}
-                onKeyDown={this._onKeyDown} />
-            <button>Send</button>
+                onKeyDown={this._onKeyDown}
+                placeholder={randomPrompt()}/>
+            <button onClick={this._onSubmit}>Send</button>
             </div>
         );
     },
 
     _onChange: function (event, value) {
         this.setState({text: event.target.value});
+    },
+
+    _onSubmit: function(event) {
+        event.preventDefault();
+        var text = this.state.text.trim();
+        if (text) {
+            //Here is where we create the action and send it to the dispatcher
+            MessageActions.createMessage(text);
+        }
+        //Reset text box
+        this.setState({text: ''});
     },
 
     //Send via enter key
