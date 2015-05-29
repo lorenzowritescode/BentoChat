@@ -7,16 +7,24 @@ const app = require('express')(),
       multer = require('multer'); 
 
 
-// This is for decoding json POST requests
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-}));
-app.use(multer()); // for parsing multipart/form-data
-
 auth.init(app);
 
 db.setup();
+
+app.configure( function () {
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      next();
+    }),
+    // This is for decoding json POST requests
+    app.use(bodyParser.json()),       // to support JSON-encoded bodies
+    app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+      extended: true
+    }));
+
+    app.use(multer()); // for parsing multipart/form-data
+});
 
 app.get('/register', function (req, res) {
     var account = {

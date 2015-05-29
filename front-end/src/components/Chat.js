@@ -1,26 +1,14 @@
 'use strict';
 
 var React = require('react/addons'),
-    MessageActions = require('../actions/messageAction'),
-    MessageStore = require('../stores/ChatMessageStore');
+    MessageActions = require('actions/messageAction'),
+    MessageStore = require('stores/ChatMessageStore'),
+    API = require('../utils/APIUtils.js'),
+    APIConstants = require('../constants/APIConstants.js'),
+    $ = require('jQuery');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
-
-var chat_messages = [
-    {
-        author: "Lorenzo",
-        body: "Yerrrrr a wizaaard harry"
-    },
-    {
-        author: "Oli",
-        body: "I'mmm a whaaattttt"
-    },
-    {
-        author: "Sam",
-        body: "Why do I pay you MONEEEY"
-    }
-];
 
 require('styles/Chat.sass');
 
@@ -46,8 +34,8 @@ function GetMessageList(message) {
     return (
         <ChatMessage
             key={message.id}
-            author={message.authorName}
-            body={message.text}
+            author={message.author}
+            body={message.body}
             />
     );
 }
@@ -64,6 +52,7 @@ var ChatList = React.createClass({
     // resets the state from the store.
     componentDidMount: function() {
         MessageStore.addChangeListener(this._onChange);
+        MessageActions.fetchMessages();
     },
 
     componentWillUnmount: function() {
