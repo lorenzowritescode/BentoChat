@@ -22,7 +22,9 @@ function getStateFromStores() {
 //The visual representation of a message
 var ChatMessage = React.createClass({
     render: function () {
+        var time = (new Date(parseInt(this.props.timestamp))).toString();
         return <div>
+            {time}
             <b>{this.props.author}</b>
             : {this.props.body}
         </div>;
@@ -36,6 +38,7 @@ function GetMessageList(message) {
             key={message.id}
             author={message.author}
             body={message.body}
+            timestamp={message.timestamp}
             />
     );
 }
@@ -59,6 +62,11 @@ var ChatList = React.createClass({
         MessageStore.removeChangeListener(this._onChange);
     },
 
+    componentDidUpdate: function() {
+            var node = this.getDOMNode();
+            node.scrollTop = node.scrollHeight;
+    },
+
     render: function () {
         var MessageListItem = this.state.messages.map(GetMessageList);
         return (
@@ -73,20 +81,7 @@ var ChatList = React.createClass({
     }
 });
 
-var promptArray = [
-    "A diamond is merely a lump of coal that did well under pressure.",
-    "Never put off until tomorrow what you can do the day after tomorrow.",
-    "Try to be like the turtle – at ease in your own shell",
-    "Life is like a sewer… what you get out of it depends on what you put into it.",
-    "If you try to fail, and succeed, which have you done?",
-    "People Say nothing is impossible, but you do nothing everyday.",
-    "Even if you are on the right track, you’ll get run over if you just sit there.",
-    "Failure is the condiment that gives success its flavor.",
-    "If you think you are too small to make a difference, try sleeping with a mosquito.",
-    "There are no traffic jams along the extra mile.",
-    "Life is like photography. You need the negatives to develop.",
-    "If you hit the target every time it’s too near or too big."
-];
+var promptArray = require('../constants/ChatVariables').placeholders;
 
 function randomPrompt() {
     var rand = Math.floor(Math.random()*promptArray.length);

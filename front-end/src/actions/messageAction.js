@@ -8,7 +8,8 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     ChatStore = require('../stores/ChatMessageStore'),
     ChatUtils = require('../utils/ChatUtils'),
     APIUtils = require('../utils/APIUtils'),
-    chatUrl = require('../constants/APIConstants').chatUrl;
+    chatUrl = require('../constants/APIConstants').chatUrl,
+    io = require('socket.io-client')("http://localhost:3000");
 
 
 var ActionTypes = ChatConstants.ActionTypes;
@@ -22,9 +23,11 @@ function createMessage (text) {
     });
     var message = new ChatUtils.Message (text);
 
-    APIUtils.post(chatUrl, message, function (success) {
-        console.log(success);
-    });
+    //APIUtils.post(chatUrl, message, function (success) {
+    //    console.log(success);
+    //});
+    console.log("Emitting a message: ", message);
+    io.emit('post_message', message);
 }
 
 function fetchMessages() {

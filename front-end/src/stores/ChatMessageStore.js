@@ -72,7 +72,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 MessageStore.dispatchToken = AppDispatcher.register(function(action) {
-
+    console.log("This was called", action.type);
     switch(action.type) {
 
         case ActionTypes.CREATE_MESSAGE:

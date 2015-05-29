@@ -1,29 +1,30 @@
 'use strict'  
 const app = require('express')(),
+      server = require('http').Server(app),
       port = process.env.PORT || 3000,
       auth = require('./auth.js'),
       db = require('./db.js'),
+      cors = require('cors'),
       bodyParser = require('body-parser'),
+      io = require('./socket-config.js')(server),
       multer = require('multer'); 
 
-
-auth.init(app);
-
-db.setup();
-
 app.configure( function () {
+    cors();
     app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Origin", "http://localhost:8000");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      res.header("Access-Control-Allow-Credentials", "true");
       next();
-    }),
+    })
     // This is for decoding json POST requests
-    app.use(bodyParser.json()),       // to support JSON-encoded bodies
+    app.use(bodyParser.json());       // to support JSON-encoded bodies
     app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
       extended: true
     }));
-
     app.use(multer()); // for parsing multipart/form-data
+    auth.init(app);
+    db.setup();
 });
 
 app.get('/register', function (req, res) {
@@ -73,5 +74,5 @@ app.get('/chat', function (req, res) {
     })
 })
 
-app.listen(port);  
+server.listen(port);  
 console.log('listening on port ' + port);  
