@@ -7,7 +7,7 @@ function Message(text) {
     return {
         body: text,
         author: "Dumbledore",
-        timestamp: new Date()
+        timestamp: Date.now()
     };
 }
 

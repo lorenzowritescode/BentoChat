@@ -33,6 +33,11 @@ function addMessage(message) {
     messages.push(message);
 }
 
+//Adds a message to the store
+function setMessages(new_messages) {
+    messages = new_messages;
+}
+
 // Not entirely sure what's up with the assign, apparently it's a ponyfill. (ponies yay)
 // Ponyfill: A polyfill that doesn't overwrite the native method. Need to look at this more.
 // EventEmitter is to do with listeners and callbacks. Recommend looking up.
@@ -73,6 +78,10 @@ MessageStore.dispatchToken = AppDispatcher.register(function(action) {
         case ActionTypes.CREATE_MESSAGE:
             var message = new ChatUtils.Message(action.text);
             addMessage(message);
+            MessageStore.emitChange();
+            break;
+        case ActionTypes.FETCH_MESSAGES:
+            setMessages(action.messages);
             MessageStore.emitChange();
             break;
     }

@@ -27,7 +27,17 @@ function createMessage (text) {
     });
 }
 
+function fetchMessages() {
+    APIUtils.get(chatUrl, function (result) {
+        Dispatcher.dispatch({
+            type: ActionTypes.FETCH_MESSAGES,
+            messages: result
+        });
+    });
+}
+
 module.exports = {
-    createMessage: createMessage
+    createMessage: createMessage,
+    fetchMessages: fetchMessages
 };
 

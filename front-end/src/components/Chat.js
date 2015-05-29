@@ -52,12 +52,7 @@ var ChatList = React.createClass({
     // resets the state from the store.
     componentDidMount: function() {
         MessageStore.addChangeListener(this._onChange);
-
-        API.get(APIConstants.chatUrl, function (result) {
-            this.setState({
-                messages: result
-            });
-        }, this);
+        MessageActions.fetchMessages();
     },
 
     componentWillUnmount: function() {

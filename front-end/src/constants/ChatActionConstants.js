@@ -7,6 +7,7 @@ module.exports = {
     ActionTypes: keyMirror ({
         CREATE_MESSAGE: null,
         RECEIVE_RAW_CREATED_MESSAGE: null,
-        RECEIVE_RAW_MESSAGES: null
+        RECEIVE_RAW_MESSAGES: null,
+        FETCH_MESSAGES: null
     })
 };
