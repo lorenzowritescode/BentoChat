@@ -1,124 +1,143 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react/addons'),
+    RouteHandler = require('react-router').RouteHandler,
+    TodoActions = require('../actions/todoActions'),
+    TodoStore = require('../stores/TodoStore');
+
+require('styles/Todos.sass');
+var Link = require('react-router').Link;
 
 //var ReactTransitionGroup = React.addons.TransitionGroup;
-
-var ENTER_KEY_CODE = 13;
-
+function getStateFromStores() {
+    return {
+        todos: TodoStore.getAllTodos(),
+        completedtodos: TodoStore.getAllCompleted()
+    };
+}
 
 var Todo = React.createClass({
     render: function() {
         return (
             <div className="Todo">
-                <h2 className="TodoAuthor">
+                <h4 className="TodoAuthor">
                     {this.props.author}
-                </h2>
-                {this.props.children}
+                </h4>
+                <ul>
+                <li><h5>{this.props.body}</h5></li>
+                </ul>
+                <input type="checkbox" >Done</input>
             </div>
 
         );
     }});
 
+function returnTodo(todo) {
+    return (
+        <Todo
+            key={todo.id}
+            author={todo.author}
+            body={todo.text}
+            completed={todo.completed}
+            />
+    );
+}
+
+
+
 var TodoList = React.createClass({
+
+    getInitialState: function() {
+        return getStateFromStores();
+    },
+
+    componentDidMount: function() {
+        TodoStore.addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function() {
+        TodoStore.removeChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+        this.setState(getStateFromStores());
+    },
+
     render: function() {
-        var todoNodes = this.props.data.map(function (todo, index) {
-            return (
-                <Todo author={todo.author} key={index}>
-                    {todo.text}
-                </Todo>
-            );
-        });
+        var TodoListItem
+            = this.state.todos.reverse().map(returnTodo);
         return (
-            <div className="TodoList">
-                {todoNodes}
+            <div>
+                {TodoListItem}
             </div>
         );
     }
 });
 
-var TodoForm =  React.createClass({
+var CompletedTodoList = React.createClass({
 
-    getInitialState: function () {
-        return (
-           {text: '',
-            author: ''}
-        );
+    getInitialState: function() {
+        return getStateFromStores();
     },
 
-    _onTextChange: function (event, value) {
-        this.setState({text: event.target.value});
+    componentDidMount: function() {
+        TodoStore.addChangeListener(this._onChange);
     },
 
-    _onAuthorChange: function (event, value) {
-        this.setState({author: event.target.value});
+    componentWillUnmount: function() {
+        TodoStore.removeChangeListener(this._onChange);
     },
 
-    _onKeyDown: function(e) {
-        if (e.keyCode === ENTER_KEY_CODE) {
-            e.preventDefault();
-            var text = this.state.text;
-            var author = this.state.text;
-            if (text) {
-                this.props.onTodoSubmit({author: author, text: text});
-            }
-            this.setState({text: ''});
-            this.setState({author: ''});
-        }
-
-    },
-
-    handleSubmit: function(e) {
-        e.preventDefault();
-        console.log(this.refs.author.value);
-        var author = this.refs.author.value.trim();
-        var text = this.refs.text.value.trim();
-        if (!text || !author) {
-            return;
-        }
-        this.props.onTodoSubmit({author: author, text: text});
+    _onChange: function() {
+        this.setState(getStateFromStores());
     },
 
     render: function() {
+        var TodoListItem = this.state.completedtodos.map(returnTodo);
         return (
-            <div className="todoForm">
-                <textarea
-                    className="AuthorBox"
-                    name="author"
-                    value={this.state.author}
-                    onChange={this._onAuthorChange}/>
-                <textarea
-                    className="TextBox"
-                    name="text"
-                    value={this.state.text}
-                    onChange={this._onTextChange}
-                    onKeyDown={this._onKeyDown} />
-                <button onClick={this.handleSubmit}>Post</button>
-            </div>);
+            <div>
+                {TodoListItem}
+            </div>
+        );
     }
+});
+
+
+var TodoBar = React.createClass({
+    render: function () {
+        return (
+            <div>
+                <Link to="todo-new" className="btn btn-info btn-block" activeClassName="disabled">
+                    New
+                </Link>
+            </div>
+        );
+}
 });
 
 
 
 var Todos = React.createClass({
-    getInitialState: function() {
-        return {data: [{author: "Simba", text: "TAKE BACK THE KINGDOM"},
-            {author: "Mufasa", text: "Probably kill Simba"},
-            {author: "Mufasa", text: "and maybe get some lunch"}]};
-    },
-
-    handleTodoSubmit: function(todo) {
-        var todos = this.state.data;
-        var newTodos = todos.concat([todo]);
-        this.setState({data: newTodos});
-    },
-
     render: function() {
         return (
-            <div>
-                <h1> Todos: </h1>
-                <TodoList data={this.state.data}/>
-                <TodoForm onTodoSubmit={this.handleTodoSubmit}/>
+            <div className="todo-body">
+                <RouteHandler />
+                <div className="todo-content">
+                <div className="todo-list">
+                    <h2>Todos:</h2>
+                    <TodoList />
+                </div>
+                <div className="completed-list">
+                    <h2>Completed:</h2>
+                    <CompletedTodoList />
+                </div>
+                </div>
+                <div className="todo-nav">
+                    <TodoBar />
+                </div>
+                <div className="todo-side">
+                    profile information?
+                </div>
             </div>
         );
     }
