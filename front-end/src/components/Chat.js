@@ -1,26 +1,14 @@
 'use strict';
 
 var React = require('react/addons'),
-    MessageActions = require('../actions/messageAction'),
-    MessageStore = require('../stores/ChatMessageStore');
+    MessageActions = require('actions/messageAction'),
+    MessageStore = require('stores/ChatMessageStore'),
+    API = require('../utils/APIUtils.js'),
+    APIConstants = require('../constants/APIConstants.js'),
+    $ = require('jQuery');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
-
-var chat_messages = [
-    {
-        author: "Lorenzo",
-        body: "Yerrrrr a wizaaard harry"
-    },
-    {
-        author: "Oli",
-        body: "I'mmm a whaaattttt"
-    },
-    {
-        author: "Sam",
-        body: "Why do I pay you MONEEEY"
-    }
-];
 
 require('styles/Chat.sass');
 
@@ -34,7 +22,9 @@ function getStateFromStores() {
 //The visual representation of a message
 var ChatMessage = React.createClass({
     render: function () {
+        var time = (new Date(parseInt(this.props.timestamp))).toString();
         return <div>
+            {time}
             <b>{this.props.author}</b>
             : {this.props.body}
         </div>;
@@ -46,8 +36,9 @@ function GetMessageList(message) {
     return (
         <ChatMessage
             key={message.id}
-            author={message.authorName}
-            body={message.text}
+            author={message.author}
+            body={message.body}
+            timestamp={message.timestamp}
             />
     );
 }
@@ -64,16 +55,22 @@ var ChatList = React.createClass({
     // resets the state from the store.
     componentDidMount: function() {
         MessageStore.addChangeListener(this._onChange);
+        MessageActions.fetchMessages();
     },
 
     componentWillUnmount: function() {
         MessageStore.removeChangeListener(this._onChange);
     },
 
+    componentDidUpdate: function() {
+            var node = this.getDOMNode();
+            node.scrollTop = node.scrollHeight;
+    },
+
     render: function () {
         var MessageListItem = this.state.messages.map(GetMessageList);
         return (
-            <div className="chatlist"   >
+            <div className="chatlist">
                 {MessageListItem}
             </div>
         );
@@ -83,6 +80,13 @@ var ChatList = React.createClass({
         this.setState(getStateFromStores());
     }
 });
+
+var promptArray = require('../constants/ChatVariables').placeholders;
+
+function randomPrompt() {
+    var rand = Math.floor(Math.random()*promptArray.length);
+    return promptArray[rand];
+}
 
 var NewMessageBox = React.createClass({
 
@@ -100,15 +104,26 @@ var NewMessageBox = React.createClass({
                 name="message"
                 value={this.state.text}
                 onChange={this._onChange}
-                onKeyDown={this._onKeyDown} />
-            <button
-                onClick={this.send}>Send</button>
+                onKeyDown={this._onKeyDown}
+                placeholder={randomPrompt()}/>
+            <button onClick={this._onSubmit}>Send</button>
             </div>
         );
     },
 
     _onChange: function (event, value) {
         this.setState({text: event.target.value});
+    },
+
+    _onSubmit: function(event) {
+        event.preventDefault();
+        var text = this.state.text.trim();
+        if (text) {
+            //Here is where we create the action and send it to the dispatcher
+            MessageActions.createMessage(text);
+        }
+        //Reset text box
+        this.setState({text: ''});
     },
 
     //Send via enter key

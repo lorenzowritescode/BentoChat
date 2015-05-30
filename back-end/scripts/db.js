@@ -153,7 +153,7 @@ module.exports.findUserById = function (userId, callback) {
  */
 module.exports.findMessages = function (max_results, callback) {
   onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('messages').orderBy(r.desc('timestamp')).limit(max_results).run(connection, function(err, cursor) {
+    r.db(dbConfig['db']).table('messages').orderBy('timestamp').limit(max_results).run(connection, function(err, cursor) {
       if(err) {
         logerror("[ERROR][%s][findMessages] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
         callback(null, []);
@@ -210,6 +210,7 @@ module.exports.saveMessage = function (msg, callback) {
       }
       else {
         if(result.inserted === 1) {
+          console.log(result);
           callback(null, true);
         }
         else {

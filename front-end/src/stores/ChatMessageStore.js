@@ -21,9 +21,9 @@ var messages = [];
 
 
 var exampleMessage = {
-    id:1,
-    authorName: "Professer Mgonigololol",
-    text: "Five points to my ASS!!!"
+    id: 1,
+    author: "Professer Mgonigololol",
+    body: "Five points to my ASS!!!"
 };
 
 messages.push(exampleMessage);
@@ -31,6 +31,11 @@ messages.push(exampleMessage);
 //Adds a message to the store
 function addMessage(message) {
     messages.push(message);
+}
+
+//Adds a message to the store
+function setMessages(new_messages) {
+    messages = new_messages;
 }
 
 // Not entirely sure what's up with the assign, apparently it's a ponyfill. (ponies yay)
@@ -67,12 +72,16 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 MessageStore.dispatchToken = AppDispatcher.register(function(action) {
-
+    console.log("This was called", action.type);
     switch(action.type) {
 
         case ActionTypes.CREATE_MESSAGE:
             var message = new ChatUtils.Message(action.text);
             addMessage(message);
+            MessageStore.emitChange();
+            break;
+        case ActionTypes.FETCH_MESSAGES:
+            setMessages(action.messages);
             MessageStore.emitChange();
             break;
     }
