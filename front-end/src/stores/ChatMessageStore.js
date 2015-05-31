@@ -71,16 +71,14 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 });
 
 MessageStore.dispatchToken = AppDispatcher.register(function(action) {
-    console.log("This was called", action.type);
     switch(action.type) {
 
-        case ActionTypes.CREATE_MESSAGE:
-            var message = new ChatUtils.Message(action.text);
-            addMessage(message);
+        case ActionTypes.NEW_MESSAGE:
+            addMessage(action.message);
             MessageStore.emitChange();
             break;
         case ActionTypes.FETCH_MESSAGES:
-            setMessages(action.messages);
+            setMessages(action.message_list);
             MessageStore.emitChange();
             break;
     }

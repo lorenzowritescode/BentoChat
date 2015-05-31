@@ -5,18 +5,14 @@ module.exports = function (server) {
 
 
 	io.on('connection', function(socket) {
-	    console.log("YOLOOOOOOO");
-
 
 	    socket.on('post_message', function(msg) {
-	        console.log("New Message", msg);
-
 	        db.saveMessage(msg, function (err, success) {
 	        	if (err || !success)
 	        		throw err;
-	        	else
-	        		//socket.broadcast.emit('new_message', msg);
-	        	console.log("YAYYYYYY");
+	        	
+	        	msg.id = success['generated_keys'][0];
+	        	io.emit('new_message', msg);
 	        })
 	    })
 	})

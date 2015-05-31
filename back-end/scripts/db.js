@@ -210,11 +210,10 @@ module.exports.saveMessage = function (msg, callback) {
       }
       else {
         if(result.inserted === 1) {
-          console.log(result);
-          callback(null, true);
+          callback(null, result);
         }
         else {
-          callback(null, false);
+          callback(null, result);
         }
       }
       connection.close();
