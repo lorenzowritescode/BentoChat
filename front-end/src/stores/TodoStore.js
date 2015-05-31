@@ -19,7 +19,8 @@ var exampleTodo = {
     id:1,
     author: "Simba",
     text: "Take back the Kingdom",
-    completed: false
+    completed: false,
+    title: "Take back the Kingdom"
 };
 
 var exampleCompletedTodo = {

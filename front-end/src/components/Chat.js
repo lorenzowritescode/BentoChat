@@ -22,9 +22,10 @@ function getStateFromStores() {
 var ChatTimestamp = React.createClass({
     render: function () {
         var d = new Date(this.props.timestamp);
+        var mins = d.getMinutes();
         return (
                 <div className="timestamp">
-                    {d.getHours()}:{d.getMinutes()}
+                    {d.getHours()}:{(mins < 10? '0' + mins:mins)}
                 </div>
             );
     }

@@ -19,16 +19,24 @@ function getStateFromStores() {
 var Todo = React.createClass({
     render: function() {
         return (
-            <div className="Todo">
-                <h4 className="TodoAuthor">
-                    {this.props.author}
-                </h4>
-                <ul>
-                <li><h5>{this.props.body}</h5></li>
-                </ul>
-                <input type="checkbox" >Done</input>
+            <div className="todo">
+                <div className="todo-content">
+                    <div className="todo-title">
+                        {this.props.title}
+                    </div>
+                    <div className="todo-desc">
+                        {this.props.body}
+                    </div>
+                    <div className="todo-assignee">
+                        {this.props.author}
+                    </div>
+                </div>
+                <div className="complete-button">
+                    <button onClick={this._onSubmit} className="btn btn-success">
+                        <span className="glyphicon glyphicon-ok"></span>
+                    </button>
+                </div>
             </div>
-
         );
     }});
 
@@ -37,6 +45,7 @@ function returnTodo(todo) {
         <Todo
             key={todo.id}
             author={todo.author}
+            title={todo.title}
             body={todo.text}
             completed={todo.completed}
             />
@@ -122,15 +131,15 @@ var Todos = React.createClass({
         return (
             <div className="todo-body">
                 <RouteHandler />
-                <div className="todo-content">
-                <div className="todo-list">
-                    <h2>Todos:</h2>
-                    <TodoList />
-                </div>
-                <div className="completed-list">
-                    <h2>Completed:</h2>
-                    <CompletedTodoList />
-                </div>
+                <div className="todos-content">
+                    <div className="todo-list">
+                        <h2>Todos:</h2>
+                        <TodoList />
+                    </div>
+                    {/*<div className="completed-list">
+                        <h2>Completed:</h2>
+                        <CompletedTodoList />
+                    </div>*/}
                 </div>
                 <div className="todo-nav">
                     <TodoBar />

@@ -13,8 +13,11 @@ var TodoForm =  React.createClass({
 
     getInitialState: function () {
         return (
-        {text: '',
-            author: ''}
+        {
+            text: '',
+            author: '',
+            title: ''
+        }
         );
     },
 
@@ -24,6 +27,10 @@ var TodoForm =  React.createClass({
 
     _onAuthorChange: function (event, value) {
         this.setState({author: event.target.value});
+    },
+
+    _onTitleChange: function(event, value) {
+        this.setState({title: event.target.value});
     },
 
     _onKeyDown: function(e) {
@@ -40,7 +47,7 @@ var TodoForm =  React.createClass({
 
     },
 
-    handleSubmit: function(e) {
+    _onSubmit: function(e) {
         e.preventDefault();
         var text = this.state.text.trim();
         var author = this.state.author.trim();
@@ -53,21 +60,41 @@ var TodoForm =  React.createClass({
 
     render: function() {
         return (
+            <div className="todoc-body">
             <div className="todoForm">
+                <div className="author-box">
                 <textarea
                     className="AuthorBox"
                     name="author"
                     value={this.state.author}
                     onChange={this._onAuthorChange}
                     placeholder="Who's Task is it?"/>
+                </div>
+                <div className="todo-title">
+                    <textarea
+                        className="title-box"
+                        name="title"
+                        value={this.state.title}
+                        onChange={this._onTitleChange}
+                        placeholder="Todo Title"/>
+
+                </div>
+                <div className="description-box">
                 <textarea
                     className="TextBox"
                     name="text"
                     value={this.state.text}
                     onChange={this._onTextChange}
                     onKeyDown={this._onKeyDown}
-                    placeholder="What is the Task?"/>
-                <button onClick={this.handleSubmit}>Post</button>
+                    placeholder="Todo Description"/>
+                </div>
+                <div className="due-date">
+
+                </div>
+                <button onClick={this._onSubmit} className="btn btn-success input-group-addon send-btn">
+                    <span className="glyphicon glyphicon-ok"></span>
+                </button>
+            </div>
             </div>);
     }
 });
