@@ -7,11 +7,39 @@
     flex-direction: row
     justify-content: space-around
     padding: 10px
+
 .button-drawer
+    position: relative
     height: 30%
+    clear: both
+    margin: 25px 0
 .save-wiki
-    margin-top: 60px
+    margin-top: 10px
     float: right
+
+//Tab Buttons:
+.nav ul
+    margin: 5px 0px 0px
+.nav li
+    float: left
+    display: inline-block
+    margin-right: 5px
+.nav li a
+    display: inline-block
+    padding: 8px 10px
+    color: #9C27B0
+.nav li a:hover
+    colour: #6D1B7B
+    background: #F5E9F7
+.nav li.current a
+    color: white
+    background: #9C27B0
+
+//Edit/preview page
+.tabContent
+    display: inline-block
+    padding: 10px
+
 .wiki-edit-text, .wiki-edit-preview
     height: 100%
     width: 50%

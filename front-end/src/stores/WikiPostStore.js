@@ -6,7 +6,6 @@
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
     WikiConstants = require('../constants/WikiActionConstants'),
     WikiUtils = require('../utils/WikiUtils'),
-    merge = require('react/lib/merge'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
 
@@ -53,7 +52,7 @@ PostStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {
 
         case ActionTypes.CREATE_POST:
-            var post = new WikiUtils.Post(action.body);
+            var post = new WikiUtils.Post(action.title, action.body);
             addPost(post);
             PostStore.emitChange();
             break;

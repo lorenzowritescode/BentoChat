@@ -16,8 +16,9 @@ function getStateFromStores() {
 var Post = React.createClass({
     render: function () {
         return (<div>
-            <b>{this.props.author}</b>
-                <div>
+            <b className="title">{this.props.title}</b>
+            <div className="author" > {this.props.author} </div>
+                <div className="body">
                     {this.props.body}
                 </div>
             </div>);
@@ -62,5 +63,5 @@ var WikiViewer = React.createClass({
     }
 });
 
-module.exports = WikiViewer; 
+module.exports = WikiViewer;
 

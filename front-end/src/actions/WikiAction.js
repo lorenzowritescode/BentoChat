@@ -8,9 +8,10 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
 
 var ActionTypes = WikiConstants.ActionTypes;
 
-function createPost(text) {
+function createPost(title, text) {
     Dispatcher.dispatch({
         type: ActionTypes.CREATE_POST,
+        title: title,
         body: text
     });
 }

@@ -3,8 +3,9 @@
  */
 'use strict';
 
-function Post(text) {
+function Post(title, text) {
     return {
+        title: title,
         body: text,
         author: "Madame 'Rollin with da bitches' Hooch",
         timeStamp: Date.now(),
