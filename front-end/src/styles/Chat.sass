@@ -4,6 +4,7 @@
     @extend .HolyGrail-body
 .chat-nav
     @extend .HolyGrail-nav
+    border-right: 2px solid rgba(216, 171, 224, 0.5)
 .chat-content
     @extend .HolyGrail-content
 .chat-side
@@ -12,10 +13,30 @@
     height: 80vh
     width: 100%
     overflow-y: scroll
+    div.chat-row:nth-child(even)
+        background-color: rgba(33, 150, 243, 0.2)
 .typebox
     width: 100%
     height: 20vh
-
+.chat-row
+    display: flex
+    padding: 0px 10px 0px 10px
+    .author
+        font-weight: bold
+        margin-right: 10px
+    .timestamp
+        font-weight: lighter
+        padding-right: 10px
+.message-box
+    display: flex
+    width: 100%
+    padding: 10px
+    .text-box
+        width: 90%
+        overflow-x: auto
+        overflow-y: scroll
+    .send-btn
+        width: 10%
 textarea
     width: 100%
     height: 100%

@@ -3,9 +3,9 @@
 var React = require('react/addons'),
     MessageActions = require('actions/messageAction'),
     MessageStore = require('stores/ChatMessageStore'),
-    API = require('../utils/APIUtils.js'),
-    APIConstants = require('../constants/APIConstants.js'),
-    $ = require('jQuery');
+    ThemeManager = require('material-ui/lib/styles/theme-manager')(),
+    Colors = require('material-ui/lib/styles/colors'),
+    TextField = require('material-ui').TextField;
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
@@ -19,26 +19,41 @@ function getStateFromStores() {
     };
 }
 
+var ChatTimestamp = React.createClass({
+    render: function () {
+        var d = new Date(this.props.timestamp);
+        return (
+                <div className="timestamp">
+                    {d.getHours()}:{d.getMinutes()}
+                </div>
+            );
+    }
+});
+
+var ChatAuthor = React.createClass({
+    render: function () {
+        return <div className="author">{this.props.name}</div>;
+    }
+});
+
 //The visual representation of a message
 var ChatMessage = React.createClass({
     render: function () {
-        var time = (new Date(parseInt(this.props.timestamp))).toString();
-        return <div>
-            {time}
-            <b>{this.props.author}</b>
-            : {this.props.body}
+        var msg = this.props.message;
+        return <div className="chat-row">
+            <ChatTimestamp timestamp={msg.timestamp} />
+            <ChatAuthor name={msg.author} />
+            {msg.body}
         </div>;
     }
 });
 
 //Creates a message list item of the given message
-function GetMessageList(message) {
+function getMessage(message) {
     return (
         <ChatMessage
             key={message.id}
-            author={message.author}
-            body={message.body}
-            timestamp={message.timestamp}
+            message={message}
             />
     );
 }
@@ -68,7 +83,7 @@ var ChatList = React.createClass({
     },
 
     render: function () {
-        var MessageListItem = this.state.messages.map(GetMessageList);
+        var MessageListItem = this.state.messages.map(getMessage);
         return (
             <div className="chatlist">
                 {MessageListItem}
@@ -89,7 +104,6 @@ function randomPrompt() {
 }
 
 var NewMessageBox = React.createClass({
-
     getInitialState: function () {
         return (
         {text: ''}
@@ -98,15 +112,16 @@ var NewMessageBox = React.createClass({
 
     render: function () {
         return (
-            <div className="messagebox">
-            <textarea
-                className="messageBox"
-                name="message"
-                value={this.state.text}
-                onChange={this._onChange}
-                onKeyDown={this._onKeyDown}
-                placeholder={randomPrompt()}/>
-            <button onClick={this._onSubmit}>Send</button>
+            <div className="input-group message-box">
+                <input
+                    className="form-control text-box"
+                    placeholder={randomPrompt()}
+                    value={this.state.text}
+                    onChange={this._onChange}
+                    onKeyDown={this._onKeyDown} />
+                <button onClick={this._onSubmit} className="btn btn-success input-group-addon send-btn">
+                    <span className="glyphicon glyphicon-ok"></span>
+                </button>
             </div>
         );
     },
@@ -128,7 +143,7 @@ var NewMessageBox = React.createClass({
 
     //Send via enter key
     _onKeyDown: function(event) {
-        if (event.keyCode === ENTER_KEY_CODE){
+        if (event.keyCode === ENTER_KEY_CODE) {
             event.preventDefault();
             this.send();
         }

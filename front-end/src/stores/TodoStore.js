@@ -6,7 +6,6 @@
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
     TodoConstants = require('../constants/TodoActionConstants'),
     TodoUtils = require('../utils/TodoUtils'),
-    merge = require('react/lib/merge'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
 
