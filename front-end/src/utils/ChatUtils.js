@@ -3,11 +3,11 @@
  */
 'use strict';
 
-function Message(text) {
+function Message(raw_msg) {
     return {
-        body: text,
-        author: "Dumbledore",
-        timestamp: Date.now()
+        body: raw_msg.body,
+        author: raw_msg.author,
+        timestamp: new Date(raw_msg.timestamp)
     };
 }
 
@@ -15,6 +15,15 @@ Message.prototype.getText = function () {
     return this.text;
 };
 
+function buildMessage (text) {
+    return new Message({
+        body: text,
+        author: "Dumbledore",
+        timestamp: Date.now()
+    });
+}
+
 module.exports = {
-    Message: Message
+    Message: Message,
+    buildMessage: buildMessage
 };

@@ -52,19 +52,6 @@ app.get('/login', function (req, res) {
     })
 })
 
-app.post('/chat', function (req, res) {
-    var msg = req.body;
-
-    if (require('./util').checkMessage(msg)) {
-        db.saveMessage(msg, function (err, success) {
-            if (!err && success)
-                res.status(201).end('Created')
-            else
-                res.status(500).end('Internal Error' + err.message)
-        })
-    }
-})
-
 app.get('/chat', function (req, res) {
     db.findMessages(100, function (err, result) {
         if (!err)
