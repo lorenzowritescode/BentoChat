@@ -7,7 +7,6 @@
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
     ChatConstants = require('../constants/ChatActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
-    merge = require('react/lib/merge'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
 
