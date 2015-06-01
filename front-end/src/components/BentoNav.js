@@ -13,9 +13,9 @@ var BentoNav = React.createClass({
         <div className="navbar navbar-default">
             <div className="container-fluid">
                 <div className="navbar-header">
-                    <a className="navbar-brand" href="#">
+                    <Link className="navbar-brand" to="app">
                         BentoChat
-                    </a>
+                    </Link>
                 </div>
                 <ul className="nav navbar-nav">
                     <li><Link to="chat">Chat</Link></li>
