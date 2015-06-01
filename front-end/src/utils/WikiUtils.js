@@ -6,13 +6,13 @@
 var marked = require('marked'),
     React = require('react/addons');
 
-function Post(title, text) {
+function Post(title, text, id) {
     return {
         title: title,
         body: text,
         author: "Madame Hooch",
         timeStamp: Date.now(),
-        id: Date.now()
+        id: id
     };
 }
 

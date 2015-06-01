@@ -2,7 +2,8 @@
 
 var React = require('react/addons'),
     WikiActions = require('../actions/WikiAction'),
-    PostStore = require('../stores/WikiPostStore');
+    PostStore = require('../stores/WikiPostStore'),
+    Marked = require('marked');
 
 
 require('styles/WikiViewer.sass');
@@ -14,12 +15,13 @@ function getStateFromStores() {
 }
 
 var PostListItem = React.createClass({
+
     render: function () {
+        var body = Marked(this._trim(this.props.body));
         return (<div>
             <h3 className="title">{this.props.title}</h3>
             <sub> written by {this.props.author} at {this.props.timeStamp}</sub>
-                <div className="body">
-                    {this._trim(this.props.body)}
+                <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);
     },
@@ -55,6 +57,7 @@ var WikiViewer = React.createClass({
 
     componentDidMount: function() {
         PostStore.addChangeListener(this._onChange);
+        WikiActions.fetchPosts();
     },
 
     componentWillUnmount: function() {

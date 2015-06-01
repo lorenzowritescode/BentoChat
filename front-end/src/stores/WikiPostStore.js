@@ -52,8 +52,13 @@ PostStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {
 
         case ActionTypes.CREATE_POST:
-            var post = new WikiUtils.Post(action.title, action.body);
+            var post = action.post;
             addPost(post);
+            PostStore.emitChange();
+            break;
+
+        case ActionTypes.FETCH_POSTS:
+            posts = action.post_list;
             PostStore.emitChange();
             break;
     }

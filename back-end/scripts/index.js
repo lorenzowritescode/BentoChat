@@ -91,7 +91,28 @@ app.put('/todo', function(req, res) {
     else
       res.status(500).end('Internal Database Error');
   })
-})  
+})
+
+app.get('/wiki', function (req, res) {
+    db.getWikiPosts(function(err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
+
+app.post('/wiki', function (req, res) {
+    var post = req.body;
+    console.log(post);
+
+    db.saveWikiPost (post, function(err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
 
 server.listen(port);  
 console.log('listening on port ' + port);  

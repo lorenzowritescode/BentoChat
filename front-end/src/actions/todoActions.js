@@ -23,7 +23,7 @@ function createTodo (todo) {
     });
 }
 
-function fetchTodos() {
+function fetchTodos () {
     APIUtils.get(todoUrl, function (result) {
         Dispatcher.dispatch({
             type: ActionTypes.FETCH_TODOS,

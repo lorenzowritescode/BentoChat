@@ -15,7 +15,8 @@ var dbConfig = {
     'messages': 'id',
     'cache': 'cid',
     'users': 'id',
-    'todos': 'id'
+    'todos': 'id',
+    'wiki': 'id'
   }
 };
 
@@ -200,7 +201,29 @@ module.exports.getTodos = function (callback) {
   });
 };
 
-
+module.exports.getWikiPosts = function (callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('wiki').run(connection, function (err, cursor) {
+      if(err) {
+        logerror("[ERROR][%s][findMessages] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(null, []);
+        connection.close();
+      }
+      else {
+        cursor.toArray(function(err, results) {
+          if(err) {
+            logerror("[ERROR][%s][findMessages][toArray] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+            callback(null, []);
+          }
+          else {
+            callback(null, results);
+          }
+          connection.close();
+        });
+      }
+    });
+  });
+};
 
 
 /**
@@ -287,7 +310,28 @@ module.exports.toggleTodo = function(id, callback) {
         callback(null, result);
     })
 })
-}
+};
+
+module.exports.saveWikiPost = function(post, callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('wiki').insert(post).run(connection, function(err, result) {
+      if(err) {
+        logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(err);
+      }
+      else {
+        if(result.inserted === 1) {
+          var new_id = result.generated_keys[0];
+          callback(null, new_id);
+        }
+        else {
+          callback(null, result);
+        }
+      }
+      connection.close();
+    });
+  });
+};
 
 /**
  * Adding a new user to database using  [`insert`](http://www.rethinkdb.com/api/javascript/insert/).

@@ -7,6 +7,7 @@ var keyMirror = require('keymirror');
 module.exports = {
     ActionTypes: keyMirror ({
         CREATE_POST: null,
-        DELETE_POST: null
+        DELETE_POST: null,
+        FETCH_POSTS: null
     })
 };
