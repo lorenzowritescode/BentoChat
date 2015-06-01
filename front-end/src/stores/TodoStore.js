@@ -13,32 +13,21 @@ var ActionTypes = TodoConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var todos = [];
-var completed = [];
-
-var exampleTodo = {
-    id:1,
-    author: "Simba",
-    text: "Take back the Kingdom",
-    completed: false
-};
-
-var exampleCompletedTodo = {
-    id:1,
-    author: "Scar",
-    text: "Kill Mufasa",
-    completed: true
-};
-
-todos.push(exampleTodo);
-completed.push(exampleCompletedTodo);
 
 function addTodo(todo) {
     todos.push(todo);
 }
 
-function addToCompleted(todo) {
-    todos.remove(todo);
-    completed.push(todo);
+function toggleTodo(id) {
+    for (var tod in todos) {
+        if (tod.id === id) {
+            if (tod.status === "pending") {
+                tod.status = "complete";
+            } else if (tod.status === "completed") {
+                tod.status = "pending";
+            }
+        }
+    }
 }
 
 var TodoStore = assign({}, EventEmitter.prototype, {
@@ -55,31 +44,9 @@ var TodoStore = assign({}, EventEmitter.prototype, {
        this.removeListener(CHANGE_EVENT, callback);
    },
 
-   getTodo: function(id) {
-       for (var td in todos) {
-           if (td.id === id) {
-               return td;
-           }
-       }
-       return null;
-   },
-
-   getCompletedTodo: function(id) {
-       for (var td in completed) {
-           if (td.id === id) {
-               return td;
-           }
-       }
-       return null;
-   },
-
    getAllTodos: function() {
        return todos;
    },
-
-   getAllCompleted: function() {
-       return completed;
-   }
 
 });
 
@@ -88,12 +55,19 @@ TodoStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {
 
         case ActionTypes.CREATE_TODO:
-            var todo = new TodoUtils.Todo(action.author, action.text);
-            addTodo(todo);
+            addTodo(action.todo);
+            TodoStore.emitChange();
+            break;
+
+        case ActionTypes.FETCH_TODOS:
+            todos = action.todo_list;
             TodoStore.emitChange();
             break;
 
         case ActionTypes.COMPLETE_TODO:
+            toggleTodo(action.id);
+            TodoStore.emitChange();
+            break;
 
     }
 });

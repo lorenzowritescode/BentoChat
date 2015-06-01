@@ -8,27 +8,44 @@ var React = require('react/addons'),
 require('styles/Todos.sass');
 var Link = require('react-router').Link;
 
-//var ReactTransitionGroup = React.addons.TransitionGroup;
+var ReactTransitionGroup = React.addons.TransitionGroup;
+
 function getStateFromStores() {
     return {
-        todos: TodoStore.getAllTodos(),
-        completedtodos: TodoStore.getAllCompleted()
+        todos: TodoStore.getAllTodos()
     };
 }
 
 var Todo = React.createClass({
+
+    _onSubmit: function(e) {
+        e.preventDefault();
+        var id = this.props.todo.id;
+        if (id) {
+            TodoActions.toggleTodo(id);
+        }
+    },
+
     render: function() {
         return (
-            <div className="Todo">
-                <h4 className="TodoAuthor">
-                    {this.props.author}
-                </h4>
-                <ul>
-                <li><h5>{this.props.body}</h5></li>
-                </ul>
-                <input type="checkbox" >Done</input>
+            <div className="todo">
+                <div className="todo-content">
+                    <div className="todo-title">
+                        {this.props.todo.title}
+                    </div>
+                    <div className="todo-desc">
+                        {this.props.todo.text}
+                    </div>
+                    <div className="todo-assignee">
+                        {this.props.todo.author}
+                    </div>
+                </div>
+                <div className="complete-button">
+                    <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
+                        <span className="glyphicon glyphicon-ok todo-tick"></span>
+                    </button>
+                </div>
             </div>
-
         );
     }});
 
@@ -36,36 +53,15 @@ function returnTodo(todo) {
     return (
         <Todo
             key={todo.id}
-            author={todo.author}
-            body={todo.text}
-            completed={todo.completed}
+            todo={todo}
             />
     );
 }
 
-
-
 var TodoList = React.createClass({
-
-    getInitialState: function() {
-        return getStateFromStores();
-    },
-
-    componentDidMount: function() {
-        TodoStore.addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount: function() {
-        TodoStore.removeChangeListener(this._onChange);
-    },
-
-    _onChange: function() {
-        this.setState(getStateFromStores());
-    },
-
     render: function() {
         var TodoListItem
-            = this.state.todos.reverse().map(returnTodo);
+            = this.props.list.map(returnTodo);
         return (
             <div>
                 {TodoListItem}
@@ -73,35 +69,6 @@ var TodoList = React.createClass({
         );
     }
 });
-
-var CompletedTodoList = React.createClass({
-
-    getInitialState: function() {
-        return getStateFromStores();
-    },
-
-    componentDidMount: function() {
-        TodoStore.addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount: function() {
-        TodoStore.removeChangeListener(this._onChange);
-    },
-
-    _onChange: function() {
-        this.setState(getStateFromStores());
-    },
-
-    render: function() {
-        var TodoListItem = this.state.completedtodos.map(returnTodo);
-        return (
-            <div>
-                {TodoListItem}
-            </div>
-        );
-    }
-});
-
 
 var TodoBar = React.createClass({
     render: function () {
@@ -115,22 +82,51 @@ var TodoBar = React.createClass({
 }
 });
 
-
-
 var Todos = React.createClass({
+
+    getInitialState: function() {
+        return getStateFromStores();
+    },
+
+    componentDidMount: function() {
+        TodoStore.addChangeListener(this._onChange);
+        TodoActions.fetchTodos();
+    },
+
+    componentWillUnmount: function() {
+        TodoStore.removeChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+        this.setState(getStateFromStores());
+    },
+
     render: function() {
+        var completed = this.state.todos.filter(function (todo) {
+            return todo.status === "completed";
+        });
+        var not_completed = this.state.todos.filter(function (todo) {
+            return todo.status === "pending";
+        });
+
         return (
             <div className="todo-body">
-                <RouteHandler />
-                <div className="todo-content">
-                <div className="todo-list">
-                    <h2>Todos:</h2>
-                    <TodoList />
-                </div>
-                <div className="completed-list">
-                    <h2>Completed:</h2>
-                    <CompletedTodoList />
-                </div>
+                <div className="test">
+                    <RouteHandler />
+                    <div className="todos-content">
+                        <div className="todo-list">
+                            <div className="title" align="center">
+                                Todos:
+                            </div>
+                            <TodoList list={not_completed} className="todo-list"/>
+                        </div>
+                        <div className="completed-list">
+                            <div className="title">
+                                Completed:
+                            </div>
+                            <TodoList list={completed} className="completed-list"/>
+                        </div>
+                    </div>
                 </div>
                 <div className="todo-nav">
                     <TodoBar />

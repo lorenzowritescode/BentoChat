@@ -4,3 +4,4 @@ module.exports.checkMessage = function (msg) {
 
 	return true;
 }
+
