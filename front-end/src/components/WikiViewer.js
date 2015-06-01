@@ -13,24 +13,36 @@ function getStateFromStores() {
     };
 }
 
-var Post = React.createClass({
+var PostListItem = React.createClass({
     render: function () {
         return (<div>
-            <b className="title">{this.props.title}</b>
-            <div className="author" > {this.props.author} </div>
+            <h3 className="title">{this.props.title}</h3>
+            <sub> written by {this.props.author} at {this.props.timeStamp}</sub>
                 <div className="body">
-                    {this.props.body}
+                    {this._trim(this.props.body)}
                 </div>
             </div>);
+    },
+
+    _trim: function (text) {
+        if (text.length > 200) {
+            return (
+                text.substring(0, 200) + '...'
+            );
+        } else {
+            return(text);
+        }
     }
 });
 
 function getPost(post) {
     return (
-        <Post
+        <PostListItem
             key={post.id}
+            title={post.title}
             author={post.author}
             body={post.body}
+            timeStamp={post.timeStamp}
             />
     );
 }

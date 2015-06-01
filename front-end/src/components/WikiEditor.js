@@ -2,6 +2,7 @@
 
 var React = require('react/addons'),
     WikiActions = require('../actions/WikiAction'),
+    WikiUtils = require('../utils/WikiUtils'),
     RouteHandler = require('react-router').RouteHandler,
     Link = require('react-router').Link;
 
@@ -27,12 +28,8 @@ var WikiEditor = React.createClass({
         return (
         {text: '',
         title: '',
-        preview: ''}
+        preview: null}
         );
-    },
-
-    changeTab: function(tab) {
-        this.setState({currentTab: tab.id});
     },
 
     render: function () {
@@ -46,7 +43,9 @@ var WikiEditor = React.createClass({
                     </Link>
                 </div>
                 <RouteHandler {...{textChange: this._onChange,
-                    titleChange: this._onTitleChange}}/>
+                    titleChange: this._onTitleChange,
+                    getTitle: this._getTitle,
+                    getText: this._getText}}/>
             </div>
         );
     },
@@ -59,8 +58,15 @@ var WikiEditor = React.createClass({
         }
     },
 
+    _getTitle () {
+        return this.state.title;
+    },
+
+    _getText () {
+        return this.state.text;
+    },
+
     _onTitleChange: function (title) {
-        console.log("yup");
         this.setState({title: title});
     },
 
@@ -73,8 +79,8 @@ var Editor = React.createClass({
 
     getInitialState: function () {
         return (
-        {title: '',
-        text: ''}
+        {title: this.props.getTitle(),
+        text: this.props.getText()}
         );
     },
 
@@ -111,10 +117,13 @@ var Editor = React.createClass({
 
 var Preview = React.createClass({
     render: function () {
+
+        var title = this.props.getTitle();
+        var text = this.props.getText();
+        var post = WikiUtils.Post(title, text);
+        var markedPost = WikiUtils.markdownPost(post);
         return (
-            <div>
-                Bow chicka bow bow
-            </div>
+             markedPost
         );
     }
 });
