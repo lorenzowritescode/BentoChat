@@ -43,7 +43,7 @@ var ChatMessage = React.createClass({
         return <div className="chat-row">
             <ChatTimestamp timestamp={msg.timestamp} />
             <ChatAuthor name={msg.author} />
-            {msg.body}
+            <div className="chat-text">{msg.body}</div>
         </div>;
     }
 });
