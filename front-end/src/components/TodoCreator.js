@@ -6,7 +6,8 @@
 var React = require('react/addons'),
     TodoActions = require('../actions/todoActions'),
     TodoStore = require('../stores/TodoStore'),
-    todoUtils = require('../utils/TodoUtils');
+    todoUtils = require('../utils/TodoUtils'),
+    Link = require('react-router').Link;
 
 var ENTER_KEY_CODE = 13;
 
@@ -87,9 +88,14 @@ var TodoForm =  React.createClass({
                 <div className="due-date">
 
                 </div>
-                <button onClick={this._onSubmit} className="btn btn-success btn-block">
-                    <span className="glyphicon glyphicon-ok"></span>
-                </button>
+                <div className="btn-drawer btn-group btn-group-justified">
+                    <Link to="todo">
+                        <button className="btn btn-warn">Cancel</button>
+                    </Link>
+                    <button onClick={this._onSubmit} className="btn btn-success">
+                        <span className="glyphicon glyphicon-ok"></span>
+                    </button>
+                </div>
             </div>
             </div>);
     }

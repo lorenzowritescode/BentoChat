@@ -132,7 +132,7 @@ var Todos = React.createClass({
                     <TodoBar />
                 </div>
                 <div className="todo-side">
-                    profile information?
+                    profile information
                 </div>
             </div>
         );
