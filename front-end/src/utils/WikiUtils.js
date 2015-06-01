@@ -7,7 +7,7 @@ function Post(title, text) {
     return {
         title: title,
         body: text,
-        author: "Madame 'Rollin with da bitches' Hooch",
+        author: "Madame Hooch",
         timeStamp: Date.now(),
         id: Date.now()
     };

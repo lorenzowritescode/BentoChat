@@ -4,7 +4,9 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    WikiConstants = require('../constants/WikiActionConstants');
+    WikiConstants = require('../constants/WikiActionConstants'),
+    io = require('socket.io-client')("http://localhost:3000"),
+    WikiUtils = require('../utils/WikiUtils');
 
 var ActionTypes = WikiConstants.ActionTypes;
 
@@ -14,6 +16,7 @@ function createPost(title, text) {
         title: title,
         body: text
     });
+    var post = WikiUtils.Post(title, text);
 }
 
 module.exports = {

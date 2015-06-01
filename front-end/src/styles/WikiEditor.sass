@@ -1,5 +1,3 @@
-.WikiEditor
-  border: 1px dashed #f00
 .editor-container
     width: 100%
     height: 70%
@@ -7,7 +5,6 @@
     flex-direction: row
     justify-content: space-around
     padding: 10px
-
 .button-drawer
     position: relative
     height: 30%
@@ -16,38 +13,26 @@
 .save-wiki
     margin-top: 10px
     float: right
-
-//Tab Buttons:
-.nav ul
-    margin: 5px 0px 0px
-.nav li
-    float: left
-    display: inline-block
-    margin-right: 5px
-.nav li a
-    display: inline-block
-    padding: 8px 10px
-    color: #9C27B0
-.nav li a:hover
-    colour: #6D1B7B
-    background: #F5E9F7
-.nav li.current a
-    color: white
-    background: #9C27B0
-
-//Edit/preview page
-.tabContent
-    display: inline-block
-    padding: 10px
-
 .wiki-edit-text, .wiki-edit-preview
     height: 100%
-    width: 50%
-    flex
+    width: 100%
+    padding: 20px
 .full-size
     width: 100%
     height: 100%
     display: flex
     flex-direction: column
+.save-button
+    float: right
+    width: 100%
+.editor-buttons
+    float: left
+    width: 20%
+    position: absolute
+.titlebox
+    height: 20%
+    border: thin inset rgb(95, 95, 95)
 .inputbox
-    @extend .form, .full-size
+    height: 90%
+    border: thin inset rgb(95, 95, 95)
+
