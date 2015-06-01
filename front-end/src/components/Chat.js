@@ -23,9 +23,12 @@ var ChatTimestamp = React.createClass({
     render: function () {
         var d = new Date(this.props.timestamp);
         var mins = d.getMinutes();
+        mins = mins > 9 ? mins : '0' + mins;
+        var hours = d.getHours();
+        hours = hours > 9 ? hours : '0' + hours;
         return (
                 <div className="timestamp">
-                    {d.getHours()}:{(mins < 10? '0' + mins:mins)}
+                    {hours}:{mins}
                 </div>
             );
     }
