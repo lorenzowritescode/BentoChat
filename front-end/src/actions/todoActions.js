@@ -10,11 +10,12 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
 
 var ActionTypes = TodoConstants.ActionTypes;
 
-function createTodo (author, text) {
+function createTodo (author, title, text) {
     Dispatcher.dispatch({
         type: ActionTypes.CREATE_TODO,
         author: author,
-        text: text
+        text: text,
+        title: title
     });
 
 }
