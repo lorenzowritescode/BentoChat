@@ -6,6 +6,7 @@ var keyMirror = require('keymirror');
 module.exports = {
   ActionTypes: keyMirror ({
       CREATE_TODO: null,
-      COMPLETE_TODO: null
+      COMPLETE_TODO: null,
+      FETCH_TODOS: null
   })
 };

@@ -1,9 +1,11 @@
 var host = 'localhost',
     port = '3000',
     url = 'http://'+ host + ':' + port + '/',
-    chatUrl = url + 'chat';
+    chatUrl = url + 'chat',
+    todoUrl = url + 'todo';
 
 module.exports = {
     url: url,
-    chatUrl: chatUrl
+    chatUrl: chatUrl,
+    todoUrl: todoUrl
 };

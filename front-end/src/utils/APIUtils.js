@@ -22,3 +22,16 @@ module.exports.post = function(path, body, callback, context) {
             callback(result);
     });
 };
+
+module.exports.put = function(path, body, callback, context) {
+    $.ajax({
+        method: "PUT",
+        url: path,
+        data: body
+    }).done(function (data) {
+        if (callback !== null)
+            callback.apply(context, data);
+        else
+            callback(data);
+    });
+};
