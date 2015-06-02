@@ -18,9 +18,10 @@ var PostListItem = React.createClass({
 
     render: function () {
         var body = Marked(this._trim(this.props.body));
-        return (<div>
+        return (
+            <div className="WikiPostListItem">
             <h3 className="title">{this.props.title}</h3>
-            <sub> written by {this.props.author} at {this.props.timeStamp}</sub>
+            <sub className="PostInfo"> written by {this.props.author} at {this.props.timeStamp}</sub>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);
