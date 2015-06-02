@@ -6,29 +6,65 @@
     @extend .HolyGrail-body
 .todos-content
     @extend .HolyGrail-content
+    width: 100%
+    display: flex
 .todo-nav
     @extend .HolyGrail-nav
 .todo-side
     @extend .HolyGrail-ads
+.todoc-body
+    width: 100%
+    border-radius: 5px
+    border: 2px solid #4CAF50
+    padding: 5px 5px 5px 5px
+
+.test
+    width: 100%
+    padding: 5px 5px 5px 5px
+    .author-box
+        width: 150px
+        height: 35px
+
+.todo-list, .completed-list
+    padding: 5px
+    width: 50%
+    .title
+        font-size: x-large
+        width: 50%
+        margin-left: auto
+        margin-right: auto
+
+.completed-list
+    .todo-btn
+        border: 1px solid #4CAF50
+        background-color: #4CAF50
+    .todo-tick
+        color: white
+
 
 .todo
     width: 100%
-    max-width: 300px
+    max-width: 100%
     display: flex
     border: 2px solid #4CAF50
+    border-radius: 6px
     box-shadow: 1px 1px 5px gray
-    padding: 0px 0px 5px 5px
+    padding: 0px 0px 0px 6px
     .todo-content
-        width: 80%
+        width: 83%
         height: 100%
         .todo-title
             font-size: large
         .todo-assignee
             color: gray
     .complete-button
-        width: 20%
-        height: 100%
+        width: 17%
+        height: inherit
         button
             height: 79px
-
-
+.btn-drawer
+    width: 100%
+    .btn-success
+        width: 80%
+    .btn-warn
+        width: 20%

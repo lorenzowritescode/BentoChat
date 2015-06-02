@@ -15,6 +15,7 @@ app.configure( function () {
       res.header("Access-Control-Allow-Origin", "http://localhost:8000");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
       res.header("Access-Control-Allow-Credentials", "true");
+      res.header("Access-Control-Allow-Methods", "GET,PUT,POST");
       next();
     })
     // This is for decoding json POST requests
@@ -54,6 +55,58 @@ app.get('/login', function (req, res) {
 
 app.get('/chat', function (req, res) {
     db.findMessages(100, function (err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
+
+app.get('/todo', function (req, res) {
+  db.getTodos(function(err, result) {
+    if (!err)
+      res.status(200).send(result).end();
+    else
+      res.status(500).end('Internal Database Error');
+  })
+})
+
+app.post('/todo', function (req, res) {
+  var todo = req.body;
+  console.log(todo);
+
+  db.saveTodo (todo, function(err, result) {
+    if (!err)
+      res.status(200).send(result).end();
+    else
+      res.status(500).end('Internal Database Error');
+  })
+})
+
+app.put('/todo', function(req, res) {
+  var id = req.body.id;
+  db.toggleTodo (id, function(err, result) {
+    if (!err)
+      res.status(200).send(result).end();
+    else
+      res.status(500).end('Internal Database Error');
+  })
+})
+
+app.get('/wiki', function (req, res) {
+    db.getWikiPosts(function(err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
+
+app.post('/wiki', function (req, res) {
+    var post = req.body;
+    console.log(post);
+
+    db.saveWikiPost (post, function(err, result) {
         if (!err)
             res.status(200).send(result).end();
         else

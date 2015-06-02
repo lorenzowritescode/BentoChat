@@ -5,7 +5,9 @@
 
 var React = require('react/addons'),
     TodoActions = require('../actions/todoActions'),
-    TodoStore = require('../stores/TodoStore');
+    TodoStore = require('../stores/TodoStore'),
+    todoUtils = require('../utils/TodoUtils'),
+    Link = require('react-router').Link;
 
 var ENTER_KEY_CODE = 13;
 
@@ -35,33 +37,28 @@ var TodoForm =  React.createClass({
 
     _onKeyDown: function(e) {
         if (e.keyCode === ENTER_KEY_CODE) {
-            e.preventDefault();
-            var text = this.state.text.trim();
-            var author = this.state.author.trim();
-            if (text) {
-                TodoActions.createTodo(author, text);
-            }
-            this.setState({text: ''});
-            this.setState({author: ''});
+            this._onSubmit(e);
         }
-
     },
 
     _onSubmit: function(e) {
         e.preventDefault();
         var text = this.state.text.trim();
         var author = this.state.author.trim();
+        var title = this.state.title.trim();
         if (text) {
-            TodoActions.createTodo(author, text);
+            var todo = new todoUtils.Todo(author, title, text);
+            TodoActions.createTodo(todo);
         }
         this.setState({text: ''});
         this.setState({author: ''});
+        this.setState({title: ''});
     },
 
     render: function() {
         return (
             <div className="todoc-body">
-            <div className="todoForm">
+            <div className="todo-form">
                 <div className="author-box">
                 <textarea
                     className="AuthorBox"
@@ -91,9 +88,14 @@ var TodoForm =  React.createClass({
                 <div className="due-date">
 
                 </div>
-                <button onClick={this._onSubmit} className="btn btn-success input-group-addon send-btn">
-                    <span className="glyphicon glyphicon-ok"></span>
-                </button>
+                <div className="btn-drawer btn-group btn-group-justified">
+                    <Link to="todo">
+                        <button className="btn btn-warn">Cancel</button>
+                    </Link>
+                    <button onClick={this._onSubmit} className="btn btn-success">
+                        <span className="glyphicon glyphicon-ok"></span>
+                    </button>
+                </div>
             </div>
             </div>);
     }

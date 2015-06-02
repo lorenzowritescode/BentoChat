@@ -2,10 +2,7 @@
 
 var React = require('react/addons'),
     MessageActions = require('actions/messageAction'),
-    MessageStore = require('stores/ChatMessageStore'),
-    ThemeManager = require('material-ui/lib/styles/theme-manager')(),
-    Colors = require('material-ui/lib/styles/colors'),
-    TextField = require('material-ui').TextField;
+    MessageStore = require('stores/ChatMessageStore');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
@@ -23,9 +20,12 @@ var ChatTimestamp = React.createClass({
     render: function () {
         var d = new Date(this.props.timestamp);
         var mins = d.getMinutes();
+        mins = mins > 9 ? mins : '0' + mins;
+        var hours = d.getHours();
+        hours = hours > 9 ? hours : '0' + hours;
         return (
                 <div className="timestamp">
-                    {d.getHours()}:{(mins < 10? '0' + mins:mins)}
+                    {hours}:{mins}
                 </div>
             );
     }
@@ -146,14 +146,18 @@ var NewMessageBox = React.createClass({
     _onKeyDown: function(event) {
         if (event.keyCode === ENTER_KEY_CODE) {
             event.preventDefault();
-            var text = this.state.text.trim();
-            if (text) {
-                //Here is where we create the action and send it to the dispatcher
-                MessageActions.createMessage(text);
-            }
-            //Reset text box
-            this.setState({text: ''});
+            this.send();
         }
+    },
+
+    send: function() {
+        var text = this.state.text.trim();
+        if (text) {
+            //Here is where we create the action and send it to the dispatcher
+            MessageActions.createMessage(text);
+        }
+        //Reset text box
+        this.setState({text: ''});
     }
 });
 

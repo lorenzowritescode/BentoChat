@@ -14,7 +14,9 @@ var dbConfig = {
   tables: {
     'messages': 'id',
     'cache': 'cid',
-    'users': 'id'
+    'users': 'id',
+    'todos': 'id',
+    'wiki': 'id'
   }
 };
 
@@ -175,6 +177,54 @@ module.exports.findMessages = function (max_results, callback) {
   });
 };
 
+module.exports.getTodos = function (callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('todos').run(connection, function(err, cursor) {
+      if(err) {
+        logerror("[ERROR][%s][findMessages] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(null, []);
+        connection.close();
+      }
+      else {
+        cursor.toArray(function(err, results) {
+          if(err) {
+            logerror("[ERROR][%s][findMessages][toArray] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+            callback(null, []);
+          }
+          else {
+            callback(null, results);
+          }
+          connection.close();
+        });
+      }
+    });
+  });
+};
+
+module.exports.getWikiPosts = function (callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('wiki').run(connection, function (err, cursor) {
+      if(err) {
+        logerror("[ERROR][%s][findMessages] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(null, []);
+        connection.close();
+      }
+      else {
+        cursor.toArray(function(err, results) {
+          if(err) {
+            logerror("[ERROR][%s][findMessages][toArray] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+            callback(null, []);
+          }
+          else {
+            callback(null, results);
+          }
+          connection.close();
+        });
+      }
+    });
+  });
+};
+
 
 /**
  * To save a new chat message using we are using 
@@ -211,6 +261,68 @@ module.exports.saveMessage = function (msg, callback) {
       else {
         if(result.inserted === 1) {
           callback(null, result);
+        }
+        else {
+          callback(null, result);
+        }
+      }
+      connection.close();
+    });
+  });
+};
+
+module.exports.saveTodo = function (todo, callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('todos').insert(todo).run(connection, function(err, result) {
+      if(err) {
+        logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(err);
+      }
+      else {
+        if(result.inserted === 1) {
+          var new_id = result.generated_keys[0];
+          callback(null, new_id);
+        }
+        else {
+          callback(null, result);
+        }
+      }
+      connection.close();
+    });
+  });
+};
+
+module.exports.toggleTodo = function(id, callback) {
+    console.log(id);
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('todos').get(id).update(function(todo) {
+        return r.branch(
+            todo("status").eq("completed"),
+            { status: "pending" },
+            { status: "completed" }
+        );
+    }).run(connection, function(err, result) {
+        if(err) {
+            logerror("[ERROR][%s][updateTodo] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+            callback(err);
+        }
+
+        callback(null, result);
+    })
+})
+};
+
+module.exports.saveWikiPost = function(post, callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('wiki').insert(post).run(connection, function(err, result) {
+      if(err) {
+        logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(err);
+      }
+      else {
+        if(result.inserted === 1) {
+          var new_id = result.generated_keys[0];
+          callback(null, new_id);
         }
         else {
           callback(null, result);
