@@ -8,7 +8,8 @@ var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
     ChatConstants = require('../constants/ChatActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
     EventEmitter = require('events').EventEmitter,
-    assign = require('object-assign');
+    assign = require('object-assign'),
+    React = require('react/addons');
 
 
 
@@ -17,15 +18,6 @@ var CHANGE_EVENT = 'change';
 
 //Collection of messages (effectively, the actual store)
 var messages = [];
-
-
-var exampleMessage = {
-    id: 1,
-    author: "Professer Mgonigololol",
-    body: "Five points to my ASS!!!"
-};
-
-messages.push(exampleMessage);
 
 //Adds a message to the store
 function addMessage(message) {
@@ -69,6 +61,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
         return messages;
     }
 });
+
 
 MessageStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {

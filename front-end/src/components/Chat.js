@@ -2,10 +2,7 @@
 
 var React = require('react/addons'),
     MessageActions = require('actions/messageAction'),
-    MessageStore = require('stores/ChatMessageStore'),
-    ThemeManager = require('material-ui/lib/styles/theme-manager')(),
-    Colors = require('material-ui/lib/styles/colors'),
-    TextField = require('material-ui').TextField;
+    MessageStore = require('stores/ChatMessageStore');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
