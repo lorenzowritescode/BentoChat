@@ -18,25 +18,17 @@ function trim (text) {
     }
 }
 
-var PostListBody = React.createClass({
-    render : function () {
-        return (
-            <div ref="wiki-list" className="body" dangerouslySetInnerHTML={{__html: this.props.body}}>
-            </div>
-        );
-    }
-});
-
 var PostListItem = React.createClass({
 
     render: function () {
         var post = this.props.post;
         var body = Marked(trim(post.body));
         return (
-            <div>
-                <h3 className="title">{post.title}</h3>
-                <p> written by {post.author} at {post.timestamp}</p>
-                <PostListBody body={body} />
+            <div className="wiki-item">
+                <div className="title">{post.title}</div>
+                <div className="info" > written by {post.author} at {post.timestamp}</div>
+                <div className="body" dangerouslySetInnerHTML={{__html: body}}>
+                </div>
             </div>);
     }
 });
@@ -59,16 +51,17 @@ var WikiViewer = React.createClass({
     render: function () {
         var posts = this.state.posts.map(
             (post) => {
-            return (<PostListItem
-                key={post.id}
-                post={post}
-                />)
+                return (
+                    <PostListItem
+                        key={post.id}
+                        post={post}
+                    />);
             }
         );
 
         return (
             <div className="postList">
-            {posts}
+                {posts}
             </div>
         );
     },
