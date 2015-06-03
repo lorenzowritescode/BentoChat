@@ -31,9 +31,11 @@ var Todo = React.createClass({
                         {this.props.todo.text}
                     </div>
                     <div className="todo-assignee">
+                        <span className="glyphicon glyphicon-user icon"></span>
                         {this.props.todo.author}
                     </div>
                 </div>
+
                 <div className="complete-button">
                     <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
                         <span className="glyphicon glyphicon-ok todo-tick"></span>

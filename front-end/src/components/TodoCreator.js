@@ -90,9 +90,11 @@ var TodoForm =  React.createClass({
                 </div>
                 <div className="btn-drawer btn-group btn-group-justified">
                     <Link to="todo">
-                        <button className="btn btn-warn">Cancel</button>
+                        <button className="btn btn-warning">
+                        <span className="glyphicon glyphicon-remove"></span>
+                            </button>
                     </Link>
-                    <button onClick={this._onSubmit} className="btn btn-success">
+                    <button onClick={this._onSubmit} className="btn btn-success btn-block">
                         <span className="glyphicon glyphicon-ok"></span>
                     </button>
                 </div>
