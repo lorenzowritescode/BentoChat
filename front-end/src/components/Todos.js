@@ -10,12 +10,6 @@ var Link = require('react-router').Link;
 
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
-function getStateFromStores() {
-    return {
-        todos: TodoStore.getAllTodos()
-    };
-}
-
 var Todo = React.createClass({
 
     _onSubmit: function(e) {
@@ -82,6 +76,13 @@ var TodoBar = React.createClass({
 }
 });
 
+function getStateFromStores() {
+    return {
+        completed: TodoStore.getCompleted(),
+        pending: TodoStore.getPending()
+    };
+}
+
 var Todos = React.createClass({
 
     getInitialState: function() {
@@ -98,17 +99,11 @@ var Todos = React.createClass({
     },
 
     _onChange: function() {
-        this.setState(getStateFromStores());
+        var state = getStateFromStores();
+        this.setState(state);
     },
 
     render: function() {
-        var completed = this.state.todos.filter(function (todo) {
-            return todo.status === "completed";
-        });
-        var not_completed = this.state.todos.filter(function (todo) {
-            return todo.status === "pending";
-        });
-
         return (
             <div className="todo-body">
                 <div className="test">
@@ -118,13 +113,13 @@ var Todos = React.createClass({
                             <div className="title" align="center">
                                 Todos:
                             </div>
-                            <TodoList list={not_completed} className="todo-list"/>
+                            <TodoList list={this.state.pending} className="todo-list"/>
                         </div>
                         <div className="completed-list">
                             <div className="title">
                                 Completed:
                             </div>
-                            <TodoList list={completed} className="completed-list"/>
+                            <TodoList list={this.state.completed} className="completed-list"/>
                         </div>
                     </div>
                 </div>

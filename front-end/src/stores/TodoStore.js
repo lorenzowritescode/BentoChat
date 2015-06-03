@@ -10,7 +10,9 @@ var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
     assign = require('object-assign');
 
 var ActionTypes = TodoConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
+const CHANGE_EVENT = 'change',
+    PENDING_TODO = 'pending',
+    COMPLETED_TODO = 'completed';
 
 var todos = [];
 
@@ -19,15 +21,14 @@ function addTodo(todo) {
 }
 
 function toggleTodo(id) {
-    for (var tod in todos) {
-        if (tod.id === id) {
-            if (tod.status === "pending") {
-                tod.status = "complete";
-            } else if (tod.status === "completed") {
-                tod.status = "pending";
-            }
+    todos.forEach(function (todo) {
+        if (todo.id === id) {
+            if (todo.status === PENDING_TODO)
+                todo.status = COMPLETED_TODO;
+            else if (todo.status === COMPLETED_TODO)
+                todo.status = PENDING_TODO;
         }
-    }
+    });
 }
 
 var TodoStore = assign({}, EventEmitter.prototype, {
@@ -44,10 +45,17 @@ var TodoStore = assign({}, EventEmitter.prototype, {
        this.removeListener(CHANGE_EVENT, callback);
    },
 
-   getAllTodos: function() {
-       return todos;
+   getCompleted: function () {
+       return todos.filter(function (todo) {
+           return todo.status === 'completed';
+       });
    },
 
+    getPending: function () {
+        return todos.filter(function (todo) {
+            return todo.status === 'pending';
+        });
+    }
 });
 
 TodoStore.dispatchToken = AppDispatcher.register(function(action) {
