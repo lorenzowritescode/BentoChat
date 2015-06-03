@@ -19,7 +19,6 @@ function trim (text) {
 }
 
 var PostListItem = React.createClass({
-
     render: function () {
         var post = this.props.post;
         var body = Marked(trim(post.body));
