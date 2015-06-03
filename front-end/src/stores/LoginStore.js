@@ -1,4 +1,4 @@
-import {LOGIN_USER, LOGOUT_USER} from '../constants/LoginConstants';
+import {LOGIN_USER, LOGOUT_USER} from '../constants/APIConstants';
 import BaseStore from './BaseStore';
 import jwt_decode from 'jwt-decode';
 
@@ -7,7 +7,7 @@ class LoginStore extends BaseStore {
 
   constructor() {
     super();
-    this.subscribe(() => this._registerToActions.bind(this))
+    this.subscribe(() => this._registerToActions.bind(this));
     this._user = null;
     this._jwt = null;
   }
@@ -25,7 +25,7 @@ class LoginStore extends BaseStore {
         break;
       default:
         break;
-    };
+    }
   }
 
   get user() {

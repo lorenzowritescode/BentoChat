@@ -16,11 +16,14 @@ var Todos = require('./Todos');
 var TodoCreator = require('./TodoCreator');
 var WikiViewer = require('./WikiViewer');
 var Login = require('./Login');
+var AuthComp = require('./AuthenticatedComponent');
+
+var AuthChat = new AuthComp(Chat);
 
 var Routes = (
     <Route path="/" handler={App} name="app">
         <Route path="login" name="login" handler={Login} />
-        <Route path="chat" name="chat" handler={Chat} />
+        <Route path="chat" name="chat" handler={AuthChat} />
         <Route path="wiki" name="wiki" handler={Wiki}>
             <Route path="new" name="wiki-new" handler={WikiNew} >
                 <Route path="preview" name="wiki-preview" handler={WikiPreview} />
@@ -40,6 +43,6 @@ var Routes = (
 
 
 var content = document.getElementById('content');
-Router.run(Routes, Router.HashLocation, function (Root, state) {
+Router.run(Routes, Router.HistoryLocation, function (Root, state) {
     React.render(<Root />, content);
 });

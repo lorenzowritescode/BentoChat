@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import LoginStore from '../stores/LoginStore';
 
@@ -11,7 +13,7 @@ export default (ComposedComponent) => {
     }
 
     constructor () {
-      super()
+      super();
       this.state = this._getLoginState();
     }
 
@@ -45,5 +47,5 @@ export default (ComposedComponent) => {
         userLoggedIn={this.state.userLoggedIn} />
       );
     }
-  }
+  };
 };
