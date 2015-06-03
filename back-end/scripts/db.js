@@ -201,7 +201,9 @@ module.exports.getTodos = function (callback) {
   });
 };
 
-module.exports.getWikiPosts = function (callback) {
+module.exports.getWikiPosts = getWikiPosts;
+
+function getWikiPosts (callback) {
   onConnect(function (err, connection) {
     r.db(dbConfig['db']).table('wiki').run(connection, function (err, cursor) {
       if(err) {
@@ -225,7 +227,31 @@ module.exports.getWikiPosts = function (callback) {
   });
 };
 
+module.exports.sanitizeWiki = function sanitizeWiki() {
+  var posts = getWikiPosts(function (err, posts) {
+    posts.forEach(function (post) {
+      var timestamp = post.timeStamp;
+      if (typeof timestamp !== 'string')
+        return;
 
+      post.timestamp = timestamp;
+      delete post.timeStamp
+      
+      onConnect( function (err, conn) {
+        var table = r.db(dbConfig['db']).table('wiki');
+        table.get(post.id).replace(r.row.without('timeStamp'))
+          .run(conn, function (err, res) {
+              console.log(err, res);
+          })
+
+        table.get(post.id).update({ 'timestamp': timestamp })
+          .run(conn, function (err, res) {
+            console.log(res);
+          })
+      })
+    })
+  })
+}
 /**
  * To save a new chat message using we are using 
  * [`insert`](http://www.rethinkdb.com/api/javascript/insert/). 
@@ -312,7 +338,9 @@ module.exports.toggleTodo = function(id, callback) {
 })
 };
 
-module.exports.saveWikiPost = function(post, callback) {
+module.exports.saveWikiPost = saveWikiPost;
+
+function saveWikiPost (post, callback) {
   onConnect(function (err, connection) {
     r.db(dbConfig['db']).table('wiki').insert(post).run(connection, function(err, result) {
       if(err) {

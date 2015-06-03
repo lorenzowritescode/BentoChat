@@ -114,5 +114,10 @@ app.post('/wiki', function (req, res) {
     })
 })
 
+app.get('/admin', function(req, res) {
+  db.sanitizeWiki();
+  res.end();
+});
+
 server.listen(port);  
 console.log('listening on port ' + port);  
