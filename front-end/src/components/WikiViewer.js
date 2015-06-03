@@ -1,80 +1,79 @@
 'use strict';
 
 var React = require('react/addons'),
-    WikiActions = require('../actions/WikiAction'),
+    WikiAction = require('../actions/WikiAction'),
     PostStore = require('../stores/WikiPostStore'),
     Marked = require('marked');
 
 
 require('styles/WikiViewer.sass');
 
-function getStateFromStores() {
-    return {
-        posts: PostStore.getAll()
-    };
+function trim (text) {
+    if (text.length > 200) {
+        return (
+        text.substring(0, 200) + '...'
+        );
+    } else {
+        return(text);
+    }
 }
 
 var PostListItem = React.createClass({
 
     render: function () {
-        var body = Marked(this._trim(this.props.body));
-        return (<div>
-            <h3 className="title">{this.props.title}</h3>
-            <sub> written by {this.props.author} at {this.props.timeStamp}</sub>
+        var post = this.props.post;
+        var body = Marked(trim(post.body));
+        return (
+            <div className="wiki-item">
+                <div className="title">{post.title}</div>
+                <div className="info" > written by {post.author} at {post.timestamp}</div>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);
-    },
-
-    _trim: function (text) {
-        if (text.length > 200) {
-            return (
-                text.substring(0, 200) + '...'
-            );
-        } else {
-            return(text);
-        }
     }
 });
 
-function getPost(post) {
-    return (
-        <PostListItem
-            key={post.id}
-            title={post.title}
-            author={post.author}
-            body={post.body}
-            timeStamp={post.timeStamp}
-            />
-    );
-}
-
 var WikiViewer = React.createClass({
 
-  getInitialState: function() {
-      return getStateFromStores();
-  },
+    getInitialState: function() {
+        return this.getState();
+    },
 
     componentDidMount: function() {
         PostStore.addChangeListener(this._onChange);
-        WikiActions.fetchPosts();
+        WikiAction.fetchPosts();
     },
 
     componentWillUnmount: function() {
         PostStore.removeChangeListener(this._onChange);
     },
 
-  render: function () {
-      var PostList = this.state.posts.map(getPost);
-    return (
-        <div className="postList">
-            {PostList}
-        </div>
-      );
-  },
+    render: function () {
+        var posts = this.state.posts.map(
+            (post) => {
+                return (
+                    <PostListItem
+                        key={post.id}
+                        post={post}
+                    />);
+            }
+        );
+
+        return (
+            <div className="postList">
+                {posts}
+            </div>
+        );
+    },
+
+    getState: function () {
+      return {
+          posts: PostStore.getAll()
+      };
+    },
 
     _onChange: function() {
-        this.setState(getStateFromStores());
+        this.setState(this.getState());
     }
 });
 
