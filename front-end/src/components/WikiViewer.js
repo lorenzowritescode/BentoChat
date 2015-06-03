@@ -1,18 +1,12 @@
 'use strict';
 
 var React = require('react/addons'),
-    WikiActions = require('../actions/WikiAction'),
+    WikiAction = require('../actions/WikiAction'),
     PostStore = require('../stores/WikiPostStore'),
     Marked = require('marked');
 
 
 require('styles/WikiViewer.sass');
-
-function getStateFromStores() {
-    return {
-        posts: PostStore.getAll()
-    };
-}
 
 function trim (text) {
     if (text.length > 200) {
@@ -41,30 +35,21 @@ var PostListItem = React.createClass({
         return (
             <div>
                 <h3 className="title">{post.title}</h3>
-                <sub> written by {post.author} at {post.timeStamp}</sub>
+                <p> written by {post.author} at {post.timestamp}</p>
                 <PostListBody body={body} />
             </div>);
     }
 });
 
-function getPost(post) {
-    return (
-        <PostListItem
-            key={post.id}
-            post={post}
-        />
-    );
-}
-
 var WikiViewer = React.createClass({
 
     getInitialState: function() {
-        return getStateFromStores();
+        return this.getState();
     },
 
     componentDidMount: function() {
         PostStore.addChangeListener(this._onChange);
-        WikiActions.fetchPosts();
+        WikiAction.fetchPosts();
     },
 
     componentWillUnmount: function() {
@@ -72,16 +57,30 @@ var WikiViewer = React.createClass({
     },
 
     render: function () {
-        var PostList = this.state.posts.map(getPost);
+        var posts = this.state.posts.map(
+            (post) => {
+            return (<PostListItem
+                key={post.id}
+                post={post}
+                />)
+            }
+        );
+
         return (
             <div className="postList">
-            {PostList}
+            {posts}
             </div>
         );
     },
 
+    getState: function () {
+      return {
+          posts: PostStore.getAll()
+      };
+    },
+
     _onChange: function() {
-        this.setState(getStateFromStores());
+        this.setState(this.getState());
     }
 });
 

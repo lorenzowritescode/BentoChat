@@ -11,7 +11,7 @@ function Post(title, text, id) {
         title: title,
         body: text,
         author: "Madame Hooch",
-        timeStamp: Date.now(),
+        timestamp: Date.now(),
         id: id
     };
 }
@@ -22,7 +22,7 @@ function markdownPost(post) {
     return (
         <div className="wiki-post">
             <h2>{title}</h2>
-            <sub> written by {post.author} at {post.timeStamp}</sub>
+            <sub> written by {post.author} at {post.timestamp}</sub>
             <p dangerouslySetInnerHTML={{__html: body}}></p>
         </div>
     );
