@@ -14,26 +14,36 @@ function getStateFromStores() {
     };
 }
 
+function trim (text) {
+    if (text.length > 200) {
+        return (
+        text.substring(0, 200) + '...'
+        );
+    } else {
+        return(text);
+    }
+}
+
+var PostListBody = React.createClass({
+    render : function () {
+        return (
+            <div ref="wiki-list" className="body" dangerouslySetInnerHTML={{__html: this.props.body}}>
+            </div>
+        );
+    }
+});
+
 var PostListItem = React.createClass({
 
     render: function () {
-        var body = Marked(this._trim(this.props.body));
-        return (<div>
-            <h3 className="title">{this.props.title}</h3>
-            <sub> written by {this.props.author} at {this.props.timeStamp}</sub>
-                <div className="body" dangerouslySetInnerHTML={{__html: body}}>
-                </div>
+        var post = this.props.post;
+        var body = Marked(trim(post.body));
+        return (
+            <div>
+                <h3 className="title">{post.title}</h3>
+                <sub> written by {post.author} at {post.timeStamp}</sub>
+                <PostListBody body={body} />
             </div>);
-    },
-
-    _trim: function (text) {
-        if (text.length > 200) {
-            return (
-                text.substring(0, 200) + '...'
-            );
-        } else {
-            return(text);
-        }
     }
 });
 
@@ -41,19 +51,16 @@ function getPost(post) {
     return (
         <PostListItem
             key={post.id}
-            title={post.title}
-            author={post.author}
-            body={post.body}
-            timeStamp={post.timeStamp}
-            />
+            post={post}
+        />
     );
 }
 
 var WikiViewer = React.createClass({
 
-  getInitialState: function() {
-      return getStateFromStores();
-  },
+    getInitialState: function() {
+        return getStateFromStores();
+    },
 
     componentDidMount: function() {
         PostStore.addChangeListener(this._onChange);
@@ -64,14 +71,14 @@ var WikiViewer = React.createClass({
         PostStore.removeChangeListener(this._onChange);
     },
 
-  render: function () {
-      var PostList = this.state.posts.map(getPost);
-    return (
-        <div className="postList">
+    render: function () {
+        var PostList = this.state.posts.map(getPost);
+        return (
+            <div className="postList">
             {PostList}
-        </div>
-      );
-  },
+            </div>
+        );
+    },
 
     _onChange: function() {
         this.setState(getStateFromStores());
