@@ -28,6 +28,7 @@ var Todo = React.createClass({
                         {this.props.todo.title}
                     </div>
                     <div className="todo-desc">
+                        <span className="glyphicon glyphicon-menu-right icon"></span>
                         {this.props.todo.text}
                     </div>
                     <div className="todo-assignee">
