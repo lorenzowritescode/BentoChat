@@ -17,12 +17,14 @@ var TodoCreator = require('./TodoCreator');
 var WikiViewer = require('./WikiViewer');
 var Login = require('./Login');
 var AuthComp = require('./AuthenticatedComponent');
+var Register = require('./Register');
 
 var AuthChat = new AuthComp(Chat);
 
 var Routes = (
     <Route path="/" handler={App} name="app">
         <Route path="login" name="login" handler={Login} />
+        <Route path="register" name="register" handler={Register} />
         <Route path="chat" name="chat" handler={AuthChat} />
         <Route path="wiki" name="wiki" handler={Wiki}>
             <Route path="new" name="wiki-new" handler={WikiNew} >

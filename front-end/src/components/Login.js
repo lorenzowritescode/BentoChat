@@ -6,6 +6,7 @@ var React = require('react/addons'),
 
 
 require('styles/Login.sass');
+var Link = require('react-router').Link;
 
 export default class Login extends React.Component {
 
@@ -30,10 +31,13 @@ export default class Login extends React.Component {
             <div className="login-panel">
                 <form role="form">
                     <div className="form-group">
-                        <input type="text" valueLink={this.linkState('user')}placeholder="Username" />
+                        <input type="text" valueLink={this.linkState('user')}placeholder="Email" />
                         <input type="password" valueLink={this.linkState('password')} placeholder="Password" />
                     </div>
                     <button type="submit" className="btn btn-block btn-primary" onClick={this.login.bind(this)}>Submit</button>
+                    <Link to="register" className="btn btn-block btn-default">
+                        Register
+                    </Link>
                 </form>
             </div>
         );
