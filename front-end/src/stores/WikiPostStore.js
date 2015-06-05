@@ -33,12 +33,11 @@ var PostStore = assign({}, EventEmitter.prototype, {
     },
 
     get: function(id) {
-        for (var pst in posts) {
-            if (pst.id === id) {
-                return pst;
+        for (var i in posts) {
+            if (posts[i].id === id) {
+                return posts[i];
             }
         }
-
         return null;
     },
 

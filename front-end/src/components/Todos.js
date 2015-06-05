@@ -21,11 +21,6 @@ var Todo = React.createClass({
     },
 
     render: function() {
-        var desc = this.props.todo.text;
-        if (!desc) {
-            desc = " ";
-        }
-
         return (
             <div className="todo">
                 <div className="todo-content">
@@ -33,12 +28,15 @@ var Todo = React.createClass({
                         {this.props.todo.title}
                     </div>
                     <div className="todo-desc">
-                        {desc}
+                        <span className="glyphicon glyphicon-menu-right icon"></span>
+                        {this.props.todo.text}
                     </div>
                     <div className="todo-assignee">
+                        <span className="glyphicon glyphicon-user icon"></span>
                         {this.props.todo.author}
                     </div>
                 </div>
+
                 <div className="complete-button">
                     <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
                         <span className="glyphicon glyphicon-ok todo-tick"></span>
@@ -104,8 +102,7 @@ var Todos = React.createClass({
     },
 
     _onChange: function() {
-        var state = getStateFromStores();
-        this.setState(state);
+        this.setState(getStateFromStores());
     },
 
     render: function() {
