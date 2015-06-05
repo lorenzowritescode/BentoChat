@@ -6,6 +6,7 @@ var React = require('react/addons'),
 
 
 require('styles/Login.sass');
+var Link = require('react-router').Link;
 
 class ErrorForm extends React.Component {
     render () {
@@ -57,6 +58,9 @@ export default class Login extends React.Component {
                         <input type="password" valueLink={this.linkState('password')} placeholder="Password" />
                     </div>
                     <button type="submit" className="btn btn-block btn-primary" onClick={this.login.bind(this)}>Submit</button>
+                    <Link to="register" className="btn btn-block btn-default">
+                        Register
+                    </Link>
                 </form>
                 <ErrorForm msg={this.state.errorMessage} />
             </div>

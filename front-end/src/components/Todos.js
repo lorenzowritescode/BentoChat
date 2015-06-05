@@ -21,6 +21,11 @@ var Todo = React.createClass({
     },
 
     render: function() {
+        var desc = this.props.todo.text;
+        if (!desc) {
+            desc = " ";
+        }
+
         return (
             <div className="todo">
                 <div className="todo-content">
@@ -28,7 +33,7 @@ var Todo = React.createClass({
                         {this.props.todo.title}
                     </div>
                     <div className="todo-desc">
-                        {this.props.todo.text}
+                        {desc}
                     </div>
                     <div className="todo-assignee">
                         {this.props.todo.author}
