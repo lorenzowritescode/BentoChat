@@ -18,10 +18,11 @@ var WikiViewer = require('./WikiViewer');
 var Login = require('./Login');
 var AuthComp = require('./AuthenticatedComponent');
 var Register = require('./Register');
+import RouterContainer from '../utils/RouterContainer';
 
 var AuthChat = new AuthComp(Chat);
 
-var Routes = (
+var routes = (
     <Route path="/" handler={App} name="app">
         <Route path="login" name="login" handler={Login} />
         <Route path="register" name="register" handler={Register} />
@@ -43,8 +44,10 @@ var Routes = (
     </Route>
 );
 
+var router = Router.create({routes});
+RouterContainer.set(router);
 
 var content = document.getElementById('content');
-Router.run(Routes, Router.HistoryLocation, function (Root, state) {
+router.run(function (Root) {
     React.render(<Root />, content);
 });

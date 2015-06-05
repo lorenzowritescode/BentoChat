@@ -31,11 +31,11 @@ app.configure( function () {
 app.post('/register', function (req, res) {
     var account = req.body;
 
-    auth.createAccount(account, function (err, res) {
+    auth.createAccount(account, function (err, account) {
         if(err)
             res.status(err.status).end(err.userMessage);
-
-        res.send(res);
+        else
+            res.send(account);
     })
 })
 
@@ -44,18 +44,18 @@ app.post('/login', function (req, res) {
         email = body.email,
         password = body.password;
 
-    auth.login(email, password, function (err, res) {
+    auth.login(email, password, function (err, result) {
       if(err)
         res.status(err.status).end(err.userMessage);
 
-      res.send(res);
+      res.send(result);
     })
 })
 
 app.get('/chat', function (req, res) {
-    db.findMessages(100, function (err, res) {
+    db.findMessages(100, function (err, result) {
         if (!err)
-            res.status(200).send(res).end();
+            res.status(200).send(result).end();
         else
             res.status(500).end('Internal Database Error');
     })

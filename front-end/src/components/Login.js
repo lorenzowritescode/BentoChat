@@ -11,17 +11,29 @@ var Link = require('react-router').Link;
 class ErrorForm extends React.Component {
     render () {
         var msg = this.props.msg;
-        if (!msg)
+        if (!msg || typeof msg !== 'string' || msg.trim() === '')
             return <div />;
 
         return (
-            <div className="panel panel-danger">
-                <div className="panel-body">
-                    Error Logging In to Bento
-                </div>
-                <div className="panel-footer">
-                    {msg}
-                </div>
+            <div className="alert alert-dismissible alert-danger error-form">
+                <button type="button" className="close" data-dismiss="alert">×</button>
+                <h4>Oh snap! {this.props.title}</h4>
+                <p>{msg}</p>
+            </div>
+        );
+    }
+}
+
+class SuccessForm extends React.Component {
+    render () {
+        var msg = this.props.msg;
+        if (!msg || typeof msg !== 'string' || msg.trim() === '')
+            return <div />;
+
+        return (
+            <div className="alert alert-success success-form">
+                <h4>{this.props.title || 'Success!'}</h4>
+                <p>{msg}</p>
             </div>
         );
     }
@@ -29,7 +41,7 @@ class ErrorForm extends React.Component {
 
 export default class Login extends React.Component {
 
-    constructor() {
+    constructor () {
         this.state = {
             user: '',
             password: '',
@@ -50,11 +62,14 @@ export default class Login extends React.Component {
     }
 
     render() {
+        var query = this.props.query;
+
         return (
             <div className="login-panel">
+                <SuccessForm title={query.successTitle} msg={query.successPrompt} />
                 <form role="form">
                     <div className="form-group">
-                        <input type="text" valueLink={this.linkState('user')}placeholder="Email" />
+                        <input type="text" valueLink={this.linkState('user')} placeholder="Email" />
                         <input type="password" valueLink={this.linkState('password')} placeholder="Password" />
                     </div>
                     <button type="submit" className="btn btn-block btn-primary" onClick={this.login.bind(this)}>Submit</button>
@@ -62,11 +77,13 @@ export default class Login extends React.Component {
                         Register
                     </Link>
                 </form>
-                <ErrorForm msg={this.state.errorMessage} />
+                <ErrorForm title='Error logging in to Bento' msg={this.state.errorMessage} />
             </div>
         );
     }
 }
+
+Login.ErrorForm = ErrorForm;
 
 // We’re using the mixin `LinkStateMixin` to have two-way databinding between our component and the HTML.
 reactMixin(Login.prototype, React.addons.LinkedStateMixin);

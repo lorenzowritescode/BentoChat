@@ -2,7 +2,7 @@
 
 import request from 'reqwest';
 import when from 'when';
-import {LOGIN_URL, SIGNUP_URL} from '../constants/APIConstants';
+import {LOGIN_URL, REGISTER_URL} from '../constants/APIConstants';
 import LoginActions from '../actions/LoginActions';
 
 class AuthService {
@@ -23,16 +23,24 @@ class AuthService {
         LoginActions.logoutUser();
     }
 
-    signup(username, password, extra) {
-        return this.handleAuth(when(request({
-            url: SIGNUP_URL,
+    signup(details) {
+        return when(request({
+            url: REGISTER_URL,
             method: 'POST',
             crossOrigin: true,
             type: 'json',
-            data: {
-                username, password, extra
-            }
-        })));
+            data: details
+        }));
+    }
+
+    formatDetails (givenName, surname, username, email, password) {
+       if (givenName && surname && username && email && password) {
+           return {
+               givenName, surname, username, email, password
+           };
+       } else {
+           throw new Error('Some fields are blank!');
+       }
     }
 
     handleAuth(loginPromise) {
