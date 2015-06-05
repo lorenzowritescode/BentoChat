@@ -21,22 +21,6 @@ var Register = React.createClass({
         );
     },
 
-    _onUsrChange: function (event, value) {
-        this.setState({username: event.target.value});
-    },
-
-    _onEmailChange: function (event, value) {
-        this.setState({email: event.target.value});
-    },
-
-    _onPswd1Change: function(event, value) {
-        this.setState({password1: event.target.value});
-    },
-
-    _onPswd2Change: function(event, value) {
-        this.setState({password2: event.target.value});
-    },
-
     _onSubmit: function(e) {
         e.preventDefault();
         var username = this.state.username.trim();
@@ -44,8 +28,8 @@ var Register = React.createClass({
         var password = this.state.password1.trim();
         if (username && email && password === this.state.password2) {
             //create these
-            var user = new userUtils.User(user);
-            UserActions.createUser(user);
+            //var user = new userUtils.User(user);
+            //UserActions.createUser(user);
 
             this.setState({text: ''});
             this.setState({author: ''});
@@ -56,16 +40,13 @@ var Register = React.createClass({
     },
 
     render: function () {
-
-
         return (
             <div className="register-body">
                 <div className="register-content">
                     <div className="username">
                         <input type="text"
                                className="form-control"
-                               value={this.state.username}
-                               onChange={this._onUsrChange}
+                               valueLink={this.linkState('username')}
                                placeholder="Username"
                                aria-describedby="basic-addon1">
                         </input>
@@ -73,8 +54,7 @@ var Register = React.createClass({
                     <div className="email">
                         <input type="text"
                                className="form-control"
-                               value={this.state.email}
-                               onChange={this._onEmailChange}
+                               valueLink={this.linkState('email')}
                                placeholder="Email"
                                aria-describedby="basic-addon1">
                         </input>
@@ -82,16 +62,14 @@ var Register = React.createClass({
                     <div className="password1">
                         <input type="password"
                                className="form-control"
-                               value={this.state.password1}
-                               onChange={this._onPswd1Change}
+                               valueLink={this.linkState('password1')}
                                placeholder="Password">
                         </input>
                     </div>
                     <div className="password2">
                         <input type="password"
                                className="form-control"
-                               value={this.state.password2}
-                               onChange={this._onPswd2Change}
+                               valueLink={this.linkState('password2')}
                                placeholder="Repeat Password"
                                aria-describedby="basic-addon1">
                         </input>
