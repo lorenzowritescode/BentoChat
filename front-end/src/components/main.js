@@ -8,13 +8,14 @@ var NotFoundRoute = Router.NotFoundRoute;
 
 var App = require('./App');
 var Chat = require('./Chat');
-var Wiki = require('./Wiki');
+var Wiki = require('./Wiki').Wiki;
 var WikiNew = require('./WikiEditor').WikiNew;
 var WikiPreview = require('./WikiEditor').WikiPreview;
 var WikiEdit = require('./WikiEditor').WikiEdit;
 var Todos = require('./Todos');
 var TodoCreator = require('./TodoCreator');
 var WikiViewer = require('./WikiViewer');
+var WikiList = require('./Wiki').WikiListView;
 
 var Routes = (
     <Route path="/" handler={App} name="app">
@@ -25,8 +26,8 @@ var Routes = (
                 <Route path="edit" name="wiki-edit" handler={WikiEdit} />
                 <DefaultRoute handler={WikiEdit} />
             </Route>
-            <Route path="view/:wiki-id" name="wiki-view" handler={WikiViewer} />
-            <DefaultRoute handler={WikiViewer} />
+            <Route path="view/:wikiid" name="wiki-view" handler={WikiViewer} />
+            <DefaultRoute handler={WikiList} />
         </Route>
         <Route path="/todo" name="todo" handler={Todos}>
             <Route path="new" name="todo-new" handler={TodoCreator} />
