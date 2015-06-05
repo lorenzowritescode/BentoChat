@@ -31,10 +31,8 @@ function createAccount(account, callback) {
     if (bentoApp === null)
         throw new Error('the bentoApp was not found');
 
-    bentoApp.createAccount(account, function(err, account) {
-     if (err) throw err;
-
-     console.log(err);
+    bentoApp.createAccount(account, function (err, account) {
+     callback(err, account);
  });
 }
 
