@@ -28,35 +28,34 @@ app.configure( function () {
     db.setup();
 });
 
-app.get('/register', function (req, res) {
-    var account = {
-        givenName: 'Joe',
-        surname: 'Stormtrooper',
-        username: 'tk421',
-        email: 'tk421@stormpath.com',
-        password: 'Changeme1',
-        customData: {
-            favoriteColor: 'white',
-        }
-    };
+app.post('/register', function (req, res) {
+    var account = req.body;
 
     auth.createAccount(account, function (err, res) {
-        console.log('YAYYY');
+        if(err)
+            res.status(err.status).end(err.userMessage);
+
+        res.send(res);
     })
 })
 
-app.get('/login', function (req, res) {
-    auth.login('tk421', 'Changeme1', function (err, result) {
-        if (err) throw err;
+app.post('/login', function (req, res) {
+    var body = req.body,
+        email = body.email,
+        password = body.password;
 
-        res.send(result.account)
+    auth.login(email, password, function (err, res) {
+      if(err)
+        res.status(err.status).end(err.userMessage);
+
+      res.send(res);
     })
 })
 
 app.get('/chat', function (req, res) {
-    db.findMessages(100, function (err, result) {
+    db.findMessages(100, function (err, res) {
         if (!err)
-            res.status(200).send(result).end();
+            res.status(200).send(res).end();
         else
             res.status(500).end('Internal Database Error');
     })

@@ -1,6 +1,6 @@
 'use strict';
-import AppDispatcher from '../dispatcher/WebappAppDispatcher';
-import {LOGIN_USER, LOGOUT_USER} from '../constants/APIConstants.js';
+import Dispatcher from '../dispatcher/WebappAppDispatcher';
+import {LOGIN_USER, LOGOUT_USER, LOGIN_ERROR} from '../constants/AuthConstants.js';
 import RouterContainer from '../utils/RouterContainer';
 
 export default {
@@ -14,7 +14,7 @@ export default {
             localStorage.setItem('jwt', jwt);
         }
 
-        AppDispatcher.dispatch({
+        Dispatcher.dispatch({
             actionType: LOGIN_USER,
             jwt: jwt
         });
@@ -22,7 +22,7 @@ export default {
     logoutUser: () => {
         RouterContainer.get().transitionTo('/login');
         localStorage.removeItem('jwt');
-        AppDispatcher.dispatch({
+        Dispatcher.dispatch({
             actionType: LOGOUT_USER
         });
     }
