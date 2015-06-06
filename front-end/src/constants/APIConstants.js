@@ -3,11 +3,13 @@ var host = 'localhost',
     url = 'http://'+ host + ':' + port + '/',
     chatUrl = url + 'chat',
     todoUrl = url + 'todo',
-    wikiUrl = url + 'wiki';
+    wikiUrl = url + 'wiki',
+    wikiCommentsUrl = url +'wikicomments';
 
 module.exports = {
     url: url,
     chatUrl: chatUrl,
     todoUrl: todoUrl,
-    wikiUrl: wikiUrl
+    wikiUrl: wikiUrl,
+    wikiCommentsUrl: wikiCommentsUrl
 };

@@ -8,6 +8,8 @@ module.exports = {
     ActionTypes: keyMirror ({
         CREATE_POST: null,
         DELETE_POST: null,
-        FETCH_POSTS: null
+        FETCH_POSTS: null,
+        CREATE_COMMENT: null,
+        FETCH_COMMENTS: null
     })
 };

@@ -114,5 +114,26 @@ app.post('/wiki', function (req, res) {
     })
 })
 
+app.post('/wikicomments', function (req, res) {
+    var comment = req.body;
+    console.log(comment);
+
+    db.saveWikiComment (comment, function(err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
+
+app.get('/wikicomments', function (req, res) {
+    db.getWikiComments(function(err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
+
 server.listen(port);  
 console.log('listening on port ' + port);  

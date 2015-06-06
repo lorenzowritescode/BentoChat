@@ -16,7 +16,8 @@ var dbConfig = {
     'cache': 'cid',
     'users': 'id',
     'todos': 'id',
-    'wiki': 'id'
+    'wiki': 'id',
+    'wikicoms': 'id'
   }
 };
 
@@ -225,6 +226,29 @@ module.exports.getWikiPosts = function (callback) {
   });
 };
 
+module.exports.getWikiComments = function (callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('wikicoms').run(connection, function (err, cursor) {
+      if(err) {
+        logerror("[ERROR][%s][findMessages] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(null, []);
+        connection.close();
+      }
+      else {
+        cursor.toArray(function(err, results) {
+          if(err) {
+            logerror("[ERROR][%s][findMessages][toArray] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+            callback(null, []);
+          }
+          else {
+            callback(null, results);
+          }
+          connection.close();
+        });
+      }
+    });
+  });
+};
 
 /**
  * To save a new chat message using we are using 
@@ -315,6 +339,27 @@ module.exports.toggleTodo = function(id, callback) {
 module.exports.saveWikiPost = function(post, callback) {
   onConnect(function (err, connection) {
     r.db(dbConfig['db']).table('wiki').insert(post).run(connection, function(err, result) {
+      if(err) {
+        logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        callback(err);
+      }
+      else {
+        if(result.inserted === 1) {
+          var new_id = result.generated_keys[0];
+          callback(null, new_id);
+        }
+        else {
+          callback(null, result);
+        }
+      }
+      connection.close();
+    });
+  });
+};
+
+module.exports.saveWikiComment = function (post, callback) {
+  onConnect(function (err, connection) {
+    r.db(dbConfig['db']).table('wikicoms').insert(post).run(connection, function(err, result) {
       if(err) {
         logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
         callback(err);

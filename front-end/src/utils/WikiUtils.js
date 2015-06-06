@@ -27,8 +27,18 @@ function markdownPost(post) {
     );
 }
 
+function Comment(body, postid) {
+    return {
+        body: body,
+        author: "Dave",
+        postid: postid,
+        timestamp: Date.now()
+    };
+}
+
 
 module.exports = {
     Post: Post,
-    markdownPost: markdownPost
+    markdownPost: markdownPost,
+    Comment: Comment
 };
