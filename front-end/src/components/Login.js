@@ -6,6 +6,8 @@ var React = require('react/addons'),
 
 
 require('styles/Login.sass');
+var logo = require('../images/bento-logo.png');
+
 var Link = require('react-router').Link;
 
 class ErrorForm extends React.Component {
@@ -66,11 +68,12 @@ export default class Login extends React.Component {
 
         return (
             <div className="login-panel">
+                <img src={logo} className="bento-logo"/>
                 <SuccessForm title={query.successTitle} msg={query.successPrompt} />
                 <form role="form">
                     <div className="form-group">
-                        <input type="text" valueLink={this.linkState('user')} placeholder="Email" />
-                        <input type="password" valueLink={this.linkState('password')} placeholder="Password" />
+                        <input type="text" valueLink={this.linkState('user')} placeholder="Email" className="form-control"/>
+                        <input type="password" valueLink={this.linkState('password')} placeholder="Password" className="form-control"/>
                     </div>
                     <button type="submit" className="btn btn-block btn-primary" onClick={this.login.bind(this)}>Submit</button>
                     <Link to="register" className="btn btn-block btn-default">

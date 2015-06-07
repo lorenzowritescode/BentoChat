@@ -11,6 +11,8 @@ var React = require('react/addons'),
 import RouterContainer from '../utils/RouterContainer';
 
 require('styles/Register.sass');
+require('styles/Login.sass');
+var logo = require('../images/bento-logo.png');
 var Link = require('react-router').Link;
 
 export default class Register extends React.Component {
@@ -81,23 +83,24 @@ export default class Register extends React.Component {
             pwd2 = getInputElem('password2', 'password', 'Repeat Password');
 
         return (
-            <div className="register-body">
-                <div className="register-content">
+            <div className="register-panel">
+                <img src={logo} className="bento-logo"/>
+                <form role="form">
                     {name}
                     {surname}
                     {username}
                     {email}
                     {pwd1}
                     {pwd2}
-                    <button type="submit" onClick={this._onSubmit.bind(this)}
-                            className="btn btn-block btn-primary">
-                        Register
-                    </button>
-                    <Link to="login" className="btn btn-block btn-default">
-                        Cancel
-                    </Link>
-                    <ErrorForm title='Error registering to Bento' msg={this.state.errorMessage} />
-                </div>
+                </form>
+                <button type="submit" onClick={this._onSubmit.bind(this)}
+                        className="btn btn-block btn-primary">
+                    Register
+                </button>
+                <Link to="login" className="btn btn-block btn-default">
+                    Cancel
+                </Link>
+                <ErrorForm title='Error registering to Bento' msg={this.state.errorMessage} />
             </div>
         );
     }
