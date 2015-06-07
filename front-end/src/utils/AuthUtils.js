@@ -46,6 +46,7 @@ class AuthService {
     handleAuth(loginPromise) {
         return loginPromise
             .then(function(response) {
+                console.log(response);
                 var jwt = response.id_token;
                 LoginActions.loginUser(jwt);
                 return true;

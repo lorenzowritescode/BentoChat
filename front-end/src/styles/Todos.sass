@@ -20,10 +20,14 @@
 
 .test
     width: 100%
-    padding: 5px 5px 5px 5px
-    .author-box
-        width: 150px
-        height: 35px
+    padding: 5px 5px 20px 5px
+    overflow-y: auto
+
+.todo-list
+    .archive-btn
+        display: none
+    button
+        height: 79px
 
 .todo-list, .completed-list
     padding: 5px
@@ -38,8 +42,15 @@
     .todo-btn
         border: 1px solid #4CAF50
         background-color: #4CAF50
+        height: 44px
+    .archive-btn
+        height: 35px
     .todo-tick
         color: white
+    .btn-block
+        margin-top: 0px
+
+
 
 
 .todo
@@ -54,6 +65,7 @@
     .todo-content
         width: 83%
         height: 100%
+        overflow-y: auto
         .todo-title
             font-size: large
             overflow-wrap: break-word
@@ -71,7 +83,7 @@
     .complete-button
         width: 17%
         height: inherit
-        button
+        .todo-button
             height: 79px
 .btn-drawer
     width: 100%
@@ -79,3 +91,15 @@
         width: 80%
     .btn-warning
         width: 20%
+
+.archived-list
+    width: 60%
+    margin-left: auto
+    margin-right: auto
+    .title
+        font-size: x-large
+        width: 60%
+        margin-left: auto
+        margin-right: auto
+    button
+        height: 79px

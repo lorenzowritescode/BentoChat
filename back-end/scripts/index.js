@@ -7,7 +7,7 @@ db = require('./db.js'),
 cors = require('cors'),
 bodyParser = require('body-parser'),
 io = require('./socket-config.js')(server),
-multer = require('multer'); 
+multer = require('multer');
 
 app.configure( function () {
     cors();
@@ -84,12 +84,23 @@ app.post('/todo', function (req, res) {
 
 app.put('/todo', function(req, res) {
   var id = req.body.id;
-  db.toggleTodo (id, function(err, result) {
-    if (!err)
-      res.status(200).send(result).end();
-  else
-      res.status(500).end('Internal Database Error');
-})
+  var type = req.body.type;
+  console.log(type);
+  if (type = "COMPLETE_TODO") {
+    db.archiveTodo (id, function(err, result) {
+      if (!err)
+        res.status(200).send(result).end();
+      else
+        res.status(500).end('Internal Database Error');
+    })
+  } else {
+    db.toggleTodo (id, function(err, result) {
+      if (!err)
+        res.status(200).send(result).end();
+      else
+        res.status(500).end('Internal Database Error');
+    })
+  }
 })
 
 app.get('/wiki', function (req, res) {

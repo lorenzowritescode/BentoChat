@@ -14,6 +14,7 @@ var WikiPreview = require('./WikiEditor').WikiPreview;
 var WikiEdit = require('./WikiEditor').WikiEdit;
 var Todos = require('./Todos');
 var TodoCreator = require('./TodoCreator');
+var TodoArchive = require('./TodoArchive');
 var WikiViewer = require('./WikiViewer');
 var WikiList = require('./Wiki').WikiListView;
 var Login = require('./Login');
@@ -40,6 +41,7 @@ var routes = (
         <Route path="/todo" name="todo" handler={Todos}>
             <Route path="new" name="todo-new" handler={TodoCreator} />
         </Route>
+        <Route path="archive" name="todo-archive" handler={TodoArchive} />
         <DefaultRoute handler={Chat} />
         <NotFoundRoute handler={App} />
     </Route>

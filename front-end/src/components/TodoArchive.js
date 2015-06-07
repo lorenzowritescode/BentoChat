@@ -1,3 +1,6 @@
+/**
+ * Created by sambudd on 07/06/2015.
+ */
 'use strict';
 
 var React = require('react/addons'),
@@ -10,19 +13,17 @@ var Link = require('react-router').Link;
 
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
-var Todo = React.createClass({
+function getStateFromStores() {
+    return {
+        archived: TodoStore.getArchived()
+    };
+}
 
-    _onSubmit: function(e) {
-        e.preventDefault();
-        var id = this.props.todo.id;
-        if (id) {
-            TodoActions.toggleTodo(id);
-        }
-    },
+var Todo = React.createClass({
 
     _onArchive: function(e) {
         console.log(this.props.todo.id);
-      e.preventDefault();
+        e.preventDefault();
         var id = this.props.todo.id;
         if (id) {
             TodoActions.archiveTodo(id);
@@ -47,11 +48,8 @@ var Todo = React.createClass({
                 </div>
 
                 <div className="complete-button">
-                    <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
-                        <span className="glyphicon glyphicon-ok todo-tick"></span>
-                    </button>
                     <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
-                        <span className="glyphicon glyphicon-trash"></span>
+                        Restore
                     </button>
                 </div>
             </div>
@@ -79,29 +77,7 @@ var TodoList = React.createClass({
     }
 });
 
-var TodoBar = React.createClass({
-    render: function () {
-        return (
-            <div>
-                <Link to="todo-new" className="btn btn-default btn-block" activeClassName="disabled">
-                    New
-                </Link>
-                <Link to="todo-archive" className="btn btn-default btn-block" activeClassName="disabled">
-                    Archive
-                </Link>
-            </div>
-        );
-}
-});
-
-function getStateFromStores() {
-    return {
-        completed: TodoStore.getCompleted(),
-        pending: TodoStore.getPending()
-    };
-}
-
-var Todos = React.createClass({
+var TodoArchive = React.createClass({
 
     getInitialState: function() {
         return getStateFromStores();
@@ -124,31 +100,26 @@ var Todos = React.createClass({
         return (
             <div className="todo-body">
                 <div className="test">
-                    <RouteHandler />
-                    <div className="todos-content">
-                        <div className="todo-list">
-                            <div className="title" align="center">
-                                Todos:
-                            </div>
-                            <TodoList list={this.state.pending} className="todo-list"/>
+                <div className="todo-content">
+                    <div className="archived-list">
+                        <div className="title">
+                           ~~~~~~ Archived ~~~~~~
                         </div>
-                        <div className="completed-list">
-                            <div className="title">
-                                Completed:
-                            </div>
-                            <TodoList list={this.state.completed} className="completed-list"/>
-                        </div>
+                        <TodoList list={this.state.archived} className="archive-list"/>
                     </div>
                 </div>
+                    </div>
                 <div className="todo-nav">
-                    <TodoBar />
+                    <Link to="todo" className="btn btn-default btn-block" activeClassName="disabled">
+                        Back to Todos
+                    </Link>
                 </div>
                 <div className="todo-side">
-                    profile information
+                    side
                 </div>
             </div>
         );
     }
 });
 
-module.exports = Todos;
+module.exports = TodoArchive;
