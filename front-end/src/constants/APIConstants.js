@@ -5,12 +5,14 @@ var host = 'localhost',
     REGISTER_URL = url + 'register',
     chatUrl = url + 'chat',
     todoUrl = url + 'todo',
-    wikiUrl = url + 'wiki';
+    wikiUrl = url + 'wiki',
+    wikiCommentsUrl = url +'wikicomments';
 
 module.exports = {
     url: url,
     chatUrl: chatUrl,
     todoUrl: todoUrl,
+    wikiCommentsUrl: wikiCommentsUrl,
     wikiUrl: wikiUrl,
     LOGIN_URL: LOGIN_URL,
     REGISTER_URL: REGISTER_URL
