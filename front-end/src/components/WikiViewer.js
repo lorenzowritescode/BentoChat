@@ -82,13 +82,15 @@ var CommentSection = React.createClass({
 
         return (
             <div className="comment-section">
-                <textarea className="comment-box"
-                          placeholder="Leave a comment. If you want."
-                          onChange={this.onTextChange}
-                          value={this.state.text}/>
-                <button className="post-button"
-                        onClick={this.send}>
-                    Post</button>
+                <div className="comment-input-section">
+                    <textarea className="comment-box"
+                              placeholder="Leave a comment. If you want."
+                              onChange={this.onTextChange}
+                              value={this.state.text}/>
+                    <button onClick={this.send} className="btn btn-success input-group-addon post-button">
+                        <span className="glyphicon glyphicon-ok"></span>
+                    </button>
+                </div>
                 <div className="comment-list" >
                     {commentlist}
                 </div>
