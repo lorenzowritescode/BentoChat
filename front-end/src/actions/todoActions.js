@@ -39,11 +39,22 @@ function toggleTodo(id) {
             id: id
         });
     }
-    APIUtils.put(todoUrl, {id: id}, callback);
+    APIUtils.put(todoUrl, {id: id, type: ActionTypes.COMPLETE_TODO}, callback);
+}
+
+function archiveTodo(id) {
+    function callback (response) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARCHIVE_TODO,
+            id: id
+        });
+    }
+    APIUtils.put(todoUrl, {id: id, type: ActionTypes.ARCHIVE_TODO}, callback);
 }
 
 module.exports = {
     createTodo: createTodo,
     fetchTodos: fetchTodos,
-    toggleTodo: toggleTodo
+    toggleTodo: toggleTodo,
+    archiveTodo: archiveTodo
 };

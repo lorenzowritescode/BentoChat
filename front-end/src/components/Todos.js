@@ -20,6 +20,15 @@ var Todo = React.createClass({
         }
     },
 
+    _onArchive: function(e) {
+        console.log(this.props.todo.id);
+      e.preventDefault();
+        var id = this.props.todo.id;
+        if (id) {
+            TodoActions.archiveTodo(id);
+        }
+    },
+
     render: function() {
         return (
             <div className="todo">
@@ -40,6 +49,9 @@ var Todo = React.createClass({
                 <div className="complete-button">
                     <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
                         <span className="glyphicon glyphicon-ok todo-tick"></span>
+                    </button>
+                    <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
+                        <span className="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
             </div>

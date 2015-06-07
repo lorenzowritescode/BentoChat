@@ -312,6 +312,26 @@ module.exports.toggleTodo = function(id, callback) {
 })
 };
 
+module.exports.archiveTodo = function(id, callback) {
+      console.log(id);
+    onConnect(function (err, connection) {
+        r.db(dbConfig['db']).table('todos').get(id).update(function(todo) {
+            return r.branch(
+                todo("status").eq("archived"),
+                { status: "completed" },
+                { status: "archived" } 
+            );
+        }).run(connection, function(err, result) {
+            if(err) {
+                logerror("[ERROR][%s][updateTodo %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                callback(err);
+            }
+
+            callback(null, result);
+        })
+    })
+};
+
 module.exports.saveWikiPost = function(post, callback) {
   onConnect(function (err, connection) {
     r.db(dbConfig['db']).table('wiki').insert(post).run(connection, function(err, result) {

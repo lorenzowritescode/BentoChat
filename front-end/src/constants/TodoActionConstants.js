@@ -7,6 +7,7 @@ module.exports = {
   ActionTypes: keyMirror ({
       CREATE_TODO: null,
       COMPLETE_TODO: null,
-      FETCH_TODOS: null
+      FETCH_TODOS: null,
+      ARCHIVE_TODO: null
   })
 };
