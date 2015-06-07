@@ -37,10 +37,17 @@ var WikiEditor = React.createClass({
         return (
             <div className="full-size">
                 <Tabs className="tabs" />
-                <div className="save-button" onClick={this.send}>
-                    <Link to="wiki" className="btn btn-success save-wiki">
-                        <span className="glyphicon glyphicon-ok"></span> Save
-                    </Link>
+                <div className="buttons">
+                    <div className="save-wiki" onClick={this.send}>
+                        <Link to="wiki" className="btn btn-success save-wiki">
+                            <span className="glyphicon glyphicon-ok"></span> Save
+                        </Link>
+                    </div>
+                    <div className="cancel-wiki">
+                        <Link to="wiki" className="btn btn-warning cancel-wiki">
+                            <span className="glyphicon glyphicon-remove"></span>
+                        </Link>
+                    </div>
                 </div>
                 <RouteHandler {...{textChange: this._onChange,
                     titleChange: this._onTitleChange,
