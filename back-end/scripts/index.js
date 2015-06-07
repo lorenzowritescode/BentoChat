@@ -86,15 +86,15 @@ app.put('/todo', function(req, res) {
   var id = req.body.id;
   var type = req.body.type;
   console.log(type);
-  if (type = "COMPLETE_TODO") {
-    db.archiveTodo (id, function(err, result) {
+  if (type == "COMPLETE_TODO") {
+    db.toggleTodo (id, function(err, result) {
       if (!err)
         res.status(200).send(result).end();
       else
         res.status(500).end('Internal Database Error');
     })
-  } else {
-    db.toggleTodo (id, function(err, result) {
+  } else if (type == "ARCHIVE_TODO") {
+    db.archiveTodo (id, function(err, result) {
       if (!err)
         res.status(200).send(result).end();
       else
