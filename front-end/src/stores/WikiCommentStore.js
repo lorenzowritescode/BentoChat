@@ -52,7 +52,6 @@ var CommentStore = assign({}, EventEmitter.prototype, {
                 res.push(comments[i]);
             }
         }
-        console.log("Returning " + res.length + " Results");
         return res;
     }
 });

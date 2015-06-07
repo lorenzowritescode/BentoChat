@@ -79,7 +79,6 @@ var CommentSection = React.createClass({
                         />);
             }
         );
-
         return (
             <div className="comment-section">
                 <div className="comment-input-section">
@@ -95,6 +94,7 @@ var CommentSection = React.createClass({
                     {commentlist}
                 </div>
             </div>
+
         );
     }
 });
@@ -111,12 +111,15 @@ var WikiViewer = React.createClass({
         var body = Marked(post.body);
         return (
             <div className="wiki-view">
+                <button className="btn btn-info btn-block back-button"
+                        onClick={this.onReturn}>
+                    <span className="glyphicon glyphicon-arrow-left"></span>
+                </button>
                 <div className="wiki-single-item">
                     <div className="title">{post.title}</div>
                     <div className="info" > written by {post.author} at {post.timestamp}</div>
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>
-                    <button onClick={this.onReturn}>Back</button>
                 </div>
                 <CommentSection postid={post.id} />
             </div>);
