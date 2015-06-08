@@ -137,6 +137,16 @@ module.exports.getWikiComments = function (callback) {
   });
 };
 
+module.exports.findGroupMembers =  function (groupName, callback) {
+    onConnect(function (err, connection) {
+        r.db(dbConfig['db']).table('users').filter(function(user) {
+            return user('group_list').contains(groupName)
+        }).without('hash').run(connection, function (err, cursor) {
+            retrieve(err, cursor, connection, callback);
+        });
+    });
+};
+
 //Helper to refactor above methods
 function retrieve (err,  cursor, connection, callback) {
   if(err) {
@@ -226,17 +236,18 @@ module.exports.createUser = function (account, callback) {
 };
 
 function genericInsert (elem, tableName, callback) {
-  onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table(tableName).insert(elem).run(connection, function (err, result) {
-        save(err, result, connection, callback);
+    onConnect(function (err, connection) {
+        r.db(dbConfig['db']).table(tableName).insert(elem)
+            .run(connection, function (err, result) {
+                save(err, result, connection, callback);
+            });
     });
-  });
 }
 
 //Helper to refactor above methods
 function save(err, result, connection, callback) {
   if(err) {
-    logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+    logerror("[ERROR][%s][save] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
     callback(err);
   }
   else {

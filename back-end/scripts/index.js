@@ -121,6 +121,15 @@ app.put('/todo', function(req, res) {
   }
 })
 
+app.get('/group', function (req, res) {
+    db.findGroupMembers('test-group', function (err, result) {
+      if (!err)
+        res.status(200).send(result).end();
+      else
+        res.status(500).end('Internal Database Error');
+    })
+})
+
 app.get('/wiki', function (req, res) {
     db.getWikiPosts(function(err, result) {
         if (!err)

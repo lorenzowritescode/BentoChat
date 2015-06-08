@@ -2,7 +2,8 @@
 
 var React = require('react/addons'),
     MessageActions = require('actions/messageAction'),
-    MessageStore = require('stores/ChatMessageStore');
+    MessageStore = require('stores/ChatMessageStore'),
+    ChatSide = require('../components/ChatSide');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
@@ -103,10 +104,10 @@ var ChatList = React.createClass({
     },
 
     render: function () {
-        var MessageListItem = this.state.messages.map(getMessage);
+        var MessageListItems = this.state.messages.map(getMessage);
         return (
             <div className="chatlist">
-                {MessageListItem}
+                {MessageListItems}
             </div>
         );
     },
@@ -202,7 +203,7 @@ var Chat = React.createClass({
                     <ChatBar />
                 </div>
                 <div className="chat-side">
-                    People's online/offline info
+                    <ChatSide />
                 </div>
             </div>
         );
