@@ -56,7 +56,13 @@ var WikiEditor = React.createClass({
     },
 
     onReturn: function () {
-        if (window.confirm("Are you sure you want to go back? You will lose all your hard work on this post!")){
+        var text = this.state.text.trim();
+        var title = this.state.title.trim();
+        if(text || title) {
+            if (window.confirm("Are you sure you want to go back? You will lose all your hard work on this post!")) {
+                this.transitionTo("wiki");
+            }
+        } else {
             this.transitionTo("wiki");
         }
     },

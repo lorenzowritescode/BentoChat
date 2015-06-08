@@ -118,20 +118,22 @@ var WikiViewer = React.createClass({
         var body = Marked(post.body);
         return (
             <div className="wiki-view">
+                <button className="btn btn-warning btn-block delete-button"
+                        onClick={this.onDelete}>
+                    <span className="glyphicon glyphicon-trash"></span>
+                </button>
+
                 <button className="btn btn-info btn-block back-button"
                         onClick={this.onReturn}>
                     <span className="glyphicon glyphicon-arrow-left"></span>
                 </button>
+
                 <div className="wiki-single-item">
                     <div className="title">{post.title}</div>
                     <div className="info" > written by {post.author} at {post.timestamp}</div>
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>
                 </div>
-                <button className="btn btn-info btn-block delete-button"
-                        onClick={this.onDelete}>
-                    <span className="glyphicon glyphicon-trash"></span>
-                </button>
                 <CommentSection postid={post.id} />
             </div>);
     },
