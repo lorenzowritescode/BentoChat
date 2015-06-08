@@ -79,7 +79,7 @@ var WikiListViewer = React.createClass({
         );
 
         return (
-            <div className="postList">
+            <div className="post-list">
                 {posts}
             </div>
         );

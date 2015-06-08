@@ -29,7 +29,7 @@ var Todo = React.createClass({
                     </div>
                     <div className="todo-desc">
                         <span className="glyphicon glyphicon-menu-right icon"></span>
-                        {this.props.todo.text}
+                        <span className="todo-desc-text">{this.props.todo.text}</span>
                     </div>
                     <div className="todo-assignee">
                         <span className="glyphicon glyphicon-user icon"></span>
