@@ -34,12 +34,12 @@ app.configure( function () {
       res.header("Access-Control-Allow-Credentials", "true");
       res.header("Access-Control-Allow-Methods", "GET,PUT,POST");
       next();
-  })
+    })
     // This is for decoding json POST requests
     app.use(bodyParser.json());       // to support JSON-encoded bodies
     app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
       extended: true
-  }));
+    }));
     app.use(multer()); // for parsing multipart/form-data
     db.setup();
 });
@@ -56,11 +56,9 @@ app.post('/register', function (req, res) {
 })
 
 app.post('/login', function (req, res) {
-    console.log(req.body);
-
     var body = req.body,
-    email = body.email,
-    password = body.password;
+        email = body.email,
+        password = body.password;
 
     auth.login(email, password, function (err, authToken) {
         if (err || !authToken)
@@ -85,9 +83,9 @@ app.get('/todo', function (req, res) {
   db.getTodos(function(err, result) {
     if (!err)
       res.status(200).send(result).end();
-  else
+    else
       res.status(500).end('Internal Database Error');
-})
+  })
 })
 
 app.post('/todo', function (req, res) {
@@ -97,24 +95,24 @@ app.post('/todo', function (req, res) {
   db.saveTodo (todo, function(err, result) {
     if (!err)
       res.status(200).send(result).end();
-  else
+    else
       res.status(500).end('Internal Database Error');
-})
+  })
 })
 
 app.put('/todo', function(req, res) {
   var id = req.body.id;
   var type = req.body.type;
   console.log(type);
-  if (type = "COMPLETE_TODO") {
-    db.archiveTodo (id, function(err, result) {
+  if (type == "COMPLETE_TODO") {
+    db.toggleTodo (id, function(err, result) {
       if (!err)
         res.status(200).send(result).end();
       else
         res.status(500).end('Internal Database Error');
     })
-  } else {
-    db.toggleTodo (id, function(err, result) {
+  } else if (type == "ARCHIVE_TODO") {
+    db.archiveTodo (id, function(err, result) {
       if (!err)
         res.status(200).send(result).end();
       else
