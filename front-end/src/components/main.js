@@ -22,28 +22,40 @@ var AuthComp = require('./AuthenticatedComponent');
 var Register = require('./Register');
 import RouterContainer from '../utils/RouterContainer';
 
-var AuthChat = new AuthComp(Chat);
+var AuthApp = new AuthComp(App);
+
+class Root extends React.Component {
+    render () {
+        return (
+            <div className="root-component">
+                <Router.RouteHandler />
+            </div>
+        );
+    }
+}
 
 var routes = (
-    <Route path="/" handler={App} name="app">
+    <Route path="/" handler={Root} name="root">
         <Route path="login" name="login" handler={Login} />
         <Route path="register" name="register" handler={Register} />
-        <Route path="chat" name="chat" handler={AuthChat} />
-        <Route path="wiki" name="wiki" handler={Wiki}>
-            <Route path="new" name="wiki-new" handler={WikiNew} >
-                <Route path="preview" name="wiki-preview" handler={WikiPreview} />
-                <Route path="edit" name="wiki-edit" handler={WikiEdit} />
-                <DefaultRoute handler={WikiEdit} />
+        <Route path="/" name="app" handler={AuthApp}>
+            <Route path="chat" name="chat" handler={Chat} />
+            <Route path="wiki" name="wiki" handler={Wiki}>
+                <Route path="new" name="wiki-new" handler={WikiNew} >
+                    <Route path="preview" name="wiki-preview" handler={WikiPreview} />
+                    <Route path="edit" name="wiki-edit" handler={WikiEdit} />
+                    <DefaultRoute handler={WikiEdit} />
+                </Route>
+                <Route path="view/:wikiid" name="wiki-view" handler={WikiViewer} />
+                <DefaultRoute handler={WikiList} />
             </Route>
-            <Route path="view/:wikiid" name="wiki-view" handler={WikiViewer} />
-            <DefaultRoute handler={WikiList} />
+            <Route path="/todo" name="todo" handler={Todos}>
+                <Route path="new" name="todo-new" handler={TodoCreator} />
+            </Route>
+            <Route path="archive" name="todo-archive" handler={TodoArchive} />
+            <DefaultRoute handler={Chat} />
+            <NotFoundRoute handler={Chat} />
         </Route>
-        <Route path="/todo" name="todo" handler={Todos}>
-            <Route path="new" name="todo-new" handler={TodoCreator} />
-        </Route>
-        <Route path="archive" name="todo-archive" handler={TodoArchive} />
-        <DefaultRoute handler={Chat} />
-        <NotFoundRoute handler={App} />
     </Route>
 );
 

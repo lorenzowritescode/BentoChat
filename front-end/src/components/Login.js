@@ -54,7 +54,6 @@ export default class Login extends React.Component {
 // This will be called when the user clicks on the login button
     login(e) {
         e.preventDefault();
-        console.log('HEYOO');
         var that = this;
         Auth.login(this.state.user, this.state.password)
             .catch (function(err) {
