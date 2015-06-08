@@ -1,13 +1,30 @@
 'use strict'  
 const app = require('express')(),
-server = require('http').Server(app),
-port = process.env.PORT || 3000,
-auth = require('./auth.js'),
-db = require('./db.js'),
-cors = require('cors'),
-bodyParser = require('body-parser'),
-io = require('./socket-config.js')(server),
-multer = require('multer');
+    server = require('http').Server(app),
+    port = process.env.PORT || 3000,
+    auth = require('./auth.js'),
+    db = require('./db.js'),
+    cors = require('cors'),
+    util = require('./util'),
+    bodyParser = require('body-parser'),
+    io = require('./socket-config.js')(server),
+    multer = require('multer'),
+    passport = require('passport'),
+    JwtStrategy = require('passport-jwt').Strategy,
+    opts = {
+        secretOrKey: util.secret
+    };
+
+passport.use(new JwtStrategy(opts, function  (jwt_payload, done) {
+    db.findUserByEmail(jwt_payload.email, function (err, user) {
+        if (err)
+            done(err, null)
+        else if (!user)
+            done(new Error('No user found'), null)
+        else
+            done(null, user)
+    })
+}))
 
 app.configure( function () {
     cors();
@@ -24,31 +41,34 @@ app.configure( function () {
       extended: true
   }));
     app.use(multer()); // for parsing multipart/form-data
-    auth.init(app);
     db.setup();
 });
 
 app.post('/register', function (req, res) {
-    var account = req.body;
+    var account = util.makeUser(req.body);
 
     auth.createAccount(account, function (err, account) {
         if (err)
-            res.status(err.status).end(err.userMessage);
+            res.status(500).end(err.message);
         else
             res.send(account);
     })
 })
 
 app.post('/login', function (req, res) {
+    console.log(req.body);
+
     var body = req.body,
     email = body.email,
     password = body.password;
 
-    auth.login(email, password, function (err, result) {
-        if (err)
-            res.status(err.status).end(err.userMessage);
+    auth.login(email, password, function (err, authToken) {
+        if (err || !authToken)
+            res.status(400).end(err.message);
         else
-            res.send(result);
+            res.status(200).json({
+                auth_token: authToken
+            });
     })
 })
 

@@ -39,6 +39,7 @@ export default (ComposedComponent) => {
     }
 
     render() {
+        console.log('Authenticated Component rerendering');
       return (
       <ComposedComponent
         {...this.props}

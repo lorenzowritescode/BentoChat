@@ -1,4 +1,4 @@
-import {LOGIN_USER, LOGOUT_USER} from '../constants/APIConstants';
+import {LOGIN_USER, LOGOUT_USER} from '../constants/AuthConstants';
 import BaseStore from './BaseStore';
 import jwt_decode from 'jwt-decode';
 
@@ -10,6 +10,13 @@ class LoginStore extends BaseStore {
         this.subscribe(() => this._registerToActions.bind(this));
         this._user = null;
         this._jwt = null;
+
+        var savedJwt = localStorage.getItem('jwt');
+        console.log(savedJwt);
+        if (savedJwt !== null) {
+            this._jwt = savedJwt;
+            this._user = jwt_decode(savedJwt);
+        }
     }
 
     _registerToActions(action) {

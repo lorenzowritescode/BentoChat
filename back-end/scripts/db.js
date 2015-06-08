@@ -10,11 +10,12 @@ var r = require('rethinkdb'),
 var dbConfig = {
   host: process.env.RDB_HOST || 'localhost',
   port: parseInt(process.env.RDB_PORT) || 28015,
-  db  : process.env.RDB_DB || 'chat',
+  db  : process.env.RDB_DB || 'bentodb',
   tables: {
     'messages': 'id',
     'cache': 'cid',
-    'users': 'id',
+    'users': 'email',
+    'groups': 'name',
     'todos': 'id',
     'wiki': 'id',
     'wikicoms': 'id'
@@ -54,52 +55,21 @@ module.exports.setup = function() {
   });
 };
 
-// #### Filtering results
 
-/**
- * Find a user by email using the 
- * [`filter`](http://www.rethinkdb.com/api/javascript/filter/) function. 
- * We are using the simple form of `filter` accepting an object as an argument which
- * is used to perform the matching (in this case the attribute `mail` must be equal to
- * the value provided). 
- *
- * We only need one result back so we use [`limit`](http://www.rethinkdb.com/api/javascript/limit/)
- * to return it (if found). The result is collected with [`next`](http://www.rethinkdb.com/api/javascript/next/)
- * and passed as an array to the callback function. 
- *
- * @param {String} mail
- *    the email of the user that we search for
- *
- * @param {Function} callback
- *    callback invoked after collecting all the results 
- * 
- * @returns {Object} the user if found, `null` otherwise 
- */
-module.exports.findUserByEmail = function (mail, callback) {
+module.exports.findUserByEmail = function (email, callback) {
   onConnect(function (err, connection) {
-    logdebug("[INFO ][%s][findUserByEmail] Login {user: %s, pwd: 'you really thought I'd log it?'}", connection['_id'], mail);
-
-    r.db(dbConfig.db).table('users').filter({'mail': mail}).limit(1).run(connection, function(err, cursor) {
-      if(err) {
-        logerror("[ERROR][%s][findUserByEmail][collect] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
-        callback(err);
-      }
-      else {
-        cursor.next(function (err, row) {
-          if(err) {
-            logerror("[ERROR][%s][findUserByEmail][collect] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
-            callback(err);
-          }
-          else {
-            callback(null, row);
-          }
-          connection.close();
-        });
-      }
-
-    });
-  });
-};
+    r.db(dbConfig.db).table('users').get(email)
+        .run(connection, function(err, user) {
+            if (err) {
+                callback(err, null);
+            } else if (!user) {
+                callback (new Error('No user found.'), null);
+            } else {
+                callback(null, user);
+            }
+        })
+    })
+}
 
 /**
  * Every user document is assigned a unique id when created. Retrieving
@@ -131,30 +101,9 @@ module.exports.findUserById = function (userId, callback) {
   });
 };
 
-// #### Retrieving chat messages
-
 /**
- * To find the last `max_results` messages ordered by `timestamp`,
- * we are using [`table`](http://www.rethinkdb.com/api/javascript/table/) to access
- * messages in the table, then we 
- * [`orderBy`](http://www.rethinkdb.com/api/javascript/order_by/) `timestamp` 
- * and instruct the server to return only `max_results` using 
- * [`limit`](http://www.rethinkdb.com/api/javascript/limit/).
- *
- * These operations are chained together and executed on the database. Results
- * are collected with [`toArray`](http://www.rethinkdb.com/api/javascript/toArray)
- * and passed as an array to the callback function. 
- *
- *
- * @param {Number} max_results
- *    Maximum number of results to be retrieved from the db
- *
- * @param {Function} callback
- *    callback invoked after collecting all the results
- *
- * @returns {Array} an array of messages
+ *  Data retriever methods
  */
-
 module.exports.findMessages = function (max_results, callback) {
   onConnect(function (err, connection) {
     r.db(dbConfig['db']).table('messages').orderBy('timestamp').limit(max_results).run(connection,
@@ -191,14 +140,14 @@ module.exports.getWikiComments = function (callback) {
 //Helper to refactor above methods
 function retrieve (err,  cursor, connection, callback) {
   if(err) {
-    logerror("[ERROR][%s][findMessages] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+    logerror("[ERROR][%s] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
     callback(null, []);
     connection.close();
   }
   else {
     cursor.toArray(function(err, results) {
       if(err) {
-        logerror("[ERROR][%s][findMessages][toArray] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+        logerror("[ERROR][%s][toArray] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
         callback(null, []);
       }
       else {
@@ -209,51 +158,10 @@ function retrieve (err,  cursor, connection, callback) {
   }
 }
 
-/**
- * To save a new chat message using we are using 
- * [`insert`](http://www.rethinkdb.com/api/javascript/insert/). 
- *
- * An `insert` op returns an object specifying the number
- * of successfully created objects and their corresponding IDs:
- *
- * ```
- * {
- *   "inserted": 1,
- *   "errors": 0,
- *   "generated_keys": [
- *     "b3426201-9992-ab84-4a21-576719746036"
- *   ]
- * }
- * ```
- *
- * @param {Object} msg
- *    The message to be saved
- *
- * @param {Function} callback
- *    callback invoked once after the first result returned
- *
- * @returns {Boolean} `true` if the user was created, `false` otherwise 
+/*
+ * changes state of todo
+ * completed -> pending, and vice-versa
  */
-module.exports.saveMessage = function (msg, callback) {
-  onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('messages').insert(msg).run(connection, function(err, result) {
-      if(err) {
-        logerror("[ERROR][%s][saveMessage] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
-        callback(err);
-      }
-      else {
-        if(result.inserted === 1) {
-          callback(null, result);
-        }
-        else {
-          callback(null, result);
-        }
-      }
-      connection.close();
-    });
-  });
-};
-
 module.exports.toggleTodo = function(id, callback) {
   console.log(id);
   onConnect(function (err, connection) {
@@ -274,29 +182,36 @@ module.exports.toggleTodo = function(id, callback) {
   })
 };
 
+/**
+ *  Data creation methods
+ */
+module.exports.saveMessage = function (msg, callback) {
+    genericInsert(post, 'messages', callback);
+};
+
 module.exports.saveTodo = function (todo, callback) {
-  onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('todos').insert(todo).run(connection, function (err, result) {
-        save(err, result, connection, callback);
-    });
-  });
+    genericInsert(post, 'todos', callback);
 };
 
 module.exports.saveWikiPost = function(post, callback) {
-  onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('wiki').insert(post).run(connection, function (err, result) {
-        save(err, result, connection, callback);
-    });
-  });
+    genericInsert(post, 'wiki', callback);
 };
 
 module.exports.saveWikiComment = function (post, callback) {
+    genericInsert(post, 'wikicoms', callback);
+};
+
+module.exports.createUser = function (account, callback) {
+    genericInsert(account, 'users', callback);
+};
+
+function genericInsert (elem, tableName, callback) {
   onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('wikicoms').insert(post).run(connection, function (err, result) {
+    r.db(dbConfig['db']).table(tableName).insert(elem).run(connection, function (err, result) {
         save(err, result, connection, callback);
     });
   });
-};
+}
 
 //Helper to refactor above methods
 function save(err, result, connection, callback) {
@@ -305,50 +220,16 @@ function save(err, result, connection, callback) {
     callback(err);
   }
   else {
-    if(result.inserted === 1) {
-      var new_id = result.generated_keys[0];
+    if(result.inserted === 1 && result.errors === 0) {
+      var new_id = result.generated_keys ? result.generated_keys[0] : null;
       callback(null, new_id);
     }
-    else {
-      callback(null, result);
+    else if (result.errors > 0) {
+      callback(new Error('There was an error inserting the record in the database'), result);
     }
   }
   connection.close();
 }
-
-/**
- * Adding a new user to database using  [`insert`](http://www.rethinkdb.com/api/javascript/insert/).
- *
- * If the document to be saved doesn't have an `id` field, RethinkDB automatically
- * generates an unique `id`. This is returned in the result object.
- *
- * @param {Object} user
- *   The user JSON object to be saved.
- *
- * @param {Function} callback
- *    callback invoked once after the first result returned
- *
- * @returns {Boolean} `true` if the user was created, `false` otherwise
- */
-module.exports.saveUser = function (user, callback) {  
-  onConnect(function (err, connection) {
-    r.db(dbConfig.db).table('users').insert(user).run(connection, function(err, result) {
-      if(err) {
-        logerror("[ERROR][%s][saveUser] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
-        callback(err);
-      }
-      else {
-        if (result.inserted === 1) {
-          callback(null, true);
-        }
-        else {
-          callback(null, false);
-        }
-      }
-      connection.close();
-    });
-  });
-};
 
 // #### Helper functions
 
@@ -364,19 +245,3 @@ function onConnect(callback) {
     callback(err, connection);
   });
 }
-
-// #### Connection management
-//
-// This application uses a new connection for each query needed to serve
-// a user request. In case generating the response would require multiple
-// queries, the same connection should be used for all queries.
-//
-// Example:
-//
-//     onConnect(function (err, connection)) {
-//         if(err) { return callback(err); }
-//
-//         query1.run(connection, callback);
-//         query2.run(connection, callback);
-//     }
-//

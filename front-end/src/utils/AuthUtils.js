@@ -8,7 +8,7 @@ import LoginActions from '../actions/LoginActions';
 class AuthService {
 
     login(email, password) {
-        return this.handleAuth(when(request({
+        var loginPromise =  when(request({
             url: LOGIN_URL,
             method: 'POST',
             crossOrigin: true,
@@ -16,7 +16,15 @@ class AuthService {
             data: {
                 email, password
             }
-        })));
+        }));
+
+        loginPromise.then(function(response) {
+            var jwt = response.auth_token;
+            LoginActions.loginUser(jwt);
+            return true;
+        });
+
+        return loginPromise;
     }
 
     logout() {
@@ -41,16 +49,6 @@ class AuthService {
        } else {
            throw new Error('Some fields are blank!');
        }
-    }
-
-    handleAuth(loginPromise) {
-        return loginPromise
-            .then(function(response) {
-                console.log(response);
-                var jwt = response.id_token;
-                LoginActions.loginUser(jwt);
-                return true;
-            });
     }
 }
 
