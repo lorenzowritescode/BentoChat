@@ -1,4 +1,4 @@
-import {LOGIN_USER, LOGOUT_USER} from '../constants/AuthConstants';
+import {LOGIN_USER, LOGOUT_USER} from '../constants/ActionConstants';
 import BaseStore from './BaseStore';
 import jwt_decode from 'jwt-decode';
 

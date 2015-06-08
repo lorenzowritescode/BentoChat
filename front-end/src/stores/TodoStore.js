@@ -4,7 +4,7 @@
 'use strict';
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    TodoConstants = require('../constants/TodoActionConstants'),
+    TodoConstants = require('../constants/ActionConstants'),
     TodoUtils = require('../utils/TodoUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');

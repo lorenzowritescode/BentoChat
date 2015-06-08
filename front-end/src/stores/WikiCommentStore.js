@@ -4,7 +4,7 @@
 'use strict';
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    WikiConstants = require('../constants/WikiActionConstants'),
+    WikiConstants = require('../constants/ActionConstants'),
     WikiUtils = require('../utils/WikiUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
