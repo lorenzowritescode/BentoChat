@@ -4,15 +4,13 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    ActionConstants = require('../constants/ActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
     Message = ChatUtils.Message,
     APIUtils = require('../utils/APIUtils'),
     chatUrl = require('../constants/APIConstants').chatUrl,
+    groupsUrl = require('../constants/APIConstants').groupsUrl,
     io = require('socket.io-client')("http://localhost:3000");
-
-
-var ActionTypes = ActionConstants.ActionTypes;
 
 //Action for creating a new message
 function createMessage (text) {
@@ -44,13 +42,14 @@ function fetchMessages() {
 function fetchGroups () {
     APIUtils.get(groupsUrl, function (groups) {
         Dispatcher.dispatch({
-            type: GroupActionTypes.FETCH_GROUPS,
+            type: ActionTypes.FETCH_GROUPS,
             groups: {
                 'test-group': groups
             }
         });
     });
 }
+
 module.exports = {
     createMessage: createMessage,
     fetchMessages: fetchMessages,

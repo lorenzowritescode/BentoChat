@@ -4,12 +4,11 @@
 'use strict';
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    TodoConstants = require('../constants/ActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     TodoUtils = require('../utils/TodoUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
 
-var ActionTypes = TodoConstants.ActionTypes;
 const CHANGE_EVENT = 'change',
     PENDING_TODO = 'pending',
     COMPLETED_TODO = 'completed',

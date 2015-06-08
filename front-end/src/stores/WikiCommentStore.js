@@ -4,12 +4,11 @@
 'use strict';
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    WikiConstants = require('../constants/ActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     WikiUtils = require('../utils/WikiUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
 
-var ActionTypes = WikiConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var comments = [];

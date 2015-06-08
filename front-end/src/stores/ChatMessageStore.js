@@ -2,18 +2,13 @@
  * Created by evenoli on 27/05/2015.
  */
 'use strict';
-
-
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    ChatConstants = require('../constants/ActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign'),
     React = require('react/addons');
 
-
-
-var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 //Collection of messages (effectively, the actual store)

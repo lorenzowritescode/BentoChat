@@ -4,12 +4,10 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    ActionConstants = require('../constants/ActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     WikiUtils = require('../utils/WikiUtils'),
     APIUtils = require('../utils/APIUtils'),
     wikiUrl = require('../constants/APIConstants').wikiUrl;
-
-var ActionTypes = ActionConstants.ActionTypes;
 
 function createPost(title, text) {
     var post = WikiUtils.Post(title, text);

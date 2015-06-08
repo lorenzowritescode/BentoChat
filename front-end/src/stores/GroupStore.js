@@ -1,7 +1,7 @@
 /**
  * Created by lp1813 on 08/06/15.
  */
-import {UPDATE_STATUS, FETCH_GROUPS} from '../constants/GroupActionConstants';
+import {UPDATE_STATUS, FETCH_GROUPS} from '../constants/ActionConstants';
 import BaseStore from './BaseStore';
 
 class GroupStore extends BaseStore {
