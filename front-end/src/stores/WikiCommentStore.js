@@ -18,6 +18,14 @@ function addComment (comment) {
     comments.push(comment);
 }
 
+function removeComments (postid) {
+    for (var i in comments) {
+        if (comments[i].postid === postid) {
+            comments.splice(i, 1);
+        }
+    }
+}
+
 var CommentStore = assign({}, EventEmitter.prototype, {
 
     emitChange: function () {
@@ -68,6 +76,11 @@ CommentStore.dispatchToken = AppDispatcher.register(function(action) {
 
         case ActionTypes.FETCH_COMMENTS:
             comments = action.comment_list;
+            CommentStore.emitChange();
+            break;
+
+        case ActionTypes.DELETE_POST:
+            removeComments(action.postid);
             CommentStore.emitChange();
             break;
     }

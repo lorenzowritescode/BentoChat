@@ -4,7 +4,8 @@ var React = require('react/addons'),
     WikiActions = require('../actions/WikiAction'),
     WikiUtils = require('../utils/WikiUtils'),
     RouteHandler = require('react-router').RouteHandler,
-    Link = require('react-router').Link;
+    Link = require('react-router').Link,
+    Navigation = require('react-router').Navigation;
 
 
 require('styles/WikiEditor.sass');
@@ -23,6 +24,7 @@ var Tabs = React.createClass({
 });
 
 var WikiEditor = React.createClass({
+    mixins: [Navigation],
 
     getInitialState: function () {
         return (
@@ -38,15 +40,11 @@ var WikiEditor = React.createClass({
             <div className="full-size">
                 <Tabs className="tabs" />
                 <div className="buttons">
-                    <div className="save-wiki" onClick={this.send}>
-                        <Link to="wiki" className="btn btn-success save-wiki">
-                            <span className="glyphicon glyphicon-ok"></span> Save
-                        </Link>
+                    <div className="btn btn-success save-wiki" onClick={this.send}>
+                        <span className="glyphicon glyphicon-ok"></span> Save
                     </div>
-                    <div className="cancel-wiki">
-                        <Link to="wiki" className="btn btn-warning cancel-wiki">
-                            <span className="glyphicon glyphicon-remove"></span>
-                        </Link>
+                    <div className="btn btn-warning cancel-wiki" onClick={this.onReturn}>
+                        <span className="glyphicon glyphicon-remove"></span>
                     </div>
                 </div>
                 <RouteHandler {...{textChange: this._onChange,
@@ -57,11 +55,24 @@ var WikiEditor = React.createClass({
         );
     },
 
+    onReturn: function () {
+        if (window.confirm("Are you sure you want to go back? You will lose all your hard work on this post!")){
+            this.transitionTo("wiki");
+        }
+    },
+
     send: function () {
         var text = this.state.text.trim();
         var title = this.state.title.trim();
-        if (text) {
+        if (text && title) {
             WikiActions.createPost(title, text);
+            this.transitionTo("wiki");
+        } else if (text) {
+            window.alert("Please enter a title for your awesome post!");
+        } else if (title) {
+            window.alert("Please enter some text for your excellent post!");
+        } else {
+            window.alert("Please and title and some text for your lovely post!");
         }
     },
 

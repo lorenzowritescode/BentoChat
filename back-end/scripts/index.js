@@ -93,6 +93,16 @@ app.put('/todo', function(req, res) {
   })
 })
 
+app.put('/wiki', function(req, res) {
+    var id = req.body.postid;
+    db.deletePost (id, function(err, result) {
+        if (!err)
+            res.status(200).send(result).end();
+        else
+            res.status(500).end('Internal Database Error');
+    })
+})
+
 app.get('/wiki', function (req, res) {
     db.getWikiPosts(function(err, result) {
         if (!err)
@@ -134,6 +144,7 @@ app.get('/wikicomments', function (req, res) {
             res.status(500).end('Internal Database Error');
     })
 })
+
 
 server.listen(port);  
 console.log('listening on port ' + port);  

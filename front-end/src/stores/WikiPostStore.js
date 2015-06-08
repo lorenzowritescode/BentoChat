@@ -18,6 +18,15 @@ function addPost (post) {
     posts.push(post);
 }
 
+function removePost (postid) {
+    for (var i in posts) {
+        if (posts[i].id === postid) {
+             posts.splice(i, 1);
+            return;
+        }
+    }
+}
+
 var PostStore = assign({}, EventEmitter.prototype, {
 
     emitChange: function () {
@@ -58,6 +67,11 @@ PostStore.dispatchToken = AppDispatcher.register(function(action) {
 
         case ActionTypes.FETCH_POSTS:
             posts = action.post_list;
+            PostStore.emitChange();
+            break;
+
+        case ActionTypes.DELETE_POST:
+            removePost(action.postid);
             PostStore.emitChange();
             break;
     }

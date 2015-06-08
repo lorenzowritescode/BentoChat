@@ -106,6 +106,13 @@ var WikiViewer = React.createClass({
         this.transitionTo("wiki");
     },
 
+    onDelete: function () {
+        if (window.confirm("Are you sure you want to delete this post?")){
+            WikiAction.deletePost(this.props.params.wikiid);
+            this.transitionTo("wiki");
+        }
+    },
+
     render: function () {
         var post = PostStore.get(this.props.params.wikiid);
         var body = Marked(post.body);
@@ -121,6 +128,10 @@ var WikiViewer = React.createClass({
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>
                 </div>
+                <button className="btn btn-info btn-block delete-button"
+                        onClick={this.onDelete}>
+                    <span className="glyphicon glyphicon-trash"></span>
+                </button>
                 <CommentSection postid={post.id} />
             </div>);
     },
