@@ -4,14 +4,14 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    TodoConstants = require('../constants/TodoActionConstants'),
+    ActionConstants = require('../constants/ActionConstants'),
     TodoStore = require('../stores/TodoStore'),
     TodoUtils = require('../utils/TodoUtils'),
     Todo = TodoUtils.Todo,
     APIUtils = require('../utils/APIUtils'),
     todoUrl = require('../constants/APIConstants').todoUrl;
 
-var ActionTypes = TodoConstants.ActionTypes;
+var ActionTypes = ActionConstants.ActionTypes;
 
 function createTodo (todo) {
     APIUtils.post(todoUrl, todo, function (new_id) {

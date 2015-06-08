@@ -4,7 +4,7 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    ChatConstants = require('../constants/ChatActionConstants'),
+    ActionConstants = require('../constants/ActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
     Message = ChatUtils.Message,
     APIUtils = require('../utils/APIUtils'),
@@ -12,7 +12,7 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     io = require('socket.io-client')("http://localhost:3000");
 
 
-var ActionTypes = ChatConstants.ActionTypes;
+var ActionTypes = ActionConstants.ActionTypes;
 
 //Action for creating a new message
 function createMessage (text) {

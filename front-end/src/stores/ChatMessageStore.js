@@ -5,7 +5,7 @@
 
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    ChatConstants = require('../constants/ChatActionConstants'),
+    ChatConstants = require('../constants/ActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign'),

@@ -1,6 +1,6 @@
 'use strict';
 import Dispatcher from '../dispatcher/WebappAppDispatcher';
-import {LOGIN_USER, LOGOUT_USER, LOGIN_ERROR} from '../constants/AuthConstants.js';
+import {LOGIN_USER, LOGOUT_USER} from '../constants/ActionConstants.js';
 import RouterContainer from '../utils/RouterContainer';
 
 export default {
