@@ -70,7 +70,7 @@ app.post('/login', function (req, res) {
     })
 })
 
-app.get('/chat', function (req, res) {
+app.get('/chat', passport.authenticate('jwt', {session: false }), function (req, res) {
     db.findMessages(100, function (err, result) {
         if (!err)
             res.status(200).send(result).end();

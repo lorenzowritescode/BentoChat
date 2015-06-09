@@ -1,8 +1,11 @@
 /**
  * Created by lp1813 on 08/06/15.
  */
-import {UPDATE_STATUS, FETCH_GROUPS} from '../constants/ActionConstants';
+import {UPDATE_STATUS, FETCH_GROUPS, USER_ONLINE} from '../constants/ActionConstants';
 import BaseStore from './BaseStore';
+
+const ONLINE_STATUS = 'online',
+      OFFLINE_STATUS = 'offline';
 
 class GroupStore extends BaseStore {
     constructor () {
@@ -23,6 +26,10 @@ class GroupStore extends BaseStore {
                 this._groups = action.groups;
                 this.emitChange();
                 break;
+            case USER_ONLINE:
+                this._updateStatus(action.username, action.groupName, ONLINE_STATUS);
+                this.emitChange();
+                break;
             default:
                 break;
         }
@@ -32,6 +39,14 @@ class GroupStore extends BaseStore {
         return this._groups;
     }
 
+    _updateStatus(username, groupName, status) {
+        var group  = this.getGroup(groupName);
+
+        group.forEach(function (user) {
+            if (user.username === username)
+                user.status = status;
+        });
+    }
     getGroup (groupName) {
         return this._groups[groupName];
     }

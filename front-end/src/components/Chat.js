@@ -126,9 +126,7 @@ function randomPrompt() {
 
 var NewMessageBox = React.createClass({
     getInitialState: function () {
-        return (
-        {text: ''}
-        );
+        return { text: '' };
     },
 
     render: function () {
@@ -147,19 +145,14 @@ var NewMessageBox = React.createClass({
         );
     },
 
-    _onChange: function (event, value) {
+    _onChange: function (event) {
         this.setState({text: event.target.value});
     },
 
     _onSubmit: function(event) {
         event.preventDefault();
-        var text = this.state.text.trim();
-        if (text) {
-            //Here is where we create the action and send it to the dispatcher
-            MessageActions.createMessage(text);
-        }
-        //Reset text box
-        this.setState({text: ''});
+        console.log('YO');
+        this.send();
     },
 
     //Send via enter key

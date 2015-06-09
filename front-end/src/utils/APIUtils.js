@@ -4,10 +4,12 @@
 'use strict';
 
 var request = require('reqwest');
+import LoginStore from '../stores/LoginStore';
 
 class AjaxRequest {
     constructor(method) {
         this._method = method;
+        this._body = {};
     }
 
     body (body) {
@@ -39,6 +41,8 @@ class AjaxRequest {
 
     run () {
         var thisReq = this;
+        // Add auth token for authenticated API access
+        thisReq._body.auth_token = LoginStore.jwt;
 
         var options = {
             url: thisReq._path,
@@ -46,7 +50,7 @@ class AjaxRequest {
             data: thisReq._body,
             success: thisReq.invokeCallback.bind(thisReq),
             error: function (err) {
-                console.err(err.message, err.stack);
+                console.error(err);
             }
         };
 

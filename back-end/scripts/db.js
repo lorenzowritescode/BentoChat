@@ -216,19 +216,19 @@ module.exports.archiveTodo = function(id, callback) {
  *  Data creation methods
  */
 module.exports.saveMessage = function (msg, callback) {
-    genericInsert(post, 'messages', callback);
+    genericInsert(msg, 'messages', callback);
 };
 
 module.exports.saveTodo = function (todo, callback) {
-    genericInsert(post, 'todos', callback);
+    genericInsert(todo, 'todos', callback);
 };
 
 module.exports.saveWikiPost = function(post, callback) {
     genericInsert(post, 'wiki', callback);
 };
 
-module.exports.saveWikiComment = function (post, callback) {
-    genericInsert(post, 'wikicoms', callback);
+module.exports.saveWikiComment = function (comment, callback) {
+    genericInsert(comment, 'wikicoms', callback);
 };
 
 module.exports.createUser = function (account, callback) {

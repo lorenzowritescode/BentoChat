@@ -2,6 +2,7 @@
  * Created by evenoli on 27/05/2015.
  */
 'use strict';
+import LoginStore from '../stores/LoginStore';
 
 function Message(raw_msg) {
     return {
@@ -19,7 +20,7 @@ Message.prototype.getText = function () {
 function buildMessage (text) {
     return new Message({
         body: text,
-        author: "Dumbledore",
+        author: LoginStore.user.username,
         timestamp: Date.now()
     });
 }

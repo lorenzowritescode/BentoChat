@@ -23,5 +23,6 @@ module.exports = keyMirror ({
     LOGOUT_USER: null,
     //Groups
     UPDATE_STATUS: null,
-    FETCH_GROUPS: null
+    FETCH_GROUPS: null,
+    USER_ONLINE: null
 });
