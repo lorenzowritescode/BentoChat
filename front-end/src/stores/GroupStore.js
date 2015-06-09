@@ -9,7 +9,6 @@ class GroupStore extends BaseStore {
         super();
         this.subscribe(() => this._registerToAction.bind(this));
         this._groups = {};
-        console.log(UPDATE_STATUS);
     }
 
     _registerToAction (action) {

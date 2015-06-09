@@ -12,7 +12,6 @@ class LoginStore extends BaseStore {
         this._jwt = null;
 
         var savedJwt = localStorage.getItem('jwt');
-        console.log(savedJwt);
         if (savedJwt !== null) {
             this._jwt = savedJwt;
             this._user = jwt_decode(savedJwt);

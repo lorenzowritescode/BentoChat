@@ -7,7 +7,8 @@ function Message(raw_msg) {
     return {
         body: raw_msg.body,
         author: raw_msg.author,
-        timestamp: new Date(raw_msg.timestamp)
+        timestamp: new Date(raw_msg.timestamp),
+        id: raw_msg.id
     };
 }
 
