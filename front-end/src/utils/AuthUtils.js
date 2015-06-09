@@ -41,10 +41,10 @@ class AuthService {
         }));
     }
 
-    formatDetails (givenName, surname, username, email, password) {
-       if (givenName && surname && username && email && password) {
+    formatDetails (fullName, username, email, password) {
+       if (fullName && username && email && password) {
            return {
-               givenName, surname, username, email, password
+               fullName, username, email, password
            };
        } else {
            throw new Error('Some fields are blank!');

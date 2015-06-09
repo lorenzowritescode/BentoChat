@@ -24,15 +24,13 @@ export default class Register extends React.Component {
             password1: '',
             password2: '',
             errorMessage: '',
-            name: '',
-            surname: ''
+            fullName: ''
         };
     }
 
     _onSubmit (e) {
         e.preventDefault();
-        var name = this.state.name.trim();
-        var surname = this.state.surname.trim();
+        var fullName = this.state.fullName.trim();
         var username = this.state.username.trim();
         var email = this.state.email.trim();
         var password = this.state.password1.trim();
@@ -42,7 +40,7 @@ export default class Register extends React.Component {
                 throw new Error('The passwords don\'t match');
             }
 
-            var details = Auth.formatDetails(name, surname, username, email, password);
+            var details = Auth.formatDetails(fullName, username, email, password);
             Auth.signup(details)
                 .catch((err) => {
                     this.setState({
@@ -75,8 +73,7 @@ export default class Register extends React.Component {
             );
         };
 
-        var name = getInputElem('name', 'text', 'Name'),
-            surname = getInputElem('surname', 'text', 'Surname'),
+        var fullName = getInputElem('fullName', 'text', 'Full Name'),
             username = getInputElem('username', 'text', 'Choose a Username'),
             email = getInputElem('email', 'text', 'Email'),
             pwd1 = getInputElem('password1', 'password', 'Password'),
@@ -86,8 +83,7 @@ export default class Register extends React.Component {
             <div className="register-panel">
                 <img src={logo} className="bento-logo"/>
                 <form role="form">
-                    {name}
-                    {surname}
+                    {fullName}
                     {username}
                     {email}
                     {pwd1}
