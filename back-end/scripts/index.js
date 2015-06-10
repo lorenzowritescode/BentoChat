@@ -1,13 +1,30 @@
 'use strict'  
 const app = require('express')(),
-      server = require('http').Server(app),
-      port = process.env.PORT || 3000,
-      auth = require('./auth.js'),
-      db = require('./db.js'),
-      cors = require('cors'),
-      bodyParser = require('body-parser'),
-      io = require('./socket-config.js')(server),
-      multer = require('multer'); 
+    server = require('http').Server(app),
+    port = process.env.PORT || 3000,
+    auth = require('./auth.js'),
+    db = require('./db.js'),
+    cors = require('cors'),
+    util = require('./util'),
+    bodyParser = require('body-parser'),
+    io = require('./socket-config.js')(server),
+    multer = require('multer'),
+    passport = require('passport'),
+    JwtStrategy = require('passport-jwt').Strategy,
+    opts = {
+        secretOrKey: util.secret
+    };
+
+passport.use(new JwtStrategy(opts, function  (jwt_payload, done) {
+    db.findUserByEmail(jwt_payload.email, function (err, user) {
+        if (err)
+            done(err, null)
+        else if (!user)
+            done(new Error('No user found'), null)
+        else
+            done(null, user)
+    })
+}))
 
 app.configure( function () {
     cors();
@@ -24,36 +41,36 @@ app.configure( function () {
       extended: true
     }));
     app.use(multer()); // for parsing multipart/form-data
-    auth.init(app);
     db.setup();
 });
 
-app.get('/register', function (req, res) {
-    var account = {
-        givenName: 'Joe',
-        surname: 'Stormtrooper',
-        username: 'tk421',
-        email: 'tk421@stormpath.com',
-        password: 'Changeme1',
-        customData: {
-            favoriteColor: 'white',
-        }
-    };
+app.post('/register', function (req, res) {
+    var account = util.makeUser(req.body);
 
-    auth.createAccount(account, function (err, res) {
-        console.log('YAYYY');
+    auth.createAccount(account, function (err, account) {
+        if (err)
+            res.status(500).end(err.message);
+        else
+            res.send(account);
     })
 })
 
-app.get('/login', function (req, res) {
-    auth.login('tk421', 'Changeme1', function (err, result) {
-        if (err) throw err;
+app.post('/login', function (req, res) {
+    var body = req.body,
+        email = body.email,
+        password = body.password;
 
-        res.send(result.account)
+    auth.login(email, password, function (err, authToken) {
+        if (err || !authToken)
+            res.status(400).end(err.message);
+        else
+            res.status(200).json({
+                auth_token: authToken
+            });
     })
 })
 
-app.get('/chat', function (req, res) {
+app.get('/chat', passport.authenticate('jwt', {session: false }), function (req, res) {
     db.findMessages(100, function (err, result) {
         if (!err)
             res.status(200).send(result).end();
@@ -85,12 +102,32 @@ app.post('/todo', function (req, res) {
 
 app.put('/todo', function(req, res) {
   var id = req.body.id;
-  db.toggleTodo (id, function(err, result) {
-    if (!err)
-      res.status(200).send(result).end();
-    else
-      res.status(500).end('Internal Database Error');
-  })
+  var type = req.body.type;
+  console.log(type);
+  if (type == "COMPLETE_TODO") {
+    db.toggleTodo (id, function(err, result) {
+      if (!err)
+        res.status(200).send(result).end();
+      else
+        res.status(500).end('Internal Database Error');
+    })
+  } else if (type == "ARCHIVE_TODO") {
+    db.archiveTodo (id, function(err, result) {
+      if (!err)
+        res.status(200).send(result).end();
+      else
+        res.status(500).end('Internal Database Error');
+    })
+  }
+})
+
+app.get('/group', function (req, res) {
+    db.findGroupMembers('test-group', function (err, result) {
+      if (!err)
+        res.status(200).send(result).end();
+      else
+        res.status(500).end('Internal Database Error');
+    })
 })
 
 app.put('/wiki', function(req, res) {

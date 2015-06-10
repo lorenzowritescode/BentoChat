@@ -2,6 +2,7 @@
 
 var React = require('react/addons');
 var Link = require('react-router').Link;
+var logout = require('../actions/LoginActions').logoutUser;
 
 
 require('styles/BentoNav.sass');
@@ -22,6 +23,11 @@ var BentoNav = React.createClass({
                     <li><Link to="wiki">Wiki</Link></li>
                     <li><Link to="todo">ToDos</Link></li>
                 </ul>
+                <button type="button"
+                        className="btn btn-info navbar-btn pull-right"
+                        onClick={logout}>
+                    Logout
+                </button>
             </div>
         </div>
       );

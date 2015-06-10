@@ -4,14 +4,12 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    TodoConstants = require('../constants/TodoActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     TodoStore = require('../stores/TodoStore'),
     TodoUtils = require('../utils/TodoUtils'),
     Todo = TodoUtils.Todo,
     APIUtils = require('../utils/APIUtils'),
     todoUrl = require('../constants/APIConstants').todoUrl;
-
-var ActionTypes = TodoConstants.ActionTypes;
 
 function createTodo (todo) {
     APIUtils.post(todoUrl, todo, function (new_id) {
@@ -39,11 +37,22 @@ function toggleTodo(id) {
             id: id
         });
     }
-    APIUtils.put(todoUrl, {id: id}, callback);
+    APIUtils.put(todoUrl, {id: id, type: ActionTypes.COMPLETE_TODO}, callback);
+}
+
+function archiveTodo(id) {
+    function callback (response) {
+        Dispatcher.dispatch({
+            type: ActionTypes.ARCHIVE_TODO,
+            id: id
+        });
+    }
+    APIUtils.put(todoUrl, {id: id, type: ActionTypes.ARCHIVE_TODO}, callback);
 }
 
 module.exports = {
     createTodo: createTodo,
     fetchTodos: fetchTodos,
-    toggleTodo: toggleTodo
+    toggleTodo: toggleTodo,
+    archiveTodo: archiveTodo
 };

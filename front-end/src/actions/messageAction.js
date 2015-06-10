@@ -4,26 +4,42 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
-    ChatConstants = require('../constants/ChatActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     ChatUtils = require('../utils/ChatUtils'),
     Message = ChatUtils.Message,
     APIUtils = require('../utils/APIUtils'),
     chatUrl = require('../constants/APIConstants').chatUrl,
-    io = require('socket.io-client')("http://localhost:3000");
-
-
-var ActionTypes = ChatConstants.ActionTypes;
+    groupsUrl = require('../constants/APIConstants').groupsUrl,
+    socket = require('socket.io-client')("http://localhost:3000"),
+    LoginStore = require('../stores/LoginStore');
 
 //Action for creating a new message
 function createMessage (text) {
     var message = new ChatUtils.buildMessage (text);
-    io.emit('post_message', message);
+    socket.emit('post_message', message);
 }
 
-io.on('new_message', function (raw_msg) {
-    Dispatcher.dispatch({
-        type: ActionTypes.NEW_MESSAGE,
-        message : new Message(raw_msg)
+socket.on('connect', function () {
+    socket.on('authenticated', function () {
+        console.log('Socket.io has established an authenticated connection.');
+        socket.emit('i_am_online');
+
+        socket.on('new_message', function (raw_msg) {
+            Dispatcher.dispatch({
+                type: ActionTypes.NEW_MESSAGE,
+                message : new Message(raw_msg)
+            });
+        });
+
+        socket.on('user_online', function (data) {
+            Dispatcher.dispatch({
+                type: ActionTypes.USER_ONLINE,
+                username: data.username,
+                groupName: data.group_name
+            });
+        });
+    }).emit('authenticate', {
+        token: LoginStore.jwt
     });
 });
 
@@ -41,8 +57,20 @@ function fetchMessages() {
     });
 }
 
+function fetchGroups () {
+    APIUtils.get(groupsUrl, function (groups) {
+        Dispatcher.dispatch({
+            type: ActionTypes.FETCH_GROUPS,
+            groups: {
+                'test-group': groups
+            }
+        });
+    });
+}
+
 module.exports = {
     createMessage: createMessage,
-    fetchMessages: fetchMessages
+    fetchMessages: fetchMessages,
+    fetchGroups: fetchGroups
 };
 

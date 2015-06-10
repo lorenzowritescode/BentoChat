@@ -2,7 +2,8 @@
 
 var React = require('react/addons'),
     MessageActions = require('actions/messageAction'),
-    MessageStore = require('stores/ChatMessageStore');
+    MessageStore = require('stores/ChatMessageStore'),
+    ChatSide = require('../components/ChatSide');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
@@ -103,10 +104,10 @@ var ChatList = React.createClass({
     },
 
     render: function () {
-        var MessageListItem = this.state.messages.map(getMessage);
+        var MessageListItems = this.state.messages.map(getMessage);
         return (
             <div className="chatlist">
-                {MessageListItem}
+                {MessageListItems}
             </div>
         );
     },
@@ -125,9 +126,7 @@ function randomPrompt() {
 
 var NewMessageBox = React.createClass({
     getInitialState: function () {
-        return (
-        {text: ''}
-        );
+        return { text: '' };
     },
 
     render: function () {
@@ -146,19 +145,14 @@ var NewMessageBox = React.createClass({
         );
     },
 
-    _onChange: function (event, value) {
+    _onChange: function (event) {
         this.setState({text: event.target.value});
     },
 
     _onSubmit: function(event) {
         event.preventDefault();
-        var text = this.state.text.trim();
-        if (text) {
-            //Here is where we create the action and send it to the dispatcher
-            MessageActions.createMessage(text);
-        }
-        //Reset text box
-        this.setState({text: ''});
+        console.log('YO');
+        this.send();
     },
 
     //Send via enter key
@@ -202,7 +196,7 @@ var Chat = React.createClass({
                     <ChatBar />
                 </div>
                 <div className="chat-side">
-                    People's online/offline info
+                    <ChatSide />
                 </div>
             </div>
         );

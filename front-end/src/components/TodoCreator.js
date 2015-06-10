@@ -46,13 +46,13 @@ var TodoForm =  React.createClass({
         var text = this.state.text.trim();
         var author = this.state.author.trim();
         var title = this.state.title.trim();
-        if (text) {
+        if (author && title) {
             var todo = new todoUtils.Todo(author, title, text);
             TodoActions.createTodo(todo);
+            this.setState({text: ''});
+            this.setState({author: ''});
+            this.setState({title: ''});
         }
-        this.setState({text: ''});
-        this.setState({author: ''});
-        this.setState({title: ''});
     },
 
     render: function() {

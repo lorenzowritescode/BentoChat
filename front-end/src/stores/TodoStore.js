@@ -4,15 +4,15 @@
 'use strict';
 
 var AppDispatcher = require('../dispatcher/WebappAppDispatcher'),
-    TodoConstants = require('../constants/TodoActionConstants'),
+    ActionTypes = require('../constants/ActionConstants'),
     TodoUtils = require('../utils/TodoUtils'),
     EventEmitter = require('events').EventEmitter,
     assign = require('object-assign');
 
-var ActionTypes = TodoConstants.ActionTypes;
 const CHANGE_EVENT = 'change',
     PENDING_TODO = 'pending',
-    COMPLETED_TODO = 'completed';
+    COMPLETED_TODO = 'completed',
+    ARCHIVED_TODO = 'archived';
 
 var todos = [];
 
@@ -27,6 +27,17 @@ function toggleTodo(id) {
                 todo.status = COMPLETED_TODO;
             else if (todo.status === COMPLETED_TODO)
                 todo.status = PENDING_TODO;
+        }
+    });
+}
+
+function archiveTodo(id) {
+    todos.forEach(function (todo) {
+        if (todo.id === id) {
+            if (todo.status === COMPLETED_TODO)
+                todo.status = ARCHIVED_TODO;
+            else if (todo.status === ARCHIVED_TODO)
+                todo.status = COMPLETED_TODO;
         }
     });
 }
@@ -55,6 +66,12 @@ var TodoStore = assign({}, EventEmitter.prototype, {
         return todos.filter(function (todo) {
             return todo.status === 'pending';
         });
+    },
+
+    getArchived: function () {
+        return todos.filter(function (todo) {
+            return todo.status === ARCHIVED_TODO;
+        });
     }
 });
 
@@ -74,6 +91,11 @@ TodoStore.dispatchToken = AppDispatcher.register(function(action) {
 
         case ActionTypes.COMPLETE_TODO:
             toggleTodo(action.id);
+            TodoStore.emitChange();
+            break;
+
+        case ActionTypes.ARCHIVE_TODO:
+            archiveTodo(action.id);
             TodoStore.emitChange();
             break;
 

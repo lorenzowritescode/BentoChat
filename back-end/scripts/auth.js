@@ -1,56 +1,61 @@
 'use strict'
-var stormpath = require('stormpath'),
-    client = null,
-    bentoApp = null,
-    keyfile = require('path').resolve(__dirname, '.stormpath/apiKey.properties');
-
-
-function init (app) {
-    stormpath.loadApiKey(keyfile, function apiKeyFileLoaded (err, apiKey) {
-        if (err) 
-            throw err;
-        
-        client = new stormpath.Client({apiKey: apiKey});
-
-        getBentoApp();
-    })
-}
-
-function getBentoApp() {
-    client.getApplications({name:'BentoChat'}, function(err, applications) {
-        if (err) throw err;
-
-        bentoApp = applications.items[0];
-    })
-}
+const bcrypt = require('bcrypt'),
+    jwt = require('jsonwebtoken'),
+    db = require('./db'),
+    secret = require('./util').secret;
 
 /*
  * Callback takes 2 parameters: err and account
  */
 function createAccount(account, callback) {
-    if (bentoApp === null)
-        throw new Error('the bentoApp was not found');
-
-    bentoApp.createAccount(account, function(err, account) {
-     if (err) throw err;
-
-     console.log(err);
- });
+    db.createUser(account, function(err, newId) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        delete account.hash;
+        callback(null, account);
+    })
 }
 
-/*
- * Callback takes 2 parameters: err and result.
- * result has index `account'
- */
-function accountLogin (username, password, callback) {
-    bentoApp.authenticateAccount({
-        username: username,
-        password: password
-    }, callback)
+function login (email, password, callback) {
+    db.findUserByEmail(email, function (err, userDetails) {
+        if (err || !userDetails) {
+            callback(err, null);
+            return;
+        }
+
+        var hash = userDetails.hash;
+
+        checkPassword(password, hash, function (err, pwdOk) {
+            if (err) {
+                callback(err, false);
+            } else if (!pwdOk) {
+                callback(new Error('Wrong username/password'), null)
+            } else {
+                var response = {
+                        username: userDetails.username,
+                        email: userDetails.email
+                    },
+                    token = getJwt(response);
+
+                callback(null, token);
+            }
+        })
+    })
+}
+
+function getJwt (payload) {
+    return jwt.sign(payload, secret, {
+        expiresInMinutes: 1440 //Expires after a day
+    });
+}
+
+function checkPassword (pwd, hash, callback) {
+    bcrypt.compare(pwd, hash, callback);
 }
 
 module.exports = {
-    init: init,
     createAccount: createAccount,
-    login: accountLogin
+    login: login
 }
