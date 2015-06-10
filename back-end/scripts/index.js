@@ -70,7 +70,7 @@ app.post('/login', function (req, res) {
     })
 })
 
-app.get('/chat', passport.authenticate('jwt', {session: false }), function (req, res) {
+critical ('get', '/chat', function (req, res) {
     db.findMessages(100, function (err, result) {
         if (!err)
             res.status(200).send(result).end();
@@ -79,7 +79,7 @@ app.get('/chat', passport.authenticate('jwt', {session: false }), function (req,
     })
 })
 
-app.get('/todo', function (req, res) {
+critical('get', '/todo', function (req, res) {
   db.getTodos(function(err, result) {
     if (!err)
       res.status(200).send(result).end();
@@ -88,9 +88,8 @@ app.get('/todo', function (req, res) {
   })
 })
 
-app.post('/todo', function (req, res) {
+critical ('post', '/todo', function (req, res) {
   var todo = req.body;
-  console.log(todo);
 
   db.saveTodo (todo, function(err, result) {
     if (!err)
@@ -100,10 +99,10 @@ app.post('/todo', function (req, res) {
   })
 })
 
-app.put('/todo', function(req, res) {
+critical ('put', '/todo', function(req, res) {
   var id = req.body.id;
   var type = req.body.type;
-  console.log(type);
+
   if (type == "COMPLETE_TODO") {
     db.toggleTodo (id, function(err, result) {
       if (!err)
@@ -121,7 +120,7 @@ app.put('/todo', function(req, res) {
   }
 })
 
-app.get('/group', function (req, res) {
+critical('get', '/group', function (req, res) {
     db.findGroupMembers('test-group', function (err, result) {
       if (!err)
         res.status(200).send(result).end();
@@ -140,7 +139,7 @@ app.put('/wiki', function(req, res) {
     })
 })
 
-app.get('/wiki', function (req, res) {
+critical('get', '/wiki', function (req, res) {
     db.getWikiPosts(function(err, result) {
         if (!err)
             res.status(200).send(result).end();
@@ -149,9 +148,8 @@ app.get('/wiki', function (req, res) {
     })
 })
 
-app.post('/wiki', function (req, res) {
+critical ('post', '/wiki', function (req, res) {
     var post = req.body;
-    console.log(post);
 
     db.saveWikiPost (post, function(err, result) {
         if (!err)
@@ -161,9 +159,8 @@ app.post('/wiki', function (req, res) {
     })
 })
 
-app.post('/wikicomments', function (req, res) {
+critical ('post', '/wikicomments', function (req, res) {
     var comment = req.body;
-    console.log(comment);
 
     db.saveWikiComment (comment, function(err, result) {
         if (!err)
@@ -173,7 +170,7 @@ app.post('/wikicomments', function (req, res) {
     })
 })
 
-app.get('/wikicomments', function (req, res) {
+critical('get', '/wikicomments', function (req, res) {
     db.getWikiComments(function(err, result) {
         if (!err)
             res.status(200).send(result).end();
@@ -181,6 +178,20 @@ app.get('/wikicomments', function (req, res) {
             res.status(500).end('Internal Database Error');
     })
 })
+
+function critical (method, path, handler) {
+  var appMethod = app[method];
+
+    if (typeof appMethod === 'function') {
+        appMethod = appMethod.bind(app);
+
+        appMethod(
+            path, 
+            passport.authenticate('jwt', {session: false }),
+            handler
+        );
+    }
+}
 
 
 server.listen(port);  

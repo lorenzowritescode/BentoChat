@@ -35,7 +35,9 @@ function login (email, password, callback) {
             } else {
                 var response = {
                         username: userDetails.username,
-                        email: userDetails.email
+                        email: userDetails.email,
+                        fullName: userDetails.fullName,
+                        group_list: userDetails.group_list
                     },
                     token = getJwt(response);
 
