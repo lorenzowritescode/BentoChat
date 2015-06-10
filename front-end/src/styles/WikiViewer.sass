@@ -26,9 +26,25 @@
             padding-right: 5px
 .comment-input-section
     height: 75px
+    margin-top: 25px
     .comment-box
         width: 90%
         height: 100%
+        overflow-x: auto
+        overflow-y: scroll
+        padding: 5px
+        border: thin #C5C0C0
+        border-style: solid none solid solid
+        border-top-left-radius: 5px
+        border-bottom-left-radius: 5px
+        box-shadow: none
+        resize: none
+    .comment-box:focus
+        box-shadow: none
+        border: thin #6e6b6b
+        border-style: solid none solid solid
+        border-top-left-radius: 5px
+        border-bottom-left-radius: 5px
     .post-button
         float: right
         width: 10%

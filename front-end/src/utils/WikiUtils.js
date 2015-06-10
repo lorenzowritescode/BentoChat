@@ -36,9 +36,30 @@ function Comment(body, postid) {
     };
 }
 
+var WikiTimestamp = React.createClass({
+    render: function () {
+        var d = new Date(this.props.timestamp);
+        console.log("Timestamp! "+this.props.timestamp);
+        var mins = d.getMinutes();
+        mins = mins > 9 ? mins : '0' + mins;
+        var hours = d.getHours();
+        hours = hours > 9 ? hours : '0' + hours;
+        var days = d.getDate();
+        days = days > 9 ? days : '0' + days;
+        var month = d.getMonth() + 1; //+1 as Jan is 0
+        month = month > 9 ? month : '0' + month;
+        var year = d.getFullYear();
+        return (
+            <div className="wiki-timestamp">
+                {hours}:{mins} on {days}/{month}/{year}
+            </div>
+        );
+    }
+});
 
 module.exports = {
     Post: Post,
     markdownPost: markdownPost,
-    Comment: Comment
+    Comment: Comment,
+    WikiTimestamp: WikiTimestamp
 };

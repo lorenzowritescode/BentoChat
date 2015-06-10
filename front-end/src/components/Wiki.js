@@ -7,7 +7,8 @@ var Link = require('react-router').Link,
     Navigation = require('react-router').Navigation,
     WikiAction = require('../actions/WikiAction'),
     PostStore = require('../stores/WikiPostStore'),
-    Marked = require('marked');
+    Marked = require('marked'),
+    WikiTimestamp = require('../utils/WikiUtils').WikiTimestamp;
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -45,7 +46,9 @@ var PostListItem = React.createClass({
         return (
             <div className="wiki-list-item" onClick={this.handleClick}>
                 <div className="title">{post.title}</div>
-                <div className="info" > written by {post.author} at {post.timestamp}</div>
+                <div className="info" > written by {post.author} at
+                    <WikiTimestamp timestamp={post.timestamp} />
+                </div>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);

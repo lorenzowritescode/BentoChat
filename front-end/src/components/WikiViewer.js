@@ -8,8 +8,11 @@ var React = require('react/addons'),
     Marked = require('marked'),
     RouteHandler = require('react-router').RouteHandler,
     Link = require('react-router').Link,
-    Navigation = require('react-router').Navigation;
+    Navigation = require('react-router').Navigation,
+    WikiTimestamp = require('../utils/WikiUtils').WikiTimestamp;
 
+//Key code for 'enter' key
+var ENTER_KEY_CODE = 13;
 
 require('styles/WikiViewer.sass');
 
@@ -69,6 +72,13 @@ var CommentSection = React.createClass({
         this.setState({text: ''});
     },
 
+    _onKeyDown: function (event) {
+        if (event.keyCode === ENTER_KEY_CODE) {
+            event.preventDefault();
+            this.send();
+        }
+    },
+
     render: function () {
         var commentlist = this.state.comments.map(
             (comment) => {
@@ -85,7 +95,8 @@ var CommentSection = React.createClass({
                     <textarea className="comment-box"
                               placeholder="Leave a comment. If you want."
                               onChange={this.onTextChange}
-                              value={this.state.text}/>
+                              value={this.state.text}
+                              onKeyDown={this._onKeyDown}/>
                     <button onClick={this.send} className="btn btn-success input-group-addon post-button">
                         <span className="glyphicon glyphicon-ok"></span>
                     </button>
@@ -130,7 +141,9 @@ var WikiViewer = React.createClass({
 
                 <div className="wiki-single-item">
                     <div className="title">{post.title}</div>
-                    <div className="info" > written by {post.author} at {post.timestamp}</div>
+                    <div className="info" > written by {post.author} at
+                        <WikiTimestamp timestamp={post.timestamp} />
+                    </div>
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>
                 </div>
