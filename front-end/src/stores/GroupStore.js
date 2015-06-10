@@ -40,7 +40,7 @@ class GroupStore extends BaseStore {
     }
 
     _updateStatus(username, groupName, status) {
-        var group  = this.getGroup(groupName);
+        var group  = this.getGroup(groupName) || [];
 
         group.forEach(function (user) {
             if (user.username === username)
