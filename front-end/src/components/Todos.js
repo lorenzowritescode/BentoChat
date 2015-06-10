@@ -3,7 +3,8 @@
 var React = require('react/addons'),
     RouteHandler = require('react-router').RouteHandler,
     TodoActions = require('../actions/todoActions'),
-    TodoStore = require('../stores/TodoStore');
+    TodoStore = require('../stores/TodoStore'),
+    Navigation = require('react-router').Navigation;
 
 require('styles/Todos.sass');
 var Link = require('react-router').Link;
@@ -11,6 +12,11 @@ var Link = require('react-router').Link;
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
 var Todo = React.createClass({
+    mixins: [Navigation],
+
+    handleClick: function () {
+        this.transitionTo("todo-view", {todoid: this.props.todo.id});
+    },
 
     _onSubmit: function(e) {
         e.preventDefault();
@@ -31,8 +37,8 @@ var Todo = React.createClass({
 
     render: function() {
         return (
-            <div className="todo">
-                <div className="todo-content">
+            <div className="todo" >
+                <div className="todo-content" onClick={this.handleClick}>
                     <div className="todo-title">
                         {this.props.todo.title}
                     </div>

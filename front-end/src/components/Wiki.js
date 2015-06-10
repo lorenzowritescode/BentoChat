@@ -47,7 +47,7 @@ var PostListItem = React.createClass({
             <div className="wiki-list-item" onClick={this.handleClick}>
                 <div className="title">{post.title}</div>
                 <div className="info" > written by {post.author} at
-                    <WikiTimestamp timestamp={post.timestamp} />
+                    <WikiTimestamp timestamp={this.props.post.timestamp} />
                 </div>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>

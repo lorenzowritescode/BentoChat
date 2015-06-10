@@ -6,12 +6,13 @@
 var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     ActionTypes = require('../constants/ActionConstants'),
     WikiUtils = require('../utils/WikiUtils'),
+    CommentUtils = require('../utils/CommentUtils'),
     APIUtils = require('../utils/APIUtils'),
-    wikiComUrl = require('../constants/APIConstants').wikiCommentsUrl;
+    ComUrl = require('../constants/APIConstants').wikiCommentsUrl;
 
-function createComment(body, postid) {
-    var comment = WikiUtils.Comment(body, postid);
-    APIUtils.post(wikiComUrl, comment, function (new_id) {
+function createComment(body, itemid) {
+    var comment = CommentUtils.Comment(body, itemid);
+    APIUtils.post(ComUrl, comment, function (new_id) {
         comment.id = new_id;
         Dispatcher.dispatch({
             type: ActionTypes.CREATE_COMMENT,
@@ -22,7 +23,7 @@ function createComment(body, postid) {
 }
 
 function fetchComment () {
-    APIUtils.get(wikiComUrl, function (result) {
+    APIUtils.get(ComUrl, function (result) {
         Dispatcher.dispatch({
             type: ActionTypes.FETCH_COMMENTS,
             comment_list: result

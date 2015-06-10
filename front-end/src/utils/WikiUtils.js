@@ -27,15 +27,6 @@ function markdownPost(post) {
     );
 }
 
-function Comment(body, postid) {
-    return {
-        body: body,
-        author: "Dave",
-        postid: postid,
-        timestamp: Date.now()
-    };
-}
-
 var WikiTimestamp = React.createClass({
     render: function () {
         var d = new Date(this.props.timestamp);
