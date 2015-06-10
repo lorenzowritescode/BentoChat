@@ -7,7 +7,8 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     ActionTypes = require('../constants/ActionConstants'),
     WikiUtils = require('../utils/WikiUtils'),
     APIUtils = require('../utils/APIUtils'),
-    wikiUrl = require('../constants/APIConstants').wikiUrl;
+    wikiUrl = require('../constants/APIConstants').wikiUrl,
+    wikiComUrl = require('../constants/APIConstants').wikiCommentsUrl;
 
 function createPost(title, text) {
     var post = WikiUtils.Post(title, text);
@@ -29,7 +30,18 @@ function fetchPosts () {
     });
 }
 
+function deletePost (postid) {
+    APIUtils.put(wikiUrl, {postid: postid}, function (response) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DELETE_POST,
+            postid: postid
+        });
+    });
+}
+
+
 module.exports = {
     createPost: createPost,
-    fetchPosts: fetchPosts
+    fetchPosts: fetchPosts,
+    deletePost: deletePost
 };

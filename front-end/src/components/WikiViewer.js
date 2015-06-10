@@ -106,15 +106,28 @@ var WikiViewer = React.createClass({
         this.transitionTo("wiki");
     },
 
+    onDelete: function () {
+        if (window.confirm("Are you sure you want to delete this post?")){
+            WikiAction.deletePost(this.props.params.wikiid);
+            this.transitionTo("wiki");
+        }
+    },
+
     render: function () {
         var post = PostStore.get(this.props.params.wikiid);
         var body = Marked(post.body);
         return (
             <div className="wiki-view">
+                <button className="btn btn-warning btn-block delete-button"
+                        onClick={this.onDelete}>
+                    <span className="glyphicon glyphicon-trash"></span>
+                </button>
+
                 <button className="btn btn-info btn-block back-button"
                         onClick={this.onReturn}>
                     <span className="glyphicon glyphicon-arrow-left"></span>
                 </button>
+
                 <div className="wiki-single-item">
                     <div className="title">{post.title}</div>
                     <div className="info" > written by {post.author} at {post.timestamp}</div>
