@@ -1,29 +1,12 @@
 .comment-input-section
-    height: 75px
-    margin-top: 25px
+    height: 100%
+    width: 100%
     .comment-box
-        width: 90%
-        height: 100%
-        overflow-x: auto
-        overflow-y: scroll
-        padding: 5px
-        border: thin #C5C0C0
-        border-style: solid none solid solid
-        border-top-left-radius: 5px
-        border-bottom-left-radius: 5px
-        box-shadow: none
-        resize: none
-    .comment-box:focus
-        box-shadow: none
-        border: thin #6e6b6b
-        border-style: solid none solid solid
-        border-top-left-radius: 5px
-        border-bottom-left-radius: 5px
+        width: 100%
+        margin-bottom: 10px
     .post-button
         float: right
-        width: 10%
-        height: 100%
-        box-shadow: none
+        width: 100%
         color: white
         transition: box-shadow 0.2s
         background-color: rgba(67, 154, 70, 0.5)
@@ -34,10 +17,36 @@
         background-color: rgba(67, 154, 70, 1)
     .post-button:focus
         outline: none
-.comment-list
-    margin-top: 15px
-    .comment
-        border: solid thin darkgrey
-        border-radius: 5px
-        padding: 5px
-        margin-top: 8px
+.comment-section
+    padding: 10px
+    #comments-hint
+        margin-top: 15px
+        border-top: 1px solid black
+        color: black
+        text-align: center
+        padding-top: 15px
+    .comment-list
+        margin-top: 15px
+        .comment
+            border: solid thin darkgrey
+            border-radius: 5px
+            padding: 5px
+            margin-top: 8px
+            .author
+                font-size: medium
+            .timestamp
+                color: rgb(150, 150, 150)
+
+// React transition group below
+.example-appear
+    opacity: 0.01
+    transition: opacity .5s ease-in
+
+.example-appear.example-appear-active
+    opacity: 1
+
+.example-enter
+    @extend .example-appear
+.example-enter.example-enter-active
+    opacity: 1
+
