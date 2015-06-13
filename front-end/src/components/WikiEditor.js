@@ -121,7 +121,7 @@ var Editor = React.createClass({
     render: function () {
         return (
             <section className="wiki-edit-text">
-                <textarea
+                <input
                     className="titlebox"
                     placeholder="Title"
                     rows="1"
