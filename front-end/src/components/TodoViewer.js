@@ -58,7 +58,7 @@ var TodoSingle = React.createClass({
                 </div>
 
                 <div className="complete-button">
-                    <button onClick={this.onReturn} className="btn btn-info btn-block todo-btn">
+                    <button onClick={this.onReturn} className="btn btn-default btn-block todo-btn">
                         <span className="glyphicon glyphicon-arrow-left todo-back"></span>
                     </button>
                     <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">

@@ -162,7 +162,7 @@ var TodosList = React.createClass({
                         <TodoList list={this.state.completed} className="completed-list"/>
                     </div>
                 </div>
-                <div className="todos-nav">
+        );
     }
 });
 
@@ -170,11 +170,9 @@ var Todos = React.createClass({
 
     render: function() {
         return (
-            <div className="todo-body">
-                <div className="test">
-                    <RouteHandler />
-                </div>
-                <div className="todo-nav">
+            <div className="todos-body">
+                <RouteHandler />
+                <div className="todos-nav">
                     <TodoBar />
                 </div>
                 <div className="todos-side">

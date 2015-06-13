@@ -7,6 +7,7 @@ var React = require('react/addons'),
     CommentStore = require('../stores/CommentStore'),
     CommentAction = require('../actions/CommentAction');
 
+require('styles/Comments.sass');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;

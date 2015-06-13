@@ -37,7 +37,7 @@ var WikiViewer = React.createClass({
                     <span className="glyphicon glyphicon-trash"></span>
                 </button>
 
-                <button className="btn btn-info btn-block back-button"
+                <button className="btn btn-default btn-block back-button"
                         onClick={this.onReturn}>
                     <span className="glyphicon glyphicon-arrow-left"></span>
                 </button>
