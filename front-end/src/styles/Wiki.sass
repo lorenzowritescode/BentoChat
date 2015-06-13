@@ -21,10 +21,18 @@
         color: black
         text-align: center
     .title-list
-        div
-            padding: 5px
-        div:nth-child(odd)
-            background-color: rgba(128, 128, 128, 0.2)
+        .wiki-side-link
+            div
+                padding: 5px
+                background-color: #DCDCDC
+                color: #6C6C6C
+        .wiki-side-link:nth-child(odd)
+            div:nth-child(odd)
+                background-color: rgba(128, 128, 128, 0.2)
+        .wiki-side-link:hover
+            div
+                color: #383737
+                text-decoration: underline #383737
 .wiki-side
     @extend .HolyGrail-ads
 .post-list
