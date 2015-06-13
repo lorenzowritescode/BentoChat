@@ -19,11 +19,9 @@ var App = React.createClass({
 
     render: function () {
         return (
-            <div className="HolyGrail">
+            <div className="bento-body">
                 <BentoNav/>
-                <div>
-                    <RouteHandler />
-                </div>
+                <RouteHandler />
             </div>
         );
     }
