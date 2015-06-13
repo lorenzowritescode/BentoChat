@@ -56,6 +56,7 @@ var Todo = React.createClass({
 
     render: function() {
         var link = linkify(this.props.todo.text);
+        var dueText = (this.props.todo.due ? "Due: " + this.props.todo.due : "");
         return (
             <div className="todo" >
                 <div className="todo-content" onClick={this.handleClick}>
@@ -73,7 +74,7 @@ var Todo = React.createClass({
                             {this.props.todo.author}
                         </div>
                         <div className="todo-due-date">
-                            <p><i> {"Due Wed 12/07/15"}   </i></p>
+                            <p><i> {dueText} </i></p>
                             </div>
                         </div>
                     </div>
@@ -191,13 +192,13 @@ var TodosList = React.createClass({
                         <div className="title" align="center">
                             Todos
                         </div>
-                        <TodoList list={this.state.pending} className="todo-list"/>
+                        <TodoList list={this.state.pending.reverse()} className="todo-list"/>
                     </div>
                     <div className="completed-list">
                         <div className="title">
                             Completed
                         </div>
-                        <TodoList list={this.state.completed} className="completed-list"/>
+                        <TodoList list={this.state.completed.reverse()} className="completed-list"/>
                     </div>
                 </div>
         );
