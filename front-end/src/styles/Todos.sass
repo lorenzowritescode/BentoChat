@@ -9,7 +9,7 @@
     width: 100%
     display: flex
     min-height: 100%
-    margin-bottom: 10px
+    margin-bottom: 50px
 
 .todos-nav
     @extend .HolyGrail-nav
@@ -21,9 +21,7 @@
     width: 50%
     .title
         font-size: x-large
-        width: 30%
-        margin-left: auto
-        margin-right: auto
+        text-align: center
 
 .todo-list
     .archive-btn
@@ -35,12 +33,14 @@
     .todo-btn
         border: 1px solid #4CAF50
         background-color: #4CAF50
-        height: 44px
+        height: 60%
+        min-height: 44px
         &:hover
             background-color: #660000
             border: 1px solid #660000
     .archive-btn
-        height: 35px
+        height: 40%
+        min-height: 35px
     .todo-tick
         color: white
     .btn-block
@@ -58,6 +58,8 @@
     button
         height: 79px
 
+.archive-button, .new-button, .back-btn, .my-todos, .due-soon
+    margin-top: 5px
 
 
 .todoc-body
@@ -106,10 +108,12 @@
             overflow-wrap: break-word
             padding-right: 5px
         .todo-desc
+            display: flex
             overflow-wrap: break-word
             padding-right: 5px
             .icon
-                padding-right: 5px
+                padding: 5px 5px 5px 0px
+                min-width: 17px
         .todo-assignee
             color: gray
             .icon
@@ -120,17 +124,14 @@
         .todo-button
             height: 79px
 
-.btn-drawer
-    width: 100%
-
 .archived-list
     width: 60%
     margin-left: auto
     margin-right: auto
     .title
         font-size: x-large
-        width: 60%
-        margin-left: auto
-        margin-right: auto
+        text-align: center
     button
-        height: 79px
+        min-height: 79px
+
+

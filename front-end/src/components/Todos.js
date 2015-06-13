@@ -4,11 +4,28 @@ var React = require('react/addons'),
     RouteHandler = require('react-router').RouteHandler,
     TodoActions = require('../actions/todoActions'),
     TodoStore = require('../stores/TodoStore'),
-    TodoCreator = require('./TodoCreator'),
-    ChatSide = require('./ChatSide');
+    TodoCreator = require('./TodoCreator');
 
 require('styles/Todos.sass');
 var Link = require('react-router').Link;
+
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+    return replacedText;
+}
 
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
@@ -32,6 +49,7 @@ var Todo = React.createClass({
     },
 
     render: function() {
+        var link = linkify(this.props.todo.text);
         return (
             <div className="todo">
                 <div className="todo-content">
@@ -40,7 +58,8 @@ var Todo = React.createClass({
                     </div>
                     <div className="todo-desc">
                         <span className="glyphicon glyphicon-menu-right icon"></span>
-                        <span className="todo-desc-text">{this.props.todo.text}</span>
+                        <div className="todo-desc-text" dangerouslySetInnerHTML={{__html: link}}></div>
+
                     </div>
                     <div className="todo-assignee">
                         <span className="glyphicon glyphicon-user icon"></span>
@@ -86,7 +105,7 @@ var TodoBar = React.createClass({
         var TodoForm = TodoCreator;
         return (
             <div className="todo-nav">
-                <button type="button" className="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
+                <button type="button" className="btn btn-default btn-block new-button" data-toggle="modal" data-target="#myModal">
                     New
                 </button>
                 <div className="modal fade" id="myModal" role="dialog">
@@ -104,14 +123,28 @@ var TodoBar = React.createClass({
 
                     </div>
                 </div>
-
-
-                <Link to="todo-archive" className="btn btn-default btn-block" activeClassName="disabled">
+                <Link to="todo-archive" className="btn btn-warning btn-block archive-button" activeClassName="disabled">
                     Archive
                 </Link>
             </div>
         );
 }
+});
+
+var TodoSide = React.createClass({
+    render: function () {
+        return (
+            <div className="todo-side">
+                <button className="btn btn-primary btn-block my-todos">
+                    My Todos
+                    </button>
+                <button className="btn btn-danger btn-block due-soon">
+                    Due Soon
+                    </button>
+
+                </div>
+        );
+    }
 });
 
 function getStateFromStores() {
@@ -161,7 +194,7 @@ var Todos = React.createClass({
                     <TodoBar />
                 </div>
                 <div className="todos-side">
-                    <ChatSide />
+                    <TodoSide />
                 </div>
             </div>
         );
