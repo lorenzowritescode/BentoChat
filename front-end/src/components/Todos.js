@@ -128,13 +128,13 @@ var Todos = React.createClass({
                     <div className="todos-content">
                         <div className="todo-list">
                             <div className="title" align="center">
-                                Todos:
+                                Todos
                             </div>
                             <TodoList list={this.state.pending} className="todo-list"/>
                         </div>
                         <div className="completed-list">
                             <div className="title">
-                                Completed:
+                                Completed
                             </div>
                             <TodoList list={this.state.completed} className="completed-list"/>
                         </div>

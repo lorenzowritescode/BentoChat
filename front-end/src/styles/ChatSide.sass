@@ -1,13 +1,15 @@
 .user-status
     background-color: white
-    border: 1px solid gray
-    box-shadow: 2px 2px 5px black
-    border-radius: 5px
+    border-radius: 2px
     padding-left: 5px
-    margin: 5px 0px 5px 0px
+    margin: 5px 0px 2px 0px
+    transition: box-shadow 0.5s
     .name
         font-size: larger
     .username
         font-style: italic
     .status
         font-size: smaller
+.user-status:hover
+    box-shadow: 0px 0px 7px gray
+    transition: box-shadow 0.5s
