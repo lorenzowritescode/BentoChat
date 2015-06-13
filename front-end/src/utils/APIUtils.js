@@ -5,6 +5,7 @@
 
 var request = require('reqwest');
 import LoginStore from '../stores/LoginStore';
+import GroupStore from '../stores/GroupStore';
 
 class AjaxRequest {
     constructor(method) {
@@ -43,6 +44,7 @@ class AjaxRequest {
         var thisReq = this;
         // Add auth token for authenticated API access
         thisReq._body.auth_token = LoginStore.jwt;
+        thisReq._body.group = GroupStore.current;
 
         var options = {
             url: thisReq._path,
