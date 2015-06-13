@@ -173,7 +173,6 @@ function retrieve (err,  cursor, connection, callback) {
  * completed -> pending, and vice-versa
  */
 module.exports.toggleTodo = function(id, callback) {
-  console.log(id);
   onConnect(function (err, connection) {
     r.db(dbConfig['db']).table('todos').get(id).update(function(todo) {
       return r.branch(
@@ -193,7 +192,6 @@ module.exports.toggleTodo = function(id, callback) {
 };
 
 module.exports.archiveTodo = function(id, callback) {
-      console.log(id);
     onConnect(function (err, connection) {
         r.db(dbConfig['db']).table('todos').get(id).update(function(todo) {
             return r.branch(

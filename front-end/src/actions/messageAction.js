@@ -68,9 +68,17 @@ function fetchGroups () {
     });
 }
 
+function changeGroup (new_selection) {
+    Dispatcher.dispatch({
+        type: ActionTypes.CHANGE_GROUP,
+        groupName: new_selection
+    });
+}
+
 module.exports = {
     createMessage: createMessage,
     fetchMessages: fetchMessages,
-    fetchGroups: fetchGroups
+    fetchGroups: fetchGroups,
+    changeGroup: changeGroup
 };
 

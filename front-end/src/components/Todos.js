@@ -5,7 +5,8 @@ var React = require('react/addons'),
     TodoActions = require('../actions/todoActions'),
     TodoStore = require('../stores/TodoStore'),
     Navigation = require('react-router').Navigation,
-    TodoCreator = require('./TodoCreator');
+    TodoCreator = require('./TodoCreator'),
+    ChatSide = require('./ChatSide');
 
 require('styles/Todos.sass');
 var Link = require('react-router').Link;
@@ -90,10 +91,7 @@ var TodoBar = React.createClass({
     render: function () {
         var TodoForm = TodoCreator;
         return (
-            <div>
-                <Link to="todo-new" className="btn btn-default btn-block" activeClassName="disabled">
-                    New
-                </Link>
+            <div className="todo-nav">
                 <button type="button" className="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
                     New
                 </button>
@@ -150,21 +148,21 @@ var TodosList = React.createClass({
 
     render: function () {
         return (
-            <div className="todos-content">
-                <div className="todo-list">
-                    <div className="title" align="center">
-                        Todos:
+                <div className="todos-content">
+                    <div className="todo-list">
+                        <div className="title" align="center">
+                            Todos
+                        </div>
+                        <TodoList list={this.state.pending} className="todo-list"/>
                     </div>
-                    <TodoList list={this.state.pending} className="todo-list"/>
-                </div>
-                <div className="completed-list">
-                    <div className="title">
-                        Completed:
+                    <div className="completed-list">
+                        <div className="title">
+                            Completed
+                        </div>
+                        <TodoList list={this.state.completed} className="completed-list"/>
                     </div>
-                    <TodoList list={this.state.completed} className="completed-list"/>
                 </div>
-            </div>
-        );
+                <div className="todos-nav">
     }
 });
 
@@ -179,8 +177,8 @@ var Todos = React.createClass({
                 <div className="todo-nav">
                     <TodoBar />
                 </div>
-                <div className="todo-side">
-                    profile information
+                <div className="todos-side">
+                    <ChatSide />
                 </div>
             </div>
         );

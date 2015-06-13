@@ -60,7 +60,6 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 
 MessageStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {
-
         case ActionTypes.NEW_MESSAGE:
             addMessage(action.message);
             MessageStore.emitChange();

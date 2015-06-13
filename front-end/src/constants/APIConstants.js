@@ -1,5 +1,5 @@
-var host = 'localhost',
-    port = '3000',
+var host = 'localhost', //'178.62.82.220',
+    port = '3000', //'8080',
     url = 'http://'+ host + ':' + port + '/',
     LOGIN_URL = url + 'login',
     REGISTER_URL = url + 'register',

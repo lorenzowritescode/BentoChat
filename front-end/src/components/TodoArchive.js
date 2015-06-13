@@ -98,23 +98,21 @@ var TodoArchive = React.createClass({
 
     render: function() {
         return (
-            <div className="todo-body">
-                <div className="test">
-                <div className="todo-content">
+            <div className="todos-body">
+                <div className="todos-content">
                     <div className="archived-list">
                         <div className="title">
-                           ~~~~~~ Archived ~~~~~~
+                           Archived
                         </div>
                         <TodoList list={this.state.archived} className="archive-list"/>
                     </div>
                 </div>
-                    </div>
-                <div className="todo-nav">
+                <div className="todos-nav">
                     <Link to="todo" className="btn btn-default btn-block" activeClassName="disabled">
                         Back to Todos
                     </Link>
                 </div>
-                <div className="todo-side">
+                <div className="todos-side">
                     side
                 </div>
             </div>
