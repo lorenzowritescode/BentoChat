@@ -7,8 +7,8 @@ var Link = require('react-router').Link,
     Navigation = require('react-router').Navigation,
     WikiAction = require('../actions/WikiAction'),
     PostStore = require('../stores/WikiPostStore'),
-    Marked = require('marked'),
-    WikiTimestamp = require('../utils/WikiUtils').WikiTimestamp;
+    Marked = require('marked');
+import WikiNav from './WikiNav';
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -43,12 +43,11 @@ var PostListItem = React.createClass({
     render: function () {
         var post = this.props.post;
         var body = Marked(trim(post.body));
+        var date = new Date(parseInt(post.timestamp)).toDateString();
         return (
             <div className="wiki-list-item" onClick={this.handleClick}>
                 <div className="title">{post.title}</div>
-                <div className="info" > written by {post.author} at
-                    <WikiTimestamp timestamp={this.props.post.timestamp} />
-                </div>
+                <div className="info" > written by {post.author} at {date}</div>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);
@@ -153,12 +152,13 @@ var Wiki = React.createClass({
                     <RouteHandler />
                 </div>
                 <div className="wiki-nav">
-                    <Link to="wiki-new" className="btn btn-info btn-block" activeClassName="disabled">
+                    <div className="button-container">
+                        <Link to="wiki-new" className="btn btn-info btn-block" activeClassName="disabled">
                             New
-                    </Link>
-                </div>
-                <div className="wiki-side">
-                    History info baby
+                        </Link>
+                    </div>
+
+                    <WikiNav />
                 </div>
             </div>
         );

@@ -4,22 +4,35 @@
   border: 1px dashed #f00
 .wiki-body
     @extend .HolyGrail-body
+    position: relative
 .wiki-content
     @extend .HolyGrail-content
-    padding: 15px
+    z-index: 5
 .wiki-nav
     @extend .HolyGrail-nav
-    .btn
-        margin-bottom: 5px
+    padding: 0px
+    .button-container
+        padding: 10px
+    #nav-hint
+        margin-top: 5px
+        border-top: 1px solid grey
+        padding-top: 5px
+        padding-bottom: 5px
+        color: black
+        text-align: center
+    .title-list
+        div
+            padding: 5px
+        div:nth-child(odd)
+            background-color: rgba(128, 128, 128, 0.2)
 .wiki-side
     @extend .HolyGrail-ads
 .post-list
-    margin-bottom: 40px
     .wiki-list-item
-        border: 2px solid grey
-        margin-bottom: 10px
-        box-shadow: 3px 3px 3px gainsboro
-        border-radius: 5px
+        word-break: break-all
+        transition: box-shadow 0.3s
+        //box-shadow: 3px 3px 3px gainsboro
+        border-bottom: 1px solid gainsboro
         padding: 10px
         .title
             font-size: x-large
@@ -29,6 +42,6 @@
         .body
             padding-left: 5px
             padding-right: 5px
-.wiki-list-item:hover
-    box-shadow: 7px 7px 3px #B0ACAC
-    border-color: darkgray
+    .wiki-list-item:hover
+        box-shadow: 0px 0px 5px gray
+        border-color: darkgray
