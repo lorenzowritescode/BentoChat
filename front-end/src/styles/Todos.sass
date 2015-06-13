@@ -2,32 +2,19 @@
 
 .Todos
     border: 1px dashed #f00
-.todo-body
+.todos-body
     @extend .HolyGrail-body
 .todos-content
     @extend .HolyGrail-content
     width: 100%
     display: flex
-.todo-nav
+    min-height: 100%
+    margin-bottom: 10px
+
+.todos-nav
     @extend .HolyGrail-nav
-.todo-side
+.todos-side
     @extend .HolyGrail-ads
-.todoc-body
-    width: 100%
-    border-radius: 5px
-    border: 2px solid #4CAF50
-    padding: 5px 5px 5px 5px
-
-.test
-    width: 100%
-    padding: 5px 5px 20px 5px
-    overflow-y: auto
-
-.todo-list
-    .archive-btn
-        display: none
-    button
-        height: 79px
 
 .todo-list, .completed-list
     padding: 5px
@@ -37,6 +24,12 @@
         width: 30%
         margin-left: auto
         margin-right: auto
+
+.todo-list
+    .archive-btn
+        display: none
+    button
+        height: 79px
 
 .completed-list
     .todo-btn
@@ -53,8 +46,47 @@
     .btn-block
         margin-top: 0px
 
+.archived-list
+    width: 60%
+    margin-left: auto
+    margin-right: auto
+    .title
+        font-size: x-large
+        width: 60%
+        margin-left: auto
+        margin-right: auto
+    button
+        height: 79px
 
 
+
+.todoc-body
+    width: 100%
+    .todoc-form
+        .btn
+            width: 50%
+        .input-group
+            width: 100%
+            .input-group-btn
+                width: 100%
+            .form-control
+                width: 100%
+        .title-due, .todo-author
+            padding-bottom: 5px
+            display: flex
+            flex-direction: row
+        .description-box
+            padding-bottom: 5px
+            .desc-box
+                height: 100px
+
+
+    .author-box, .title-box
+        width: 50%
+    .desc-box
+
+.modal-title
+    font-size: large
 
 .todo
     width: 100%
@@ -82,18 +114,14 @@
             color: gray
             .icon
                 padding-right: 5px
-
     .complete-button
         width: 17%
-        height: inherit
+        height: 100%
         .todo-button
             height: 79px
+
 .btn-drawer
     width: 100%
-    .btn-success
-        width: 80%
-    .btn-warning
-        width: 20%
 
 .archived-list
     width: 60%
