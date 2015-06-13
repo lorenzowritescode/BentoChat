@@ -67,21 +67,26 @@ var Todo = React.createClass({
                         <div className="todo-desc-text" dangerouslySetInnerHTML={{__html: link}}></div>
 
                     </div>
-                    <div className="todo-assignee">
-                        <span className="glyphicon glyphicon-user icon"></span>
-                        {this.props.todo.author}
+                    <div className="assignee-due-date">
+                        <div className="todo-assignee">
+                            <span className="glyphicon glyphicon-user icon"></span>
+                            {this.props.todo.author}
+                        </div>
+                        <div className="todo-due-date">
+                            <p><i> {"Due Wed 12/07/15"}   </i></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="complete-button">
+                        <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
+                            <span className="glyphicon glyphicon-ok todo-tick"></span>
+                        </button>
+                        <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
+                            <span className="glyphicon glyphicon-trash"></span>
+                        </button>
                     </div>
                 </div>
-
-                <div className="complete-button">
-                    <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
-                        <span className="glyphicon glyphicon-ok todo-tick"></span>
-                    </button>
-                    <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
-                        <span className="glyphicon glyphicon-trash"></span>
-                    </button>
-                </div>
-            </div>
         );
     }});
 
@@ -141,10 +146,10 @@ var TodoSide = React.createClass({
     render: function () {
         return (
             <div className="todo-side">
-                <button className="btn btn-primary btn-block my-todos">
+                <button className="btn btn-default btn-block my-todos">
                     My Todos
                     </button>
-                <button className="btn btn-danger btn-block due-soon">
+                <button className="btn btn-default btn-block due-soon">
                     Due Soon
                     </button>
 

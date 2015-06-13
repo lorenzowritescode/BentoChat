@@ -46,8 +46,10 @@ var PostListItem = React.createClass({
         var date = new Date(parseInt(post.timestamp)).toDateString();
         return (
             <div className="wiki-list-item" onClick={this.handleClick}>
-                <div className="title">{post.title}</div>
-                <div className="info" > written by {post.author} at {date}</div>
+                <div className="title-info">
+                    <div className="title">{post.title}</div>
+                    <div className="info"> written by {post.author} at {date}</div>
+                </div>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);
