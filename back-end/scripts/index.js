@@ -149,7 +149,7 @@ critical('get', '/wiki', function (req, res) {
 })
 
 critical ('post', '/wiki', function (req, res) {
-    var post = req.body;
+    var post = util.makeWikiPost(req.body, req.user);
 
     db.saveWikiPost (post, function(err, result) {
         if (!err)
@@ -160,7 +160,7 @@ critical ('post', '/wiki', function (req, res) {
 })
 
 critical ('post', '/wikicomments', function (req, res) {
-    var comment = req.body;
+    var comment = util.makeComment(req.body, req.user);
 
     db.saveWikiComment (comment, function(err, result) {
         if (!err)
