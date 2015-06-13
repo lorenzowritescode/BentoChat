@@ -108,7 +108,7 @@ var TodoArchive = React.createClass({
                     </div>
                 </div>
                 <div className="todos-nav">
-                    <Link to="todo" className="btn btn-default btn-block" activeClassName="disabled">
+                    <Link to="todo" className="btn btn-default btn-block back-btn" activeClassName="disabled">
                         Back to Todos
                     </Link>
                 </div>

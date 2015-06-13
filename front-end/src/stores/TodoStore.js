@@ -72,6 +72,15 @@ var TodoStore = assign({}, EventEmitter.prototype, {
         return todos.filter(function (todo) {
             return todo.status === ARCHIVED_TODO;
         });
+    },
+
+    get: function(id) {
+        for (var i in todos) {
+            if (todos[i].id === id) {
+                return todos[i];
+            }
+        }
+        return null;
     }
 });
 
