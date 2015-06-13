@@ -5,6 +5,7 @@ var React = require('react/addons'),
     TodoActions = require('../actions/todoActions'),
     TodoStore = require('../stores/TodoStore'),
     Navigation = require('react-router').Navigation;
+    TodoCreator = require('./TodoCreator');
 
 require('styles/Todos.sass');
 var Link = require('react-router').Link;
@@ -87,11 +88,32 @@ var TodoList = React.createClass({
 
 var TodoBar = React.createClass({
     render: function () {
+        var TodoForm = TodoCreator;
         return (
             <div>
                 <Link to="todo-new" className="btn btn-default btn-block" activeClassName="disabled">
                     New
                 </Link>
+                <button type="button" className="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
+                    New
+                </button>
+                <div className="modal fade" id="myModal" role="dialog">
+                    <div className="modal-dialog">
+
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <div className="modal-title">Create a Todo</div>
+                            </div>
+                            <div className="modal-body">
+                                <TodoForm />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <Link to="todo-archive" className="btn btn-default btn-block" activeClassName="disabled">
                     Archive
                 </Link>
