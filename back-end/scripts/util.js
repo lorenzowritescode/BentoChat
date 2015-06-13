@@ -27,9 +27,29 @@ function makeUser (reqBody) {
 	return new User(reqBody.fullName, reqBody.email, reqBody.username, reqBody.password);
 }
 
+function makeWikiPost (reqBody, userDetails) {
+	return {
+		author: userDetails.username || '',
+		title: reqBody.title || '',
+		timestamp: reqBody.timestamp ||  Date.now(),
+		body: reqBody.body || ''
+	}
+}
+
+function makeComment (reqBody, userDetails) {
+	return {
+		author: userDetails.username || '',
+		body: reqBody.body || '',
+		postid: reqBody.postid || '',
+		timestamp: reqBody.timestamp || Date.now()
+	}
+}
+
 module.exports = {
 	makeUser: makeUser,
 	User: User,
 	checkMessage: checkMessage,
-	secret: 'bento-secret-deeznuts'
+	secret: 'bento-secret-deeznuts',
+	makeWikiPost: makeWikiPost,
+	makeComment: makeComment
 }

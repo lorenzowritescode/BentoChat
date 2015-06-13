@@ -14,7 +14,7 @@ var CHANGE_EVENT = 'change';
 var comments = [];
 
 function addComment (comment) {
-    comments.push(comment);
+    comments.unshift(comment);
 }
 
 function removeComments (postid) {
@@ -53,13 +53,9 @@ var CommentStore = assign({}, EventEmitter.prototype, {
     },
 
     getAllForPost: function(postid) {
-        var res = [];
-        for (var i in comments) {
-            if (comments[i].postid === postid) {
-                res.push(comments[i]);
-            }
-        }
-        return res;
+        return comments.filter((comm) => {
+            return comm.postid === postid;
+        });
     }
 });
 

@@ -19,7 +19,6 @@ function createComment(body, itemid) {
             comment: comment
         });
     });
-    console.log("Created comment with postid "+comment.postid+ " and real id " + comment.id);
 }
 
 function fetchComment () {

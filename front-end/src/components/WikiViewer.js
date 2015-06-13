@@ -7,7 +7,6 @@ var React = require('react/addons'),
     RouteHandler = require('react-router').RouteHandler,
     Link = require('react-router').Link,
     Navigation = require('react-router').Navigation,
-    WikiTimestamp = require('../utils/WikiUtils').WikiTimestamp,
     CommentSection = require('../components/Comments').CommentSection,
     BentoComment = require('../components/Comments').BentoComment;
 
@@ -30,6 +29,7 @@ var WikiViewer = React.createClass({
     render: function () {
         var post = PostStore.get(this.props.params.wikiid);
         var body = Marked(post.body);
+        var date = new Date(parseInt(post.timestamp)).toDateString();
         return (
             <div className="wiki-view">
                 <button className="btn btn-warning btn-block delete-button"
@@ -44,8 +44,7 @@ var WikiViewer = React.createClass({
 
                 <div className="wiki-single-item">
                     <div className="title">{post.title}</div>
-                    <div className="info" > written by {post.author} at
-                        <WikiTimestamp timestamp={post.timestamp} />
+                    <div className="info" > written by {post.author} at {date}
                     </div>
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>

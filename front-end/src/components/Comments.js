@@ -5,7 +5,8 @@
 
 var React = require('react/addons'),
     CommentStore = require('../stores/CommentStore'),
-    CommentAction = require('../actions/CommentAction');
+    CommentAction = require('../actions/CommentAction'),
+    ReactTG = React.addons.CSSTransitionGroup;
 
 require('styles/Comments.sass');
 
@@ -15,10 +16,19 @@ var ENTER_KEY_CODE = 13;
 var BentoComment = React.createClass({
 
     render: function () {
+        var date = new Date(parseInt(this.props.comment.timestamp)),
+            time = '' + date.getHours().toString() + ':',
+            minutes = date.getMinutes().toString(),
+            time = time + (minutes.length < 2? '0' + minutes : minutes),
+            dateString = date.toDateString();
+
         return (
             <div className="comment">
                 <div className="author">
                     <b> {this.props.comment.author} </b>
+                </div>
+                <div className="timestamp">
+                    {dateString} at {time}
                 </div>
                 <div className="body">
                     {this.props.comment.body}
@@ -87,8 +97,8 @@ var CommentSection = React.createClass({
         );
         return (
             <div className="comment-section">
-                <div className="comment-input-section">
-                    <textarea className="comment-box"
+                <div className="comment-input-section input-group">
+                    <input className="form-control comment-box"
                               placeholder="Leave a comment. If you want."
                               onChange={this.onTextChange}
                               value={this.state.text}
@@ -97,8 +107,13 @@ var CommentSection = React.createClass({
                         <span className="glyphicon glyphicon-ok"></span>
                     </button>
                 </div>
+                <div id="comments-hint">
+                    COMMENTS
+                </div>
                 <div className="comment-list" >
-                    {commentlist}
+                    <ReactTG transitionName="example" transitionAppear={true}>
+                        {commentlist}
+                    </ReactTG>
                 </div>
             </div>
 
