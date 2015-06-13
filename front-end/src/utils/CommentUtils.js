@@ -3,10 +3,12 @@
  */
 'use strict';
 
+import LoginStore from '../stores/LoginStore';
+
 function Comment(body, postid) {
     return {
         body: body,
-        author: "Dave",
+        author: LoginStore.user.username,
         postid: postid,
         timestamp: Date.now()
     };

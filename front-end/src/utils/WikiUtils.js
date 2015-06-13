@@ -2,15 +2,16 @@
  * Created by evenoli on 28/05/2015.
  */
 'use strict';
+import LoginStore from '../stores/LoginStore';
 
 var marked = require('marked'),
     React = require('react/addons');
 
 function Post(title, text) {
     return {
+        author: LoginStore.user.author,
         title: title,
         body: text,
-        author: "Madame Hooch",
         timestamp: Date.now()
     };
 }
