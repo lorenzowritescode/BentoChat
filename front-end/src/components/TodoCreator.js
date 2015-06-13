@@ -58,20 +58,6 @@ var TodoForm =  React.createClass({
         return (
             <div className="todoc-body">
                 <div className="todoc-form">
-                    <div className="input-group">
-                        <input type="text" placeholder="Assignee" className="form-control" aria-label="...">
-                            <div className="input-group-btn">
-                                <button type="button" className="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span className="caret"></span></button>
-                                <ul className="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                </ul>
-                            </div>
-                        </input>
-                    </div>
                     <div className="todo-author">
                         <input
                             className="form-control author-box"
