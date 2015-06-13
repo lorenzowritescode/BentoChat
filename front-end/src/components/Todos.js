@@ -4,7 +4,7 @@ var React = require('react/addons'),
     RouteHandler = require('react-router').RouteHandler,
     TodoActions = require('../actions/todoActions'),
     TodoStore = require('../stores/TodoStore'),
-    Navigation = require('react-router').Navigation;
+    Navigation = require('react-router').Navigation,
     TodoCreator = require('./TodoCreator');
 
 require('styles/Todos.sass');
@@ -129,7 +129,7 @@ function getStateFromStores() {
     };
 }
 
-var Todos = React.createClass({
+var TodosList = React.createClass({
 
     getInitialState: function() {
         return getStateFromStores();
@@ -148,25 +148,33 @@ var Todos = React.createClass({
         this.setState(getStateFromStores());
     },
 
+    render: function () {
+        return (
+            <div className="todos-content">
+                <div className="todo-list">
+                    <div className="title" align="center">
+                        Todos:
+                    </div>
+                    <TodoList list={this.state.pending} className="todo-list"/>
+                </div>
+                <div className="completed-list">
+                    <div className="title">
+                        Completed:
+                    </div>
+                    <TodoList list={this.state.completed} className="completed-list"/>
+                </div>
+            </div>
+        );
+    }
+});
+
+var Todos = React.createClass({
+
     render: function() {
         return (
             <div className="todo-body">
                 <div className="test">
                     <RouteHandler />
-                    <div className="todos-content">
-                        <div className="todo-list">
-                            <div className="title" align="center">
-                                Todos:
-                            </div>
-                            <TodoList list={this.state.pending} className="todo-list"/>
-                        </div>
-                        <div className="completed-list">
-                            <div className="title">
-                                Completed:
-                            </div>
-                            <TodoList list={this.state.completed} className="completed-list"/>
-                        </div>
-                    </div>
                 </div>
                 <div className="todo-nav">
                     <TodoBar />
@@ -179,4 +187,7 @@ var Todos = React.createClass({
     }
 });
 
-module.exports = Todos;
+module.exports = {
+    Todos: Todos,
+    TodosList: TodosList
+};

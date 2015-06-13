@@ -12,7 +12,7 @@ var React = require('react/addons'),
     Navigation = require('react-router').Navigation,
     BentoComment = require('../components/Comments').BentoComment;
 
-require('styles/Todos.sass');
+require('styles/TodoViewer.sass');
 
 var TodoSingle = React.createClass({
     mixins: [Navigation],
@@ -80,7 +80,7 @@ var TodoViewer = React.createClass({
             <div className="todo-view">
                 <TodoSingle className="todo"
                             todo={todo} />
-                <CommentSection itemid={todo.id} />
+                <CommentSection itemid={this.props.params.todoid} />
             </div>
         );
     }

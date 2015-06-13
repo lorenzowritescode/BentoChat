@@ -156,26 +156,6 @@ var Wiki = React.createClass({
                     <Link to="wiki-new" className="btn btn-info btn-block" activeClassName="disabled">
                             New
                     </Link>
-                    <button type="button" className="btn btn-info btn-block" data-toggle="modal" data-target="#wikiModal">Modal New</button>
-
-                    <div className="modal fade" id="wikiModal" role="dialog">
-                        <div className="modal-dialog">
-
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                    <div className="modal-title">Create a Wiki Entry</div>
-                                </div>
-                                <div className="modal-body">
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
                 </div>
                 <div className="wiki-side">
                     History info baby
