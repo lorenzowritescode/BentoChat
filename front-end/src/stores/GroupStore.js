@@ -1,7 +1,7 @@
 /**
  * Created by lp1813 on 08/06/15.
  */
-import {UPDATE_STATUS, FETCH_GROUPS, USER_ONLINE} from '../constants/ActionConstants';
+import {UPDATE_STATUS, FETCH_GROUPS, USER_ONLINE, CHANGE_GROUP} from '../constants/ActionConstants';
 import BaseStore from './BaseStore';
 
 const ONLINE_STATUS = 'online',
@@ -24,11 +24,19 @@ class GroupStore extends BaseStore {
                 break;
             case FETCH_GROUPS:
                 this._groups = action.groups;
+                this._curr_group = Object.keys(action.groups)[0];
                 this.emitChange();
                 break;
             case USER_ONLINE:
                 this._updateStatus(action.username, action.groupName, ONLINE_STATUS);
                 this.emitChange();
+                break;
+            case CHANGE_GROUP:
+                var newGroup = action.groupName;
+                if (newGroup in this._groups) {
+                    this._curr_group = newGroup;
+                    this.emitChange();
+                }
                 break;
             default:
                 break;
@@ -37,6 +45,20 @@ class GroupStore extends BaseStore {
 
     get groups() {
         return this._groups;
+    }
+
+    get current () {
+        return this._curr_group;
+    }
+
+    get groupNames () {
+        var groupNames = [];
+
+        for (var group in this.groups) {
+            groupNames.push(group);
+        }
+
+        return groupNames;
     }
 
     _updateStatus(username, groupName, status) {

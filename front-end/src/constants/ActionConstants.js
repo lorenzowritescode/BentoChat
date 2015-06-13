@@ -24,5 +24,6 @@ module.exports = keyMirror ({
     //Groups
     UPDATE_STATUS: null,
     FETCH_GROUPS: null,
-    USER_ONLINE: null
+    USER_ONLINE: null,
+    CHANGE_GROUP: null
 });

@@ -21,6 +21,7 @@ var Login = require('./Login');
 var AuthComp = require('./AuthenticatedComponent');
 var Register = require('./Register');
 import RouterContainer from '../utils/RouterContainer';
+import Profile from './Profile';
 
 var AuthApp = new AuthComp(App);
 
@@ -39,6 +40,7 @@ var routes = (
         <Route path="login" name="login" handler={Login} />
         <Route path="register" name="register" handler={Register} />
         <Route path="/" name="app" handler={AuthApp}>
+            <Route path="profile" name="profile" handler={Profile} />
             <Route path="chat" name="chat" handler={Chat} />
             <Route path="wiki" name="wiki" handler={Wiki}>
                 <Route path="new" name="wiki-new" handler={WikiNew} >
