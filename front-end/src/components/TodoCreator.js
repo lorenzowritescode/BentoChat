@@ -6,8 +6,7 @@
 var React = require('react/addons'),
     TodoActions = require('../actions/todoActions'),
     TodoStore = require('../stores/TodoStore'),
-    todoUtils = require('../utils/TodoUtils'),
-    Link = require('react-router').Link;
+    todoUtils = require('../utils/TodoUtils');
 
 var ENTER_KEY_CODE = 13;
 
@@ -58,47 +57,59 @@ var TodoForm =  React.createClass({
     render: function() {
         return (
             <div className="todoc-body">
-            <div className="todo-form">
-                <div className="author-box">
-                <textarea
-                    className="AuthorBox"
-                    name="author"
-                    value={this.state.author}
-                    onChange={this._onAuthorChange}
-                    placeholder="Who's Task is it?"/>
-                </div>
-                <div className="todo-title">
-                    <textarea
-                        className="title-box"
-                        name="title"
-                        value={this.state.title}
-                        onChange={this._onTitleChange}
-                        placeholder="Todo Title"/>
+                <div className="todoc-form">
+                    <div className="input-group">
+                        <input type="text" placeholder="Assignee" className="form-control" aria-label="...">
+                            <div className="input-group-btn">
+                                <button type="button" className="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span className="caret"></span></button>
+                                <ul className="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </div>
+                        </input>
+                    </div>
+                    <div className="todo-author">
+                        <input
+                            className="form-control author-box"
+                            name="author"
+                            value={this.state.author}
+                            onChange={this._onAuthorChange}
+                            placeholder="Who's Task is it?"/>
+                        <button className="btn btn-default">
+                            Assignee
+                        </button>
+                    </div>
+                    <div className="title-due">
+                        <input
+                            className="form-control title-box"
+                            name="title"
+                            value={this.state.title}
+                            onChange={this._onTitleChange}
+                            placeholder="Todo Title"/>
+                        <button className="btn btn-default">
+                            Deadline
+                        </button>
 
+                    </div>
+                    <div className="description-box">
+                        <input
+                            className="form-control desc-box"
+                            name="text"
+                            value={this.state.text}
+                            onChange={this._onTextChange}
+                            onKeyDown={this._onKeyDown}
+                            placeholder="Todo Description"/>
+                    </div>
                 </div>
-                <div className="description-box">
-                <textarea
-                    className="TextBox"
-                    name="text"
-                    value={this.state.text}
-                    onChange={this._onTextChange}
-                    onKeyDown={this._onKeyDown}
-                    placeholder="Todo Description"/>
-                </div>
-                <div className="due-date">
-
-                </div>
-                <div className="btn-drawer btn-group btn-group-justified">
-                    <Link to="todo">
-                        <button className="btn btn-warning">
-                        <span className="glyphicon glyphicon-remove"></span>
-                            </button>
-                    </Link>
+                <div className="create-button">
                     <button onClick={this._onSubmit} className="btn btn-success btn-block">
                         <span className="glyphicon glyphicon-ok"></span>
                     </button>
                 </div>
-            </div>
             </div>);
     }
 });
