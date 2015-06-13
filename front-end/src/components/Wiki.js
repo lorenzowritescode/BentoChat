@@ -8,6 +8,7 @@ var Link = require('react-router').Link,
     WikiAction = require('../actions/WikiAction'),
     PostStore = require('../stores/WikiPostStore'),
     Marked = require('marked');
+import WikiNav from './WikiNav';
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -42,10 +43,11 @@ var PostListItem = React.createClass({
     render: function () {
         var post = this.props.post;
         var body = Marked(trim(post.body));
+        var date = new Date(parseInt(post.timestamp)).toDateString();
         return (
             <div className="wiki-list-item" onClick={this.handleClick}>
                 <div className="title">{post.title}</div>
-                <div className="info" > written by {post.author} at {post.timestamp}</div>
+                <div className="info" > written by {post.author} at {date}</div>
                 <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                 </div>
             </div>);
@@ -106,32 +108,13 @@ var Wiki = React.createClass({
                     <RouteHandler />
                 </div>
                 <div className="wiki-nav">
-                    <Link to="wiki-new" className="btn btn-info btn-block" activeClassName="disabled">
+                    <div className="button-container">
+                        <Link to="wiki-new" className="btn btn-info btn-block" activeClassName="disabled">
                             New
-                    </Link>
-                    <button type="button" className="btn btn-info btn-block" data-toggle="modal" data-target="#wikiModal">Modal New</button>
-
-                    <div className="modal fade" id="wikiModal" role="dialog">
-                        <div className="modal-dialog">
-
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                    <div className="modal-title">Create a Wiki Entry</div>
-                                </div>
-                                <div className="modal-body">
-
-
-                                </div>
-                            </div>
-
-                        </div>
+                        </Link>
                     </div>
 
-
-                </div>
-                <div className="wiki-side">
-                    History info baby
+                    <WikiNav />
                 </div>
             </div>
         );

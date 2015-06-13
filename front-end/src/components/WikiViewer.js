@@ -116,6 +116,8 @@ var WikiViewer = React.createClass({
     render: function () {
         var post = PostStore.get(this.props.params.wikiid);
         var body = Marked(post.body);
+        var date = new Date(parseInt(post.timestamp)).toDateString();
+
         return (
             <div className="wiki-view">
                 <button className="btn btn-warning btn-block delete-button"
@@ -130,7 +132,7 @@ var WikiViewer = React.createClass({
 
                 <div className="wiki-single-item">
                     <div className="title">{post.title}</div>
-                    <div className="info" > written by {post.author} at {post.timestamp}</div>
+                    <div className="info" > written by {post.author} at {date}</div>
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>
                 </div>
