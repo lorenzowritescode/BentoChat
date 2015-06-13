@@ -7,7 +7,7 @@ import GroupStore from '../stores/GroupStore';
 import messageActions from '../actions/messageAction';
 
 require('styles/BentoNav.sass');
-var logo_small = require('../bento-logo-medium.png');
+var logo_small = require('../images/bento-logo-medium.png');
 
 class GroupPicker extends React.Component {
     constructor () {
