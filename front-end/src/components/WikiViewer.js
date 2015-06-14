@@ -52,7 +52,7 @@ var WikiViewer = React.createClass({
                     <span className="glyphicon glyphicon-trash"></span>
                 </button>
 
-                <button className="btn btn-warning btn-block edit-button"
+                <button className="btn btn-info btn-block edit-button"
                         onClick={this.onEdit}>
                     <span className="glyphicon glyphicon-pencil"></span>
                 </button>
@@ -79,7 +79,7 @@ var WikiViewer = React.createClass({
                         <span className="glyphicon glyphicon-remove"></span>
                     </button>
                 </div>
-                <CommentSection itemid={post.id} />
+                <CommentSection itemid={this.props.params.wikiid} />
             </div>);
     },
 
