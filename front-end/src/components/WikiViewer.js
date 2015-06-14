@@ -15,15 +15,26 @@ require('styles/WikiViewer.sass');
 var WikiViewer = React.createClass({
     mixins: [Navigation],
 
+    getInitialState: function () {
+        return ({
+            warningOpen: false
+        });
+    },
+
+    toggleWarning: function () {
+        this.setState({
+            warningOpen: !this.state.warningOpen
+        });
+    },
+
     onReturn: function () {
         this.transitionTo("wiki");
     },
 
     onDelete: function () {
-        if (window.confirm("Are you sure you want to delete this post?")){
-            WikiAction.deletePost(this.props.params.wikiid);
-            this.transitionTo("wiki");
-        }
+        WikiAction.deletePost(this.props.params.wikiid);
+        this.transitionTo("wiki");
+
     },
 
     render: function () {
@@ -33,7 +44,7 @@ var WikiViewer = React.createClass({
         return (
             <div className="wiki-view">
                 <button className="btn btn-warning btn-block delete-button"
-                        onClick={this.onDelete}>
+                        onClick={this.toggleWarning}>
                     <span className="glyphicon glyphicon-trash"></span>
                 </button>
 
@@ -48,6 +59,16 @@ var WikiViewer = React.createClass({
                     </div>
                     <div className="body" dangerouslySetInnerHTML={{__html: body}}>
                     </div>
+                </div>
+                <div className={this.state.warningOpen ? "alert alert-danger warning-open"
+                                                        : "alert alert-danger warning-closed"} >
+                    Are you super sure you want to delete this post?
+                    <button className="btn btn-warning del-yes" onClick={this.onDelete}>
+                        <span className="glyphicon glyphicon-ok"></span>
+                    </button>
+                    <button className="btn btn-warning del-no" onClick={this.toggleWarning}>
+                        <span className="glyphicon glyphicon-remove"></span>
+                    </button>
                 </div>
                 <CommentSection itemid={post.id} />
             </div>);
