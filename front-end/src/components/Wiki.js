@@ -85,7 +85,9 @@ var WikiListViewer = React.createClass({
 
         return (
             <div className="post-list">
-                {posts}
+                <ReactCSSTransitionGroup transitionName="wiki-transition" transitionAppear={true}>
+                    {posts}
+                </ReactCSSTransitionGroup>
             </div>
         );
     },
