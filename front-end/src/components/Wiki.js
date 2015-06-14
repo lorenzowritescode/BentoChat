@@ -10,6 +10,7 @@ var Link = require('react-router').Link,
     Marked = require('marked'),
     WikiUtils = require('../utils/WikiUtils');
 import WikiNav from './WikiNav';
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -85,7 +86,9 @@ var WikiListViewer = React.createClass({
 
         return (
             <div className="post-list">
-                {posts}
+                <ReactCSSTransitionGroup transitionName="wiki-transition" transitionAppear={true}>
+                    {posts}
+                </ReactCSSTransitionGroup>
             </div>
         );
     },

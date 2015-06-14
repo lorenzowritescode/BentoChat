@@ -19,6 +19,7 @@ module.exports = keyMirror ({
     COMPLETE_TODO: null,
     FETCH_TODOS: null,
     ARCHIVE_TODO: null,
+    DELETE_TODO: null,
     //Auth
     LOGIN_USER: null,
     LOGOUT_USER: null,

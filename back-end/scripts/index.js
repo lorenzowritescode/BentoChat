@@ -29,10 +29,10 @@ passport.use(new JwtStrategy(opts, function  (jwt_payload, done) {
 app.configure( function () {
     cors();
     app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "http://localhost:8000");
+      res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
       res.header("Access-Control-Allow-Credentials", "true");
-      res.header("Access-Control-Allow-Methods", "GET,PUT,POST");
+      res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
       next();
     })
     // This is for decoding json POST requests
@@ -118,6 +118,16 @@ critical ('put', '/todo', function(req, res) {
         res.status(500).end('Internal Database Error');
     })
   }
+})
+
+critical('delete', '/todo', function(req, res) {
+  var id = req.body.id;
+  db.deleteTodo (id, function(err, result) {
+    if (!err)
+      res.send(result);
+    else
+      res.status(500).end('Internal Database Error');
+  })
 })
 
 critical('get', '/group', function (req, res) {

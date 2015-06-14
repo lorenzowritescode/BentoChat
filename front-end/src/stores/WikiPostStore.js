@@ -14,7 +14,7 @@ var CHANGE_EVENT = 'change';
 var posts = [];
 
 function addPost (post) {
-    posts.push(post);
+    posts.unshift(post);
 }
 
 function removePost (postid) {

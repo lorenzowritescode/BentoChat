@@ -50,9 +50,20 @@ function archiveTodo(id) {
     APIUtils.put(todoUrl, {id: id, type: ActionTypes.ARCHIVE_TODO}, callback);
 }
 
+function deleteTodo(id) {
+    function callback (response) {
+        Dispatcher.dispatch({
+            type: ActionTypes.DELETE_TODO,
+            id: id
+        });
+    }
+    APIUtils.delete(todoUrl, {id: id}, callback);
+}
+
 module.exports = {
     createTodo: createTodo,
     fetchTodos: fetchTodos,
     toggleTodo: toggleTodo,
-    archiveTodo: archiveTodo
+    archiveTodo: archiveTodo,
+    deleteTodo: deleteTodo
 };

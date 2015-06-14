@@ -123,7 +123,8 @@ module.exports.getTodos = function (callback) {
 
 module.exports.getWikiPosts = function (callback) {
   onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('wiki').run(connection, function (err, cursor) {
+    r.db(dbConfig['db']).table('wiki').orderBy({index: r.desc('timestamp')})
+      .run(connection, function (err, cursor) {
         retrieve(err, cursor, connection, callback);
     });
   });
@@ -209,6 +210,29 @@ module.exports.archiveTodo = function(id, callback) {
             callback(null, result);
         })
     })
+};
+
+module.exports.deleteTodo = function(id, callback) {
+    onConnect(function (error, connection) {
+        r.db(dbConfig['db']).table('todos').get(id).delete()
+            .run(connection, function(err, result) {
+                if(err) {
+                    logerror("[ERROR][%s][deleteTodo] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                    callback(err);
+                    return;
+                }
+                r.db(dbConfig['db']).table('wikicoms').filter({"postid": id}).delete()
+                    .run(connection, function(err, result) {
+                        if(err) {
+                            logerror("[ERROR][%s][deleteTodoComments] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                            callback(err);
+                            return;
+                        }
+                        callback(null, result);
+                  });
+            });
+    })
+
 };
 
 module.exports.deletePost = function(id, callback) {
