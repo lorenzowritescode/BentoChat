@@ -131,7 +131,8 @@ module.exports.getWikiPosts = function (callback) {
 
 module.exports.getWikiComments = function (callback) {
   onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('wikicoms').run(connection, function (err, cursor) {
+    r.db(dbConfig['db']).table('wikicoms').orderBy({index: r.desc('timestamp')})
+      .run(connection, function (err, cursor) {
         retrieve(err, cursor, connection, callback);
     });
   });

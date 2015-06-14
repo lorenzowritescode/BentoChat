@@ -61,7 +61,7 @@ var ChatMessage = React.createClass({
     render: function () {
         var msg = this.props.message;
         var linkedMsg = linkify(msg.body);
-        console.log(msg.timestamp);
+
         return <div className="chat-row">
             <ChatTimestamp timestamp={msg.timestamp} />
             <ChatAuthor name={msg.author} />

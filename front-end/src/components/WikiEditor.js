@@ -30,7 +30,10 @@ var WikiEditor = React.createClass({
         return (
         {text: '',
         title: '',
-        preview: null}
+        preview: null,
+        err: '',
+        warningOpen: false,
+        noticeOpen: false}
         );
     },
 
@@ -47,6 +50,23 @@ var WikiEditor = React.createClass({
                         <span className="glyphicon glyphicon-remove"></span>
                     </div>
                 </div>
+
+                <div className={this.state.noticeOpen ? "alert alert-warning edit-notice-open"
+                                                        : "alert alert-warning edit-notice-closed"}>
+                    {this.state.err}
+                    <button className="btn btn-warning ok" onClick={this.toggleNotice}> OK </button>
+                </div>
+                <div className={this.state.warningOpen ? "alert alert-warning edit-warn-open"
+                                                        : "alert alert-warning edit-warn-closed"}>
+                    Are you sure you want to go back? Your great post will be lost!
+                    <button className="btn btn-warning yes" onClick={this._return}>
+                        <span className="glyphicon glyphicon-ok"></span>
+                    </button>
+                    <button className="btn btn-warning no" onClick={this.toggleWarning}>
+                        <span className="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+
                 <RouteHandler {...{textChange: this._onChange,
                     titleChange: this._onTitleChange,
                     getTitle: this._getTitle,
@@ -55,13 +75,15 @@ var WikiEditor = React.createClass({
         );
     },
 
+    _return: function () {
+        this.transitionTo("wiki");
+    },
+
     onReturn: function () {
         var text = this.state.text.trim();
         var title = this.state.title.trim();
         if(text || title) {
-            if (window.confirm("Are you sure you want to go back? You will lose all your hard work on this post!")) {
-                this.transitionTo("wiki");
-            }
+            this.toggleWarning();
         } else {
             this.transitionTo("wiki");
         }
@@ -74,12 +96,25 @@ var WikiEditor = React.createClass({
             WikiActions.createPost(title, text);
             this.transitionTo("wiki");
         } else if (text) {
-            window.alert("Please enter a title for your awesome post!");
+            this.state.err = "Please enter a title for your awesome post!";
         } else if (title) {
-            window.alert("Please enter some text for your excellent post!");
+            this.state.err = "Please enter some text for your excellent post!";
         } else {
-            window.alert("Please and title and some text for your lovely post!");
+            this.state.err = "Please and title and some text for your lovely post!";
         }
+        this.toggleNotice();
+    },
+
+    toggleNotice: function () {
+        this.setState({
+            noticeOpen: !this.state.noticeOpen
+        });
+    },
+
+    toggleWarning: function () {
+        this.setState({
+            warningOpen: !this.state.warningOpen
+        });
     },
 
     _getTitle () {
