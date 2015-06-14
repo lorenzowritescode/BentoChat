@@ -74,9 +74,9 @@ var BentoNav = React.createClass({
                     <li><Link to="profile">Profile</Link></li>
                 </ul>
                 <button type="button"
-                        className="btn btn-info navbar-btn pull-right"
+                        className="btn btn-warning navbar-btn pull-right"
                         onClick={logout}>
-                    Logout
+                    <span className="glyphicon glyphicon-off"></span>
                 </button>
                 <GroupPicker />
             </div>
