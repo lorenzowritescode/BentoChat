@@ -75,7 +75,9 @@ export default class Login extends React.Component {
                         <input type="text" valueLink={this.linkState('user')} placeholder="Email" className="form-control"/>
                         <input type="password" valueLink={this.linkState('password')} placeholder="Password" className="form-control"/>
                     </div>
-                    <button type="submit" className="btn btn-block btn-primary" onClick={this.login.bind(this)}>Submit</button>
+                    <button type="submit" className="btn btn-block btn-primary" onClick={this.login.bind(this)}>
+                        Login
+                    </button>
                     <Link to="register" className="btn btn-block btn-default">
                         Register
                     </Link>

@@ -8,6 +8,7 @@ module.exports = keyMirror ({
     CREATE_POST: null,
     DELETE_POST: null,
     FETCH_POSTS: null,
+    UPDATE_POST: null,
     CREATE_COMMENT: null,
     FETCH_COMMENTS: null,
     //Chat

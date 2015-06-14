@@ -23,6 +23,7 @@
 .chat-row
     display: flex
     padding: 0px 10px 0px 10px
+    font-size: 14px
     .author
         font-weight: bold
         padding-right: 15px
@@ -88,3 +89,10 @@
             width: 50%
         .thread-members
             width: 50%
+
+.chat-ts-appear, .chat-ts-enter
+    opacity: 0
+.chat-ts-appear.chat-ts-appear-active, .chat-ts-enter.chat-ts-enter-active
+    opacity: 1
+    transition: opacity 0.6s
+

@@ -29,7 +29,7 @@ passport.use(new JwtStrategy(opts, function  (jwt_payload, done) {
 app.configure( function () {
     cors();
     app.use(function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "http://localhost:8000");
+      res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "X-Requested-With");
       res.header("Access-Control-Allow-Credentials", "true");
       res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
@@ -140,13 +140,25 @@ critical('get', '/group', function (req, res) {
 })
 
 app.put('/wiki', function(req, res) {
-    var id = req.body.postid;
-    db.deletePost (id, function(err, result) {
-        if (!err)
-            res.status(200).send(result).end();
-        else
-            res.status(500).end('Internal Database Error');
-    })
+    var type = req.body.type
+    if (type == "DELETE_POST") {
+        var id = req.body.postid;
+        db.deletePost(id, function (err, result) {
+            if (!err)
+                res.status(200).send(result).end();
+            else
+                res.status(500).end('Internal Database Error');
+        })
+    } else {
+        //type == UPDATE_POST
+        var post = req.body.post;
+        db.updateWikiPost (post, function(err, result) {
+            if (!err)
+                res.status(200).send(result).end();
+            else
+                res.status(500).end('Internal Database Error');
+        })
+    }
 })
 
 critical('get', '/wiki', function (req, res) {

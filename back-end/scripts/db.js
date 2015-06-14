@@ -123,7 +123,8 @@ module.exports.getTodos = function (callback) {
 
 module.exports.getWikiPosts = function (callback) {
   onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('wiki').run(connection, function (err, cursor) {
+    r.db(dbConfig['db']).table('wiki').orderBy({index: r.desc('timestamp')})
+      .run(connection, function (err, cursor) {
         retrieve(err, cursor, connection, callback);
     });
   });
@@ -253,6 +254,20 @@ module.exports.deletePost = function(id, callback) {
                         callback(null, result);
                     });
             });
+    })
+};
+
+module.exports.updateWikiPost = function(post, callback) {
+    onConnect(function (err, connection) {
+        r.db(dbConfig['db']).table('wiki').get(post.id).update({title: post.title, body: post.body})
+            .run(connection, function(err, result) {
+                if(err) {
+                    logerror("[ERROR][%s][updatePost %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                    callback(err);
+                    return;
+                }
+                callback(null, result);
+            })
     })
 };
 

@@ -29,6 +29,6 @@ $RECYCLE.BIN/
 
 node_modules/
 .tmp
-dist
+#dist
 .idea
 front-end.iml

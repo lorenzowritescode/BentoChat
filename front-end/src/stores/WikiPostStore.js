@@ -14,7 +14,7 @@ var CHANGE_EVENT = 'change';
 var posts = [];
 
 function addPost (post) {
-    posts.push(post);
+    posts.unshift(post);
 }
 
 function removePost (postid) {
@@ -71,6 +71,13 @@ PostStore.dispatchToken = AppDispatcher.register(function(action) {
 
         case ActionTypes.DELETE_POST:
             removePost(action.postid);
+            PostStore.emitChange();
+            break;
+
+        case ActionTypes.UPDATE_POST:
+            var newPost = action.post;
+            removePost(newPost.id);
+            addPost(newPost);
             PostStore.emitChange();
             break;
     }
