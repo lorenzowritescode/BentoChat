@@ -46,8 +46,7 @@ var Todo = React.createClass({
     },
 
     _onArchive: function(e) {
-        console.log(this.props.todo.id);
-      e.preventDefault();
+        e.preventDefault();
         var id = this.props.todo.id;
         if (id) {
             TodoActions.archiveTodo(id);
@@ -193,6 +192,11 @@ var TodosList = React.createClass({
                             Todos
                         </div>
                         <TodoList list={this.state.pending.reverse()} className="todo-list"/>
+                        <div className="plus">
+                        <button className="btn btn-success add-btn" data-toggle="modal" data-target="#myModal">
+                            <span className="glyphicon glyphicon-plus"></span>
+                            </button>
+                            </div>
                     </div>
                     <div className="completed-list">
                         <div className="title">

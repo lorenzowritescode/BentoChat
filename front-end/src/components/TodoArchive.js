@@ -22,13 +22,22 @@ function getStateFromStores() {
 var Todo = React.createClass({
 
     _onArchive: function(e) {
-        console.log(this.props.todo.id);
         e.preventDefault();
         var id = this.props.todo.id;
         if (id) {
             TodoActions.archiveTodo(id);
         }
     },
+
+
+    _onDelete: function(e) {
+        e.preventDefault();
+        var id = this.props.todo.id;
+        if (id) {
+            TodoActions.deleteTodo(id);
+        }
+    },
+
 
     render: function() {
         return (
@@ -50,6 +59,11 @@ var Todo = React.createClass({
                 <div className="complete-button">
                     <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
                         Restore
+                    </button>
+                </div>
+                <div className="delete-button">
+                    <button onClick={this._onDelete} className="btn btn-danger btn-block delete-btn">
+                        Delete
                     </button>
                 </div>
             </div>
