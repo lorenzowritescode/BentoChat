@@ -123,7 +123,8 @@ module.exports.getTodos = function (callback) {
 
 module.exports.getWikiPosts = function (callback) {
   onConnect(function (err, connection) {
-    r.db(dbConfig['db']).table('wiki').run(connection, function (err, cursor) {
+    r.db(dbConfig['db']).table('wiki').orderBy({index: r.desc('timestamp')})
+      .run(connection, function (err, cursor) {
         retrieve(err, cursor, connection, callback);
     });
   });

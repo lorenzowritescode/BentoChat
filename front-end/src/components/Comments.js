@@ -9,6 +9,7 @@ var React = require('react/addons'),
     ReactTG = React.addons.CSSTransitionGroup;
 
 require('styles/Comments.sass');
+require('styles/transitions.sass');
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
@@ -19,8 +20,9 @@ var BentoComment = React.createClass({
         var date = new Date(parseInt(this.props.comment.timestamp)),
             time = '' + date.getHours().toString() + ':',
             minutes = date.getMinutes().toString(),
-            time = time + (minutes.length < 2? '0' + minutes : minutes),
             dateString = date.toDateString();
+
+        time = time + (minutes.length < 2? '0' + minutes : minutes);
 
         return (
             <div className="comment">

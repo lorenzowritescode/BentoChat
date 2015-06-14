@@ -3,13 +3,13 @@
 var React = require('react/addons'),
     MessageActions = require('actions/messageAction'),
     MessageStore = require('stores/ChatMessageStore'),
-    ChatSide = require('../components/ChatSide');
+    ChatSide = require('../components/ChatSide'),
+    ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 //Key code for 'enter' key
 var ENTER_KEY_CODE = 13;
 
 require('styles/Chat.sass');
-
 //Get the messages from the store
 function getStateFromStores() {
     return {
@@ -70,16 +70,6 @@ var ChatMessage = React.createClass({
     }
 });
 
-//Creates a message list item of the given message
-function getMessage(message) {
-    return (
-        <ChatMessage
-            key={message.id}
-            message={message}
-            />
-    );
-}
-
 var ChatList = React.createClass({
 
     getInitialState: function() {
@@ -105,10 +95,15 @@ var ChatList = React.createClass({
     },
 
     render: function () {
-        var MessageListItems = this.state.messages.map(getMessage);
+        var messageElems = this.state.messages.map((msg) => {
+            return ( <ChatMessage key={msg.id} message={msg} /> );
+        });
+
         return (
             <div className="chatlist">
-                {MessageListItems}
+                <ReactCSSTransitionGroup transitionName="chat-ts" transitionAppear={true}>
+                    {messageElems}
+                </ReactCSSTransitionGroup>
             </div>
         );
     },
