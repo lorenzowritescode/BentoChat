@@ -1,8 +1,23 @@
 .todo-view
     width: 100%
     padding: 5px
+    .todo-view-content
+        width: 55%
+        margin-left: auto
+        margin-right: auto
     .todo
         margin-top: 5px
-    .todo:hover
-        border: 1px solid #b4b4b4
-        box-shadow: 1px 1px 5px gray
+        padding: 10px
+        .buttons
+            width: 17%
+        .todo-content
+            position: relative
+            min-height: 159px
+            .due-date
+                padding-top: 5px
+            .todo-assignee
+                position: absolute
+                bottom: 0
+                color: gray
+                .icon
+                    padding-right: 5px

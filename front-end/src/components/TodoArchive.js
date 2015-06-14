@@ -6,6 +6,7 @@
 var React = require('react/addons'),
     RouteHandler = require('react-router').RouteHandler,
     TodoActions = require('../actions/todoActions'),
+    Navigation = require('react-router').Navigation,
     TodoStore = require('../stores/TodoStore');
 
 require('styles/Todos.sass');
@@ -20,29 +21,17 @@ function getStateFromStores() {
 }
 
 var Todo = React.createClass({
+    mixins: [Navigation],
 
-    _onArchive: function(e) {
-        e.preventDefault();
-        var id = this.props.todo.id;
-        if (id) {
-            TodoActions.archiveTodo(id);
-        }
+    handleClick: function () {
+        this.transitionTo("todo-view", {todoid: this.props.todo.id});
     },
-
-
-    _onDelete: function(e) {
-        e.preventDefault();
-        var id = this.props.todo.id;
-        if (id) {
-            TodoActions.deleteTodo(id);
-        }
-    },
-
 
     render: function() {
+        var dueText = (this.props.todo.due ? "Due: " + this.props.todo.due : "");
         return (
             <div className="todo">
-                <div className="todo-content">
+                <div className="todo-content" onClick={this.handleClick}>
                     <div className="todo-title">
                         {this.props.todo.title}
                     </div>
@@ -50,21 +39,15 @@ var Todo = React.createClass({
                         <span className="glyphicon glyphicon-menu-right icon"></span>
                         {this.props.todo.text}
                     </div>
-                    <div className="todo-assignee">
-                        <span className="glyphicon glyphicon-user icon"></span>
-                        {this.props.todo.author}
+                    <div className="assignee-due-date">
+                        <div className="todo-assignee">
+                            <span className="glyphicon glyphicon-user icon"></span>
+                            {this.props.todo.author}
+                        </div>
+                        <div className="todo-due-date">
+                            <p><i> {dueText} </i></p>
+                        </div>
                     </div>
-                </div>
-
-                <div className="complete-button">
-                    <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
-                        Restore
-                    </button>
-                </div>
-                <div className="delete-button">
-                    <button onClick={this._onDelete} className="btn btn-danger btn-block delete-btn">
-                        Delete
-                    </button>
                 </div>
             </div>
         );
@@ -115,9 +98,6 @@ var TodoArchive = React.createClass({
             <div className="todos-body">
                 <div className="todos-content">
                     <div className="archived-list">
-                        <div className="title">
-                           Archived
-                        </div>
                         <TodoList list={this.state.archived} className="archive-list"/>
                     </div>
                 </div>
@@ -125,9 +105,6 @@ var TodoArchive = React.createClass({
                     <Link to="todo" className="btn btn-default btn-block back-btn" activeClassName="disabled">
                         Back to Todos
                     </Link>
-                </div>
-                <div className="todos-side">
-                    side
                 </div>
             </div>
         );
