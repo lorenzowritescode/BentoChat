@@ -233,6 +233,20 @@ module.exports.deletePost = function(id, callback) {
     })
 };
 
+module.exports.updateWikiPost = function(post, callback) {
+    onConnect(function (err, connection) {
+        r.db(dbConfig['db']).table('wiki').get(post.id).update({title: post.title, body: post.body})
+            .run(connection, function(err, result) {
+                if(err) {
+                    logerror("[ERROR][%s][updatePost %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                    callback(err);
+                    return;
+                }
+                callback(null, result);
+            })
+    })
+};
+
 /**
  *  Data creation methods
  */

@@ -7,7 +7,8 @@ var Link = require('react-router').Link,
     Navigation = require('react-router').Navigation,
     WikiAction = require('../actions/WikiAction'),
     PostStore = require('../stores/WikiPostStore'),
-    Marked = require('marked');
+    Marked = require('marked'),
+    WikiUtils = require('../utils/WikiUtils');
 import WikiNav from './WikiNav';
 
 marked.setOptions({
