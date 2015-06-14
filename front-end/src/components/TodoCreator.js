@@ -17,7 +17,8 @@ var TodoForm =  React.createClass({
         {
             text: '',
             author: '',
-            title: ''
+            title: '',
+            due: ''
         }
         );
     },
@@ -34,6 +35,10 @@ var TodoForm =  React.createClass({
         this.setState({title: event.target.value});
     },
 
+    _onDueChange: function(event, value) {
+        this.setState({due: event.target.value});
+    },
+
     _onKeyDown: function(e) {
         if (e.keyCode === ENTER_KEY_CODE) {
             this._onSubmit(e);
@@ -45,12 +50,15 @@ var TodoForm =  React.createClass({
         var text = this.state.text.trim();
         var author = this.state.author.trim();
         var title = this.state.title.trim();
+        var due = this.state.due;
+        console.log(due);
         if (author && title) {
-            var todo = new todoUtils.Todo(author, title, text);
+            var todo = new todoUtils.Todo(author, title, text, due);
             TodoActions.createTodo(todo);
             this.setState({text: ''});
             this.setState({author: ''});
             this.setState({title: ''});
+            this.setState({due: ''});
         }
     },
 
@@ -65,9 +73,6 @@ var TodoForm =  React.createClass({
                             value={this.state.author}
                             onChange={this._onAuthorChange}
                             placeholder="Who's Task is it?"/>
-                        <button className="btn btn-default">
-                            Assignee
-                        </button>
                     </div>
                     <div className="title-due">
                         <input
@@ -76,10 +81,16 @@ var TodoForm =  React.createClass({
                             value={this.state.title}
                             onChange={this._onTitleChange}
                             placeholder="Todo Title"/>
-                        <button className="btn btn-default">
-                            Deadline
-                        </button>
-
+                        <div className="btn-group">
+                            <button className="btn btn-default word">
+                                Due Date:
+                            </button>
+                            <input
+                                className="btn btn-default picker"
+                                type="date"
+                                value={this.state.due}
+                                onChange={this._onDueChange} />
+                        </div>
                     </div>
                     <div className="description-box">
                         <input

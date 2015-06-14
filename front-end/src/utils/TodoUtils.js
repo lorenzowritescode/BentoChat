@@ -3,12 +3,13 @@
  */
 'use strict';
 
-function Todo(author, title, text) {
+function Todo(author, title, text, due) {
     return {
         author: author,
         text: text,
         title: title,
-        status: "pending"
+        status: "pending",
+        due: due
     };
 }
 
