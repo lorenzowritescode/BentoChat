@@ -212,6 +212,29 @@ module.exports.archiveTodo = function(id, callback) {
     })
 };
 
+module.exports.deleteTodo = function(id, callback) {
+    onConnect(function (error, connection) {
+        r.db(dbConfig['db']).table('todos').get(id).delete()
+            .run(connection, function(err, result) {
+                if(err) {
+                    logerror("[ERROR][%s][deleteTodo] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                    callback(err);
+                    return;
+                }
+                r.db(dbConfig['db']).table('wikicoms').filter({"postid": id}).delete()
+                    .run(connection, function(err, result) {
+                        if(err) {
+                            logerror("[ERROR][%s][deleteTodoComments] %s:%s\n%s", connection['_id'], err.name, err.msg, err.message);
+                            callback(err);
+                            return;
+                        }
+                        callback(null, result);
+                  });
+            });
+    })
+
+};
+
 module.exports.deletePost = function(id, callback) {
     onConnect(function (err, connection) {
         r.db(dbConfig['db']).table('wiki').get(id).delete()

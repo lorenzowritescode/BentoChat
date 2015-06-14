@@ -42,6 +42,12 @@ function archiveTodo(id) {
     });
 }
 
+function deleteTodo(id) {
+    todos = todos.filter((todo) => {
+        return todo.id !== id;
+    });
+}
+
 var TodoStore = assign({}, EventEmitter.prototype, {
 
    emitChange: function () {
@@ -105,6 +111,11 @@ TodoStore.dispatchToken = AppDispatcher.register(function(action) {
 
         case ActionTypes.ARCHIVE_TODO:
             archiveTodo(action.id);
+            TodoStore.emitChange();
+            break;
+
+        case ActionTypes.DELETE_TODO:
+            deleteTodo(action.id);
             TodoStore.emitChange();
             break;
 

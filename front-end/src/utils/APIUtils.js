@@ -85,3 +85,11 @@ module.exports.put = function(path, body, callback, context) {
         .context(context)
         .run();
 };
+
+module.exports.delete = function(path, body, callback) {
+    new AjaxRequest('delete')
+        .path(path)
+        .body(body)
+        .callback(callback)
+        .run();
+};

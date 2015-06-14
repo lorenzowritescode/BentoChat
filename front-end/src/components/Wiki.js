@@ -101,53 +101,6 @@ var WikiListViewer = React.createClass({
     }
 });
 
-require('styles/transitions.sass');
-var WikiListViewer = React.createClass({
-
-    getInitialState: function() {
-        return this.getState();
-    },
-
-    componentDidMount: function() {
-        PostStore.addChangeListener(this._onChange);
-        WikiAction.fetchPosts();
-    },
-
-    componentWillUnmount: function() {
-        PostStore.removeChangeListener(this._onChange);
-    },
-
-    render: function () {
-        var posts = this.state.posts.map(
-            (post) => {
-                return (
-                    <PostListItem
-                        key={post.id}
-                        post={post}
-                        />);
-            }
-        );
-
-        return (
-            <div className="post-list">
-                <ReactCSSTransitionGroup transitionName="wiki-transition" transitionAppear={true}>
-                    {posts}
-                </ReactCSSTransitionGroup>
-            </div>
-        );
-    },
-
-    getState: function () {
-        return {
-            posts: PostStore.getAll()
-        };
-    },
-
-    _onChange: function() {
-        this.setState(this.getState());
-    }
-});
-
 
 var Wiki = React.createClass({
 
