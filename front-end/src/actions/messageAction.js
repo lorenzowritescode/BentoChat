@@ -10,7 +10,8 @@ var Dispatcher = require('../dispatcher/WebappAppDispatcher'),
     APIUtils = require('../utils/APIUtils'),
     chatUrl = require('../constants/APIConstants').chatUrl,
     groupsUrl = require('../constants/APIConstants').groupsUrl,
-    socket = require('socket.io-client')("http://localhost:3000"),
+    apiUrl = require('../constants/APIConstants').url,
+    socket = require('socket.io-client')(apiUrl),
     LoginStore = require('../stores/LoginStore');
 
 //Action for creating a new message
