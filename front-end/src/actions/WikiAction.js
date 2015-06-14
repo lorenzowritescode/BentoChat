@@ -31,10 +31,22 @@ function fetchPosts () {
 }
 
 function deletePost (postid) {
-    APIUtils.put(wikiUrl, {postid: postid}, function (response) {
+    APIUtils.put(wikiUrl, {postid: postid, type: ActionTypes.DELETE_POST}, function (response) {
         Dispatcher.dispatch({
             type: ActionTypes.DELETE_POST,
             postid: postid
+        });
+    });
+}
+
+function updatePost (id, title, text) {
+    var post = WikiUtils.Post(title, text);
+    post.id = id;
+    console.log("in utils!");
+    APIUtils.put(wikiUrl, {post: post, type: ActionTypes.UPDATE_POST}, function (response) {
+        Dispatcher.dispatch({
+            type: ActionTypes.UPDATE_POST,
+            post: post
         });
     });
 }
@@ -43,5 +55,6 @@ function deletePost (postid) {
 module.exports = {
     createPost: createPost,
     fetchPosts: fetchPosts,
-    deletePost: deletePost
+    deletePost: deletePost,
+    updatePost: updatePost
 };

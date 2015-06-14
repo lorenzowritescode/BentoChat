@@ -5,7 +5,8 @@ var React = require('react/addons'),
     WikiUtils = require('../utils/WikiUtils'),
     RouteHandler = require('react-router').RouteHandler,
     Link = require('react-router').Link,
-    Navigation = require('react-router').Navigation;
+    Navigation = require('react-router').Navigation,
+    PostStore = require('../stores/WikiPostStore');
 
 
 require('styles/WikiEditor.sass');
@@ -27,14 +28,28 @@ var WikiEditor = React.createClass({
     mixins: [Navigation],
 
     getInitialState: function () {
-        return (
-        {text: '',
-        title: '',
-        preview: null,
-        err: '',
-        warningOpen: false,
-        noticeOpen: false}
-        );
+        if (this.props.query.postId) {
+            var post = PostStore.get(this.props.query.postId);
+            console.log(post.body);
+            return (
+            {   text: post.body,
+                title: post.title,
+                preview: null,
+                err: '',
+                warningOpen: false,
+                noticeOpen: false}
+            );
+        } else {
+            return (
+            {   text: '',
+                title: '',
+                preview: null,
+                err: '',
+                warningOpen: false,
+                noticeOpen: false
+            }
+            );
+        }
     },
 
     render: function () {
@@ -93,8 +108,14 @@ var WikiEditor = React.createClass({
         var text = this.state.text.trim();
         var title = this.state.title.trim();
         if (text && title) {
-            WikiActions.createPost(title, text);
-            this.transitionTo("wiki");
+            var id = this.props.query.postId;
+            if (id) {
+                WikiActions.updatePost(id, title, text);
+                this.transitionTo("wiki");
+            } else {
+                WikiActions.createPost(title, text);
+                this.transitionTo("wiki");
+            }
         } else if (text) {
             this.state.err = "Please enter a title for your awesome post!";
         } else if (title) {

@@ -140,13 +140,25 @@ critical('get', '/group', function (req, res) {
 })
 
 app.put('/wiki', function(req, res) {
-    var id = req.body.postid;
-    db.deletePost (id, function(err, result) {
-        if (!err)
-            res.status(200).send(result).end();
-        else
-            res.status(500).end('Internal Database Error');
-    })
+    var type = req.body.type
+    if (type == "DELETE_POST") {
+        var id = req.body.postid;
+        db.deletePost(id, function (err, result) {
+            if (!err)
+                res.status(200).send(result).end();
+            else
+                res.status(500).end('Internal Database Error');
+        })
+    } else {
+        //type == UPDATE_POST
+        var post = req.body.post;
+        db.updateWikiPost (post, function(err, result) {
+            if (!err)
+                res.status(200).send(result).end();
+            else
+                res.status(500).end('Internal Database Error');
+        })
+    }
 })
 
 critical('get', '/wiki', function (req, res) {

@@ -73,6 +73,13 @@ PostStore.dispatchToken = AppDispatcher.register(function(action) {
             removePost(action.postid);
             PostStore.emitChange();
             break;
+
+        case ActionTypes.UPDATE_POST:
+            var newPost = action.post;
+            removePost(newPost.id);
+            addPost(newPost);
+            PostStore.emitChange();
+            break;
     }
 });
 

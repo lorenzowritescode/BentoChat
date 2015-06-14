@@ -63,6 +63,13 @@ var CommentSection = React.createClass({
         this.setState(this.getState);
     },
 
+    componentWillReceiveProps: function(nextProps) {
+        CommentAction.fetchComments();
+        this.replaceState({
+            comments: CommentStore.getAllForPost(nextProps.itemid)
+        });
+    },
+
     componentDidMount: function () {
         CommentStore.addChangeListener(this.onComChange);
         CommentAction.fetchComments();
@@ -75,7 +82,7 @@ var CommentSection = React.createClass({
     send: function () {
         var text = this.state.text.trim();
         if(text) {
-            CommentAction.createComment(text, this.props.itemid);
+            CommentAction.createComment(text, this.state.itemId);
         }
         this.setState({text: ''});
     },

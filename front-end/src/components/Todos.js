@@ -10,23 +10,7 @@ var React = require('react/addons'),
 require('styles/Todos.sass');
 var Link = require('react-router').Link;
 
-function linkify(inputText) {
-    var replacedText, replacePattern1, replacePattern2, replacePattern3;
-
-    //URLs starting with http://, https://, or ftp://
-    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-
-    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-
-    //Change email addresses to mailto:: links.
-    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
-
-    return replacedText;
-}
+var linkify = require('../utils/ChatUtils').linkify;
 
 var ReactTransitionGroup = React.addons.TransitionGroup;
 
@@ -42,14 +26,6 @@ var Todo = React.createClass({
         var id = this.props.todo.id;
         if (id) {
             TodoActions.toggleTodo(id);
-        }
-    },
-
-    _onArchive: function(e) {
-        e.preventDefault();
-        var id = this.props.todo.id;
-        if (id) {
-            TodoActions.archiveTodo(id);
         }
     },
 
@@ -77,13 +53,9 @@ var Todo = React.createClass({
                             </div>
                         </div>
                     </div>
-
                     <div className="complete-button">
                         <button onClick={this._onSubmit} className="btn btn-default btn-block todo-btn">
                             <span className="glyphicon glyphicon-ok todo-tick"></span>
-                        </button>
-                        <button onClick={this._onArchive} className="btn btn-warning btn-block archive-btn">
-                            <span className="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
                 </div>
@@ -134,8 +106,14 @@ var TodoBar = React.createClass({
 
                     </div>
                 </div>
-                <Link to="todo-archive" className="btn btn-warning btn-block archive-button" activeClassName="disabled">
-                    Archive
+                <button className="btn btn-default btn-block my-todos" disabled="disabled">
+                    My Todos
+                </button>
+                <button className="btn btn-default btn-block due-soon" disabled="disabled">
+                    Due Soon
+                </button>
+                <Link to="todo-archive" className="btn btn-default btn-block archive-button" activeClassName="disabled">
+                    Archived Todos
                 </Link>
             </div>
         );
@@ -146,12 +124,6 @@ var TodoSide = React.createClass({
     render: function () {
         return (
             <div className="todo-side">
-                <button className="btn btn-default btn-block my-todos">
-                    My Todos
-                    </button>
-                <button className="btn btn-default btn-block due-soon">
-                    Due Soon
-                    </button>
 
                 </div>
         );
@@ -192,11 +164,6 @@ var TodosList = React.createClass({
                             Todos
                         </div>
                         <TodoList list={this.state.pending.reverse()} className="todo-list"/>
-                        <div className="plus">
-                        <button className="btn btn-success add-btn" data-toggle="modal" data-target="#myModal">
-                            <span className="glyphicon glyphicon-plus"></span>
-                            </button>
-                            </div>
                     </div>
                     <div className="completed-list">
                         <div className="title">
@@ -217,9 +184,6 @@ var Todos = React.createClass({
                 <RouteHandler />
                 <div className="todos-nav">
                     <TodoBar />
-                </div>
-                <div className="todos-side">
-                    <TodoSide />
                 </div>
             </div>
         );

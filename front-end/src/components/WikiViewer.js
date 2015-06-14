@@ -37,6 +37,10 @@ var WikiViewer = React.createClass({
 
     },
 
+    onEdit: function () {
+        this.transitionTo("wiki-new", null, {postId: this.props.params.wikiid});
+    },
+
     render: function () {
         var post = PostStore.get(this.props.params.wikiid);
         var body = Marked(post.body);
@@ -46,6 +50,11 @@ var WikiViewer = React.createClass({
                 <button className="btn btn-warning btn-block delete-button"
                         onClick={this.toggleWarning}>
                     <span className="glyphicon glyphicon-trash"></span>
+                </button>
+
+                <button className="btn btn-info btn-block edit-button"
+                        onClick={this.onEdit}>
+                    <span className="glyphicon glyphicon-pencil"></span>
                 </button>
 
                 <button className="btn btn-default btn-block back-button"
@@ -70,7 +79,7 @@ var WikiViewer = React.createClass({
                         <span className="glyphicon glyphicon-remove"></span>
                     </button>
                 </div>
-                <CommentSection itemid={post.id} />
+                <CommentSection itemid={this.props.params.wikiid} />
             </div>);
     },
 

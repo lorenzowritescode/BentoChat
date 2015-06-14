@@ -10,6 +10,11 @@
 
 .todos-nav
     @extend .HolyGrail-nav
+    position: relative
+    .archive-button
+        max-width: 158px
+        position: absolute
+        bottom: 0
 .todos-side
     @extend .HolyGrail-ads
 
@@ -21,15 +26,6 @@
         text-align: center
 
 .todo-list
-    .plus
-        display: flex
-        flex-direction: column
-        .btn
-            align-self: center
-            height: 57px
-            width: 57px
-        .glyphicon
-            font-size: 25px
     .archive-btn
         display: none
     button
@@ -39,18 +35,13 @@
     .todo-btn
         border: 1px solid #4CAF50
         background-color: #4CAF50
-        height: 60%
-        min-height: 44px
+        height: 100%
+        min-height: 79px
         &:hover
             background-color: #4c964e
-
-    .archive-btn
-        height: 40%
-        min-height: 35px
+            border: 1px solid #4c964e
     .todo-tick
         color: white
-    .btn-block
-        margin-top: 0px
 
 .archived-list
     width: 60%
@@ -79,17 +70,19 @@
                 width: 100%
             .form-control
                 width: 100%
-        .title-due, .todo-author
+        .todo-title, .todo-author
             padding-bottom: 5px
             display: flex
             flex-direction: row
             .title-box
-                width: 50%
+                width: 100%
             .btn-group
                 width: 50%
                 .word
                     width: 40%
+                    border: 1px solid gainsboro
                 .picker
+                    height: 35px
                     width: 60%
         .description-box
             padding-bottom: 5px
@@ -104,11 +97,12 @@
     width: 100%
     max-width: 100%
     display: flex
-    border: 1px solid #b4b4b4
-    border-radius: 6px
-    box-shadow: 1px 1px 5px gray
+    border: 1px solid rgba(180, 180, 180, 0.8)
+    border-radius: 3px
+    box-shadow: 0px 0px 5px gainsboro
     padding-left: 6px
     margin-bottom: 5px
+    transition: box-shadow 0.3s
     .todo-content
         width: 83%
         height: 100%
@@ -138,15 +132,43 @@
     .complete-button
         width: 17%
         height: 100%
-        .todo-button
+        .todo-btn
+            box-shadow: none
             height: 79px
 .todo:hover
     border: 1px solid #b4b4b4
-    box-shadow: 3px 3px 5px gray
+    box-shadow: 0px 0px 7px rgba(128, 128, 128, 0.8)
 .archived-list
+    padding-top: 10px
     width: 60%
     margin-left: auto
     margin-right: auto
+    .todo-content
+        width: 100%
+        height: 100%
+        .todo-title
+            font-size: large
+            overflow-wrap: break-word
+            padding-right: 5px
+        .todo-desc
+            display: flex
+            overflow-wrap: break-word
+            padding-right: 5px
+            .icon
+                padding: 5px 5px 5px 0px
+                min-width: 17px
+        .assignee-due-date
+            display: flex
+            max-height: 23px
+            .todo-due-date
+                width: 50%
+                text-align: right
+                padding-right: 5px
+            .todo-assignee
+                width: 50%
+                color: gray
+                .icon
+                    padding-right: 5px
     .title
         font-size: x-large
         text-align: center
