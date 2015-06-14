@@ -106,14 +106,14 @@ var TodoBar = React.createClass({
 
                     </div>
                 </div>
-                <button className="btn btn-default btn-block my-todos">
+                <button className="btn btn-default btn-block my-todos" disabled="disabled">
                     My Todos
                 </button>
-                <button className="btn btn-default btn-block due-soon">
+                <button className="btn btn-default btn-block due-soon" disabled="disabled">
                     Due Soon
                 </button>
-                <Link to="todo-archive" className="btn btn-warning btn-block archive-button" activeClassName="disabled">
-                    Archive
+                <Link to="todo-archive" className="btn btn-default btn-block archive-button" activeClassName="disabled">
+                    Archived Todos
                 </Link>
             </div>
         );

@@ -8,7 +8,27 @@ var React = require('react/addons'),
     TodoStore = require('../stores/TodoStore'),
     todoUtils = require('../utils/TodoUtils');
 
+
+import GroupStore from '../stores/GroupStore';
+
 var ENTER_KEY_CODE = 13;
+
+var Assignee = React.createClass({
+    render: function () {
+        return (
+            <label className="checkbox-inline">
+                <input type="checkbox" value="">{this.props.data}</input>
+                </label>
+        );
+    }
+});
+
+function getAssignee(assignee) {
+    return (
+        <Assignee data={assignee}/>
+    );
+}
+
 
 var TodoForm =  React.createClass({
 
@@ -51,7 +71,6 @@ var TodoForm =  React.createClass({
         var author = this.state.author.trim();
         var title = this.state.title.trim();
         var due = this.state.due;
-        console.log(due);
         if (author && title) {
             var todo = new todoUtils.Todo(author, title, text, due);
             TodoActions.createTodo(todo);
@@ -63,6 +82,11 @@ var TodoForm =  React.createClass({
     },
 
     render: function() {
+        //var GroupMembers = ["Sam", "Lorenzo", "Oli"];
+        var GroupMembers = GroupStore.getGroup('test-group');
+        //var GroupMemberListItems = GroupMembers.map(getAssignee);
+        //console.log(GroupMemberListItems);
+
         return (
             <div className="todoc-body">
                 <div className="todoc-form">
@@ -73,24 +97,25 @@ var TodoForm =  React.createClass({
                             value={this.state.author}
                             onChange={this._onAuthorChange}
                             placeholder="Who's Task is it?"/>
+                        <div className="btn-group">
+                        <button className="btn btn-default word" disabled="disabled">
+                            Due Date:
+                        </button>
+                        <input
+                            className="btn btn-default picker"
+                            type="date"
+                            value={this.state.due}
+                            onChange={this._onDueChange} />
                     </div>
-                    <div className="title-due">
+                    </div>
+                    <div className="todo-title">
                         <input
                             className="form-control title-box"
                             name="title"
                             value={this.state.title}
                             onChange={this._onTitleChange}
                             placeholder="Todo Title"/>
-                        <div className="btn-group">
-                            <button className="btn btn-default word">
-                                Due Date:
-                            </button>
-                            <input
-                                className="btn btn-default picker"
-                                type="date"
-                                value={this.state.due}
-                                onChange={this._onDueChange} />
-                        </div>
+
                     </div>
                     <div className="description-box">
                         <input
@@ -99,11 +124,11 @@ var TodoForm =  React.createClass({
                             value={this.state.text}
                             onChange={this._onTextChange}
                             onKeyDown={this._onKeyDown}
-                            placeholder="Todo Description"/>
+                            placeholder="Todo Description (Optional)"/>
                     </div>
                 </div>
                 <div className="create-button">
-                    <button onClick={this._onSubmit} className="btn btn-success btn-block">
+                    <button onClick={this._onSubmit} className="btn btn-success btn-block" data-dismiss="modal">
                         <span className="glyphicon glyphicon-ok"></span>
                     </button>
                 </div>
