@@ -3,8 +3,15 @@
  */
 import React from 'react';
 import WikiStore from '../stores/WikiPostStore';
+import RouterContainer from '../utils/RouterContainer';
+var Link = require('react-router').Link;
 
 export default class WikiNav extends React.Component {
+
+    onClick (postid) {
+        RouterContainer.get().transitionTo('wiki-view', {wikiid: postid});
+    }
+
     constructor () {
         this.state = {
             posts: []
@@ -26,9 +33,11 @@ export default class WikiNav extends React.Component {
     render () {
         const getElem = (post) => {
             return (
-                <div className="elem">
-                    {post.title}
-                </div>
+                <Link to="wiki-view" params={{wikiid: post.id}} className="wiki-side-link">
+                    <div className="elem">
+                        {post.title}
+                    </div>
+                </Link>
             );
         };
 
@@ -44,3 +53,4 @@ export default class WikiNav extends React.Component {
         );
     }
 }
+
