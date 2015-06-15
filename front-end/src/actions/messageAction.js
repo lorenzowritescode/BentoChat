@@ -32,11 +32,10 @@ socket.on('connect', function () {
             });
         });
 
-        socket.on('user_online', function (data) {
+        socket.on('user_online', function (group) {
             Dispatcher.dispatch({
                 type: ActionTypes.USER_ONLINE,
-                username: data.username,
-                groupName: data.group_name
+                group: group
             });
         });
     }).emit('authenticate', {

@@ -11,9 +11,11 @@ require('styles/ChatSide.sass');
 class UserStatus extends React.Component {
     render () {
         var user = this.props.user;
+        var statusClass = 'user-status ' + (user.status === 'online' ? 'online' : 'offline');
 
+        console.log(user, statusClass);
         return (
-            <div className="user-status">
+            <div className={statusClass}>
                 <div className="name">
                     {user.fullName}
                 </div>
