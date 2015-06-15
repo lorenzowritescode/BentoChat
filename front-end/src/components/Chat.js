@@ -86,9 +86,7 @@ var ChatList = React.createClass({
 
         return (
             <div className="chatlist">
-                <ReactCSSTransitionGroup transitionName="chat-ts" transitionAppear={true}>
-                    {messageElems}
-                </ReactCSSTransitionGroup>
+                {messageElems}
             </div>
         );
     },
@@ -101,7 +99,7 @@ var ChatList = React.createClass({
 var promptArray = require('../constants/ChatVariables').placeholders;
 
 function randomPrompt() {
-    var rand = Math.floor(Math.random()*promptArray.length);
+    var rand = Math.floor(Math.random() * promptArray.length);
     return promptArray[rand];
 }
 
@@ -155,50 +153,6 @@ var NewMessageBox = React.createClass({
     }
 });
 
-var ThreadCreator = React.createClass({
-    render: function () {
-        return (
-            <div className="thread-creator">
-                <div className="thread-form">
-                    <div className="thread-title">
-                        <input className="form-control" placeholder="Chat Thread Title" />
-                    </div>
-                    <div className="thread-members">
-                        <button className="btn btn-default btn-block"> Members </button>
-                    </div>
-                </div>
-                <div className="create-thread-btn">
-                    <button className="btn btn-success btn-block">
-                        <span className="glyphicon glyphicon-ok"></span>
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-});
-
-var ThreadListItem = React.createClass({
-    render: function () {
-        return (
-            <li className="list-group-item btn btn-default">
-                <span className="badge">{this.props.unread}</span>
-                {this.props.title}
-            </li>
-        );
-    }
-});
-
-var DisabledThreadListItem = React.createClass({
-    render: function () {
-        return (
-            <li className="list-group-item disabled">
-                {this.props.title}
-            </li>
-        );
-    }
-});
-
 var ChatBar = React.createClass({
     render: function () {
         return (
@@ -207,29 +161,6 @@ var ChatBar = React.createClass({
                     <button type="button" className="btn btn-default btn-block new-button" data-toggle="modal" data-target="#myModal">
                     New Thread
                     </button>
-                    <div className="modal fade" id="myModal" role="dialog">
-                        <div className="modal-dialog">
-
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                    <div className="modal-title">Create a Chat Thread</div>
-                                </div>
-                                <div className="modal-body">
-                                    <ThreadCreator />
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div className="thread-list">
-                    <ul className="list-group">
-                        <ThreadListItem title="This Thread" unread="12" />
-                        <ThreadListItem title="That Thread" unread="5" />
-                        <ThreadListItem title="Other Thread" unread="3" />
-                        <DisabledThreadListItem title="DISABLED THREAD" />
-                    </ul>
                 </div>
             </div>
         );
