@@ -22,9 +22,6 @@ class UserStatus extends React.Component {
                 <div className="username">
                     {user.username}
                 </div>
-                <div className="status">
-                    {user.status || 'offline'}
-                </div>
             </div>
         );
     }
@@ -58,7 +55,7 @@ export default class ChatSide extends React.Component {
     }
 
     render () {
-        var users = this.state.users,
+        var users = this.state.users || [],
             userWidgets = users.map((user) => {
             return <UserStatus user={user} key={user.email} />;
         });
