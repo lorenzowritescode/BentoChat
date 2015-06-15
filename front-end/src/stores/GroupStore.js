@@ -28,7 +28,7 @@ class GroupStore extends BaseStore {
                 this.emitChange();
                 break;
             case USER_ONLINE:
-                this._updateStatus(action.username, action.groupName, ONLINE_STATUS);
+                this._groups['test-group'] = action.group;
                 this.emitChange();
                 break;
             case CHANGE_GROUP:
