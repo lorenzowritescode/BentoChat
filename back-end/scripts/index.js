@@ -68,7 +68,7 @@ app.post('/login', function (req, res) {
                 auth_token: authToken
             });
     })
-})
+});
 
 critical ('get', '/chat', function (req, res) {
     db.findMessages(100, function (err, result) {

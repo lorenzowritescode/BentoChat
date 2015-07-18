@@ -19,6 +19,13 @@ function createAccount(account, callback) {
 }
 
 function login (email, password, callback) {
+    console.log(email, password);
+
+    if (!email)
+        return callback(new Error('email cannot be null'));
+    if (!password)
+        return callback(new Error('password cannot be null'));
+
     db.findUserByEmail(email, function (err, userDetails) {
         if (err || !userDetails) {
             callback(err, null);
