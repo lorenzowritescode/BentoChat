@@ -46,7 +46,6 @@ var styles = StyleSheet.create({
         alignItems: 'center',
     },
 });
-
 var PersonCell = React.createClass({
     displayName: "PersonCell",
     render: function() {

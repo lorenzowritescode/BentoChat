@@ -2,6 +2,7 @@
 
 var TimerMixin = require('react-timer-mixin');
 var React = require('react-native');
+var APIUtils = require('./APIUtils');
 var {
     StyleSheet,
     TextInput,
@@ -65,6 +66,17 @@ var ChatPane = React.createClass({
             focus: false,
         };
     },
+    componentDidMount: () => {
+        //this.fetchData();
+        APIUtils.getMessages()
+            .then((data) => {
+                console.log(data);
+                this.setState({
+                    messagesList: data,
+                    loaded: true
+                })
+            })
+    },
     render: function() {
         var flexVals = {
             chatList: 0.9,
@@ -108,9 +120,6 @@ var ChatPane = React.createClass({
         });
         this._textInput.setNativeProps({text: ''});
     },
-    componentDidMount: function() {
-        this.fetchData();
-    },
     fetchData: function() {
         // laterz
         this.setTimeout(() => {
@@ -119,7 +128,7 @@ var ChatPane = React.createClass({
                 messagesList: Messages,
             });
         }, 0);
-    },
+    }
 });
 
 module.exports = ChatPane

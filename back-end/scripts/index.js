@@ -72,6 +72,7 @@ app.post('/login', function (req, res) {
 
 critical ('get', '/chat', function (req, res) {
     db.findMessages(100, function (err, result) {
+        console.log(err, result);
         if (!err)
             res.status(200).send(result).end();
         else

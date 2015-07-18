@@ -32,8 +32,6 @@ var BentoApp = React.createClass({
     componentWillMount: () => {
         AsyncStorage.getItem('jwt')
             .then((jwt) => {
-                console.log('retrieving from local storage', jwt);
-
                 this.setState({
                     jwt: jwt
                 });
@@ -42,7 +40,6 @@ var BentoApp = React.createClass({
             });
     },
     _isLoggedIn () {
-        console.log('checking if logged in');
         return this.state.jwt !== null && this.state.jwt !== '';
     },
     _renderContent: function(color, pageText) {

@@ -91,11 +91,8 @@ const Login = React.createClass({
         var email = this.state.email,
             pwd = this.state.pwd;
 
-        console.log(email, pwd);
-
         login(email, pwd)
             .then((jwt) => {
-                console.log('BITCHHHH', jwt);
                 this.props.onSuccess(jwt);
             })
             .catch((error) => {
