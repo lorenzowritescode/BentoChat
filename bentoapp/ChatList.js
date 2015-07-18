@@ -32,31 +32,38 @@ var styles = StyleSheet.create({
         borderRadius: 20,
     },
     cellName: {
-        fontSize: 15,
-        color: "black",
-        marginBottom: 5,
+        fontSize: 11,
+        color: "gray",
+        marginTop: 5,
     },
     cellMessage: {
-        fontSize: 12,
-        color: "gray",
+        fontSize: 14,
+        color: "black",
     },
-
-    peopleList: {
-
-    }
+    loadingView: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
-var People = [
+var Messages = [
     {
         name: "Lorenzo Balls",
         avatar: "http://api.adorable.io/avatars/50/lorenzo",
-        lastMessage: "Lorenzo: How are you so amazingly talented at everything?",
+        message: "How are you so amazingly talented at everything?",
     },
     {
         name: "Steve Jobs",
         avatar: "http://api.adorable.io/avatars/50/stevejobs",
-        lastMessage: "You: Yeah I like Tim, but he's not the best presenter."
-    }
+        message: "Love your apps. Lets talk."
+    },
+    {
+        name: "Olly Alexander",
+        avatar: "http://api.adorable.io/avatars/50/olly",
+        message: "Thanks for last night 😉", // winky emoji
+    },
 ];
 
 var PersonCell = React.createClass({
@@ -67,8 +74,8 @@ var PersonCell = React.createClass({
                 <Image style={styles.cellAvatar}
                         source={{uri: this.props.avatar}}/>
                 <View style={styles.cellRightContainer}>
+                    <Text style={styles.cellMessage}>{this.props.message}</Text>
                     <Text style={styles.cellName}>{this.props.name}</Text>
-                    <Text style={styles.cellMessage} numberOfLines={1}>{this.props.lastMessage}</Text>
                 </View>
             </View>
         );
@@ -76,13 +83,13 @@ var PersonCell = React.createClass({
 });
 
 
-var ChatPane = React.createClass({
+var ChatList = React.createClass({
     mixins: [TimerMixin],
     statics: {
-        title: "<ChatPane>",
+        title: "<ChatList>",
         description: "this is a chat pane lol"
     },
-    displayName: "ChatPane",
+    displayName: "ChatList",
     getInitialState: function() {
         return {
             peopleDS: new ListView.DataSource({
@@ -97,40 +104,39 @@ var ChatPane = React.createClass({
     fetchData: function() {
         // laterz
         this.setTimeout(() => {
-            console.log(People);
             this.setState({
                 loaded: true,
-                peopleDS: this.state.peopleDS.cloneWithRows(People),
+                peopleDS: this.state.peopleDS.cloneWithRows(Messages),
             });
         }, 0);
     },
     render: function() {
         if (!this.state.loaded) {
             return (
-                <View style={{textAlign: "center"}}>
+                <View style={styles.loadingView}>
                     <Text>Loading...</Text>
                 </View>
             );
         }
 
         return (
-            <ListView
-                dataSource={this.state.peopleDS}
-                renderRow={(person) => {
-                    console.log(person);
-                    //return <Text>Testing!</Text>;
-                    return (
-                        <PersonCell
-                            name={person.name}
-                            avatar={person.avatar}
-                            lastMessage={person.lastMessage}
-                        />
-                    );
-                }}
-                style={styles.peopleList}
-            />
+            <View style={this.props.style}>
+                <ListView
+                    dataSource={this.state.peopleDS}
+                    renderRow={(person) => {
+                        return (
+                            <PersonCell
+                                name={person.name}
+                                avatar={person.avatar}
+                                message={person.message}
+                            />
+                        );
+                    }}
+                    style={styles.peopleList}
+                />
+            </View>
         );
     },
 });
 
-module.exports = ChatPane
+module.exports = ChatList

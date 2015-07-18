@@ -13,7 +13,7 @@ var {
   View,
 } = React;
 
-var ChatPane = require("./Chat.js");
+var ChatPane = require("./ChatPane.js");
 
 var BentoApp = React.createClass({
     statics: {
@@ -36,10 +36,11 @@ var BentoApp = React.createClass({
     render: function() {
         return (
             <TabBarIOS
-                tintColor="black"
-                barTintColor="#3abeff">
+                tintColor="#0D47A1"
+                barTintColor="#BBDEFB"
+                translucent={true}>
                 <TabBarIOS.Item
-                    title="Chat"
+                    systemIcon="contacts"
                     selected={this.state.selectedTab === 'chatTab'}
                     onPress={() => {
                         this.setState({
