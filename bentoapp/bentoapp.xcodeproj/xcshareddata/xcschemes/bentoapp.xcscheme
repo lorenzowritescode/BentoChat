@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0620"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "iBento.app"
-               BlueprintName = "iBento"
-               ReferencedContainer = "container:iBento.xcodeproj">
+               BuildableName = "bentoapp.app"
+               BlueprintName = "bentoapp"
+               ReferencedContainer = "container:bentoapp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "iBentoTests.xctest"
-               BlueprintName = "iBentoTests"
-               ReferencedContainer = "container:iBento.xcodeproj">
+               BuildableName = "bentoappTests.xctest"
+               BlueprintName = "bentoappTests"
+               ReferencedContainer = "container:bentoapp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "iBentoTests.xctest"
-               BlueprintName = "iBentoTests"
-               ReferencedContainer = "container:iBento.xcodeproj">
+               BuildableName = "bentoappTests.xctest"
+               BlueprintName = "bentoappTests"
+               ReferencedContainer = "container:bentoapp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,13 +57,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "iBento.app"
-            BlueprintName = "iBento"
-            ReferencedContainer = "container:iBento.xcodeproj">
+            BuildableName = "bentoapp.app"
+            BlueprintName = "bentoapp"
+            ReferencedContainer = "container:bentoapp.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -73,16 +71,15 @@
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
-      debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "iBento.app"
-            BlueprintName = "iBento"
-            ReferencedContainer = "container:iBento.xcodeproj">
+            BuildableName = "bentoapp.app"
+            BlueprintName = "bentoapp"
+            ReferencedContainer = "container:bentoapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,9 +96,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "iBento.app"
-            BlueprintName = "iBento"
-            ReferencedContainer = "container:iBento.xcodeproj">
+            BuildableName = "bentoapp.app"
+            BlueprintName = "bentoapp"
+            ReferencedContainer = "container:bentoapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
