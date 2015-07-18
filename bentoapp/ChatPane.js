@@ -67,16 +67,16 @@ var ChatPane = React.createClass({
     },
     render: function() {
         var flexVals = {
-            chatList: 0.9,
+            chatList: 0.87,
             textInput: 0.05,
-            paddingView: 0.15
+            paddingView: 0.08,
         };
 
         if (this.state.focus) {
             flexVals = {
-                chatList: 0.4,
+                chatList: 0.5,
                 textInput: 0.05,
-                paddingView: 0.55
+                paddingView: 0.45
             };
         }
 
