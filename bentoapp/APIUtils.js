@@ -15,9 +15,12 @@ function login (email, pwd) {
             password: pwd
         })
     })
-        .then((response) => response.text())
-        .then((responseText) => {
-            return responseText['auth_token'];
+        .then((response) => {
+            return response.json();
+
+        })
+        .then((response) => {
+            return response['auth_token'];
         })
         .catch((error) => {
             console.warn(error, error.message);
