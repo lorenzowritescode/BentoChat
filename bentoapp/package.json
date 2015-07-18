@@ -8,6 +8,7 @@
   "dependencies": {
     "fetch": "^0.3.6",
     "react-native": "^0.7.1",
+    "react-native-button": "^1.2.0",
     "react-timer-mixin": "^0.13.2",
     "reqwest": "^2.0.0",
     "when": "^3.7.3"

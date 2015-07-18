@@ -1,4 +1,5 @@
 const React = require('react-native'),
+    Button = require('react-native-button'),
     login = require('./APIUtils').login;
 
 const {
@@ -16,6 +17,7 @@ var styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
         padding: 10
     },
     input: {
@@ -23,23 +25,23 @@ var styles = StyleSheet.create({
         borderColor: 'gainsboro',
         borderWidth: 1,
         borderRadius: 5,
-        paddingLeft: 10
+        paddingLeft: 10,
+        marginBottom: 10,
     },
     title: {
-        flex: 1,
+        marginBottom: 50,
         justifyContent: 'center',
-        fontSize: 25
+        fontSize: 25,
+        fontWeight: 'bold',
     },
     button: {
         width: 200,
         height: 50,
         margin: 20,
-        backgroundColor: 'green',
-        borderRadius: 10
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingTop: 14,
     },
-    buttonText: {
-        color: 'white'
-    }
 });
 
 const Login = React.createClass({
@@ -65,7 +67,7 @@ const Login = React.createClass({
 
         return (
             <View style={styles.container}>
-                <Text >Login to Bento</Text>
+                <Text style={styles.title}>Welcome to Bento</Text>
                 <TextInput
                     ref="email"
                     clearButtonMode="while-editing"
@@ -79,11 +81,11 @@ const Login = React.createClass({
                     secureTextEntry={true}
                     onChangeText={(text) => { this.setState({pwd: text}); }}
                     style={styles.input}/>
-                <TouchableHighlight
+                <Button
                     style={styles.button}
                     onPress={this.buttonClicked}>
-                    <Text style={styles.buttonText}>LOGIN</Text>
-                </TouchableHighlight>
+                    Log in
+                </Button>
             </View>
         );
     },
