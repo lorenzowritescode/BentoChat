@@ -14,19 +14,21 @@ var ChatList = require('./ChatList.js');
 
 var styles = StyleSheet.create({
     containerStyle: {
-        //flexDirection: 'column',
+        flex: 1,
+        flexDirection: 'column',
     },
     chatList: {
-        flex: 1,
+        height: 400,
     },
     textInput: {
-        flex: 0.3,
-        height: 20,
-        width: 375,
+        //height: 20,
+        margin: 20,
+        padding: 10,
+        width: 375 - 50,
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 5,
-    }
+    },
 });
 
 var Messages = [
@@ -60,20 +62,38 @@ var ChatPane = React.createClass({
             inputText: "",
             messagesList: [],
             loaded: false,
+            focus: false,
         };
     },
     render: function() {
+        var flexVals = {
+            chatList: 0.9,
+            textInput: 0.05,
+            paddingView: 0.15
+        };
+
+        if (this.state.focus) {
+            flexVals = {
+                chatList: 0.4,
+                textInput: 0.05,
+                paddingView: 0.55
+            };
+        }
+
         return (
             <View style={styles.containerStyle}>
-                <ChatList style={styles.chatList} messageList={Messages} loaded={this.state.loaded}/>
+                <ChatList style={[styles.chatList, {flex: flexVals["chatList"]}]} messageList={Messages} loaded={this.state.loaded}/>
                 <TextInput
                     ref={component => this._textInput = component}
-                    style={styles.textInput}
+                    style={[styles.textInput, {flex: flexVals["textInput"]}]}
                     returnKeyType='send'
                     onSubmitEditing={this.submitMessage}
                     onChangeText={(text) => this.setState({inputText: text})}
+                    onFocus={() => this.setState({focus: true})}
+                    onBlur={() => this.setState({focus: false})}
                     placeholder={'Enter a message'}
                 />
+                <View style={{flex: flexVals["paddingView"]}}/>
             </View>
         );
     },
