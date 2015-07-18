@@ -68,7 +68,7 @@ function findGroupMembers (group_id) {
 }
 
 function handle (func) {
-    var wrapper = function (arg, callback) {
+    return function (arg, callback) {
         func(arg)
             .then(function (data) {
                 callback(null, data);
@@ -76,7 +76,6 @@ function handle (func) {
                 callback(err, null);
             });
     };
-    return wrapper;
 }
 
 module.exports = {
