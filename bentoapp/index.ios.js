@@ -55,6 +55,17 @@ var TabBar = React.createClass({
 });
 
 
+var styles = StyleSheet.create({
+  tabContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  tabText: {
+    color: 'white',
+    margin: 50,
+  },
+});
+
 var bentoapp = React.createClass({
   render: function() {
     return (
