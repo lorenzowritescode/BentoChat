@@ -1,6 +1,5 @@
 'use strict';
 
-var TimerMixin = require('react-timer-mixin');
 var React = require('react-native');
 var {
     StyleSheet,
@@ -48,31 +47,14 @@ var styles = StyleSheet.create({
     },
 });
 
-var Messages = [
-    {
-        name: "Lorenzo Balls",
-        avatar: "http://api.adorable.io/avatars/50/lorenzo",
-        message: "How are you so amazingly talented at everything?",
-    },
-    {
-        name: "Steve Jobs",
-        avatar: "http://api.adorable.io/avatars/50/stevejobs",
-        message: "Love your apps. Lets talk."
-    },
-    {
-        name: "Olly Alexander",
-        avatar: "http://api.adorable.io/avatars/50/olly",
-        message: "Thanks for last night 😉", // winky emoji
-    },
-];
-
 var PersonCell = React.createClass({
     displayName: "PersonCell",
     render: function() {
+        var avatar = "http://api.adorable.io/avatar/50/" + this.props.name.split(" ")[0]
         return (
             <View style={styles.cellContainer}>
                 <Image style={styles.cellAvatar}
-                        source={{uri: this.props.avatar}}/>
+                        source={{uri: avatar}}/>
                 <View style={styles.cellRightContainer}>
                     <Text style={styles.cellMessage}>{this.props.message}</Text>
                     <Text style={styles.cellName}>{this.props.name}</Text>
@@ -82,9 +64,7 @@ var PersonCell = React.createClass({
     }
 });
 
-
 var ChatList = React.createClass({
-    mixins: [TimerMixin],
     statics: {
         title: "<ChatList>",
         description: "this is a chat pane lol"
@@ -95,23 +75,10 @@ var ChatList = React.createClass({
             peopleDS: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2,
             }),
-            loaded: false,
         };
     },
-    componentDidMount: function() {
-        this.fetchData();
-    },
-    fetchData: function() {
-        // laterz
-        this.setTimeout(() => {
-            this.setState({
-                loaded: true,
-                peopleDS: this.state.peopleDS.cloneWithRows(Messages),
-            });
-        }, 0);
-    },
     render: function() {
-        if (!this.state.loaded) {
+        if (!this.props.loaded) {
             return (
                 <View style={styles.loadingView}>
                     <Text>Loading...</Text>
@@ -119,16 +86,22 @@ var ChatList = React.createClass({
             );
         }
 
+        var messagesDataSource = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2,
+        });
+            console.log(this.props.messageList);
+        messagesDataSource = messagesDataSource.cloneWithRows(this.props.messageList)
+
         return (
             <View style={this.props.style}>
                 <ListView
-                    dataSource={this.state.peopleDS}
-                    renderRow={(person) => {
+                    dataSource={messagesDataSource}
+                    renderRow={(message) => {
                         return (
                             <PersonCell
-                                name={person.name}
-                                avatar={person.avatar}
-                                message={person.message}
+                                name={message.name}
+                                avatar={message.avatar}
+                                message={message.message}
                             />
                         );
                     }}
