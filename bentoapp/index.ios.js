@@ -12,6 +12,7 @@ var {
   Text,
   View,
 } = React;
+var Login = require('./Login');
 
 var ChatPane = require("./Chat.js");
 
@@ -24,7 +25,11 @@ var BentoApp = React.createClass({
     getInitialState: function() {
         return {
             selectedTab: 'chatTab',
+            jwt: null
         };
+    },
+    _isLoggedIn () {
+        return this.state.jwt !== null;
     },
     _renderContent: function(color, pageText) {
         return (
@@ -33,7 +38,15 @@ var BentoApp = React.createClass({
             </View>
         );
     },
+    _setJwt: function (jwt) {
+        this.setState({
+            jwt: jwt
+        });
+    },
     render: function() {
+        if (!this._isLoggedIn()) {
+            return <Login onSuccess={this._setJwt}/>
+        }
         return (
             <TabBarIOS
                 tintColor="black"

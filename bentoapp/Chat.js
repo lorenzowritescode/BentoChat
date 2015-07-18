@@ -133,4 +133,4 @@ var ChatPane = React.createClass({
     },
 });
 
-module.exports = ChatPane
+module.exports = ChatPane;
