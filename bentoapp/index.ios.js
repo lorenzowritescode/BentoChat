@@ -6,12 +6,13 @@
 
 var React = require('react-native');
 var {
-  AppRegistry,
-  StyleSheet,
-  TabBarIOS,
-  Text,
-  View,
-} = React;
+    AppRegistry,
+    StyleSheet,
+    AsyncStorage,
+    TabBarIOS,
+    Text,
+    View,
+    } = React;
 var Login = require('./Login');
 
 var ChatPane = require("./ChatPane.js");
@@ -25,11 +26,24 @@ var BentoApp = React.createClass({
     getInitialState: function() {
         return {
             selectedTab: 'chatTab',
-            jwt: null
+            jwt: ''
         };
     },
+    componentWillMount: () => {
+        AsyncStorage.getItem('jwt')
+            .then((jwt) => {
+                console.log('retrieving from local storage', jwt);
+
+                this.setState({
+                    jwt: jwt
+                });
+
+                this.forceUpdate();
+            });
+    },
     _isLoggedIn () {
-        return this.state.jwt !== null;
+        console.log('checking if logged in');
+        return this.state.jwt !== null && this.state.jwt !== '';
     },
     _renderContent: function(color, pageText) {
         return (
@@ -39,6 +53,8 @@ var BentoApp = React.createClass({
         );
     },
     _setJwt: function (jwt) {
+        AsyncStorage.setItem('jwt', jwt);
+
         this.setState({
             jwt: jwt
         });
@@ -79,14 +95,14 @@ var BentoApp = React.createClass({
 
 
 var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  tabText: {
-    color: 'white',
-    margin: 50,
-  },
+    tabContent: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    tabText: {
+        color: 'white',
+        margin: 50,
+    },
 });
 
 AppRegistry.registerComponent('bentoapp', () => BentoApp);
